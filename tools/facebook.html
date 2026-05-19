@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch bài đăng Facebook</title>
+<link
+  href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="../main.css" />
+<style>
+  .buildimg-main {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding: 24px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .buildimg-main .buildimg-title {
+    font-family:
+      "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* Sub Tabs inside the workspace */
+  .sub-tabs {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+  }
+
+  .sub-tab-btn {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .sub-tab-btn:hover {
+    color: var(--text);
+  }
+
+  .sub-tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ---- Card Containers ---- */
+  .panel-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    box-shadow: var(--shadow);
+  }
+
+  .panel-card h2 {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+  }
+
+  .buildimg-main label { 
+    font-size: 12px; 
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted); 
+    margin-bottom: 6px; 
+    display: block; 
+  }
+  
+  .buildimg-main .field { 
+    display: flex; 
+    flex-direction: column; 
+  }
+
+  /* ---- Dropzone ---- */
+  .dropzone {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    position: relative;
+    overflow: hidden;
+    background: var(--hover);
+  }
+  .dropzone:hover, .dropzone.drag {
+    border-color: var(--accent);
+    background: rgba(61, 220, 132, 0.08);
+  }
+  body.dark .dropzone:hover, body.dark .dropzone.drag {
+    background: rgba(61, 220, 132, 0.12);
+  }
+  .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .dropzone-icon { font-size: 28px; margin-bottom: 8px; }
+  .dropzone p { font-size: 13px; color: var(--muted); }
+  .dropzone p span { color: var(--accent); font-weight: 600; }
+  #preview-thumb { width: 100%; max-height: 280px; object-fit: contain; border-radius: 8px; display: none; margin-top: 14px; }
+
+  /* ---- Form inputs ---- */
+  .buildimg-main textarea, .buildimg-main input[type="text"], .buildimg-main input[type="url"], .buildimg-main input[type="datetime-local"], .buildimg-main input[type="date"], .buildimg-main select {
+    background: var(--hover);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 12px 14px;
+    transition: all .2s;
+  }
+  .buildimg-main textarea:focus, .buildimg-main input:focus, .buildimg-main select:focus { 
+    outline: none; 
+    border-color: var(--accent); 
+    background: var(--card);
+  }
+
+  /* ---- Buttons ---- */
+  .buildimg-main button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity .2s, transform .1s, background .2s;
+    -webkit-appearance: none;
+  }
+  .buildimg-main button:active { transform: scale(.97); }
+  .buildimg-main button:disabled { opacity: .4; cursor: not-allowed; }
+  
+  .buildimg-main .btn-primary {
+    background: linear-gradient(135deg, var(--button) 0%, var(--button-hover) 100%);
+    color: var(--button-text);
+  }
+  .buildimg-main .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.05);
+  }
+
+  /* ---- Quick Times ---- */
+  .quick-times-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    max-height: 105px;
+    overflow-y: auto;
+  }
+
+  .time-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .time-badge:hover {
+    border-color: var(--accent);
+    color: var(--accent-text);
+    background: var(--accent-light);
+  }
+  
+  .time-badge.selected {
+    border-color: var(--accent);
+    color: white;
+    background: var(--accent);
+  }
+
+  /* ---- Weekly Calendar blocks ---- */
+  .day-block {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--hover);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .day-header {
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 14px;
+    background: var(--border);
+    color: var(--text);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .day-header.today {
+    background: var(--accent-light);
+    color: var(--accent-text);
+    border-bottom: 1px solid var(--accent);
+  }
+
+  .day-jobs {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .job-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  .job-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #eee;
+  }
+
+  .job-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .job-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+
+  .job-time {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .job-page {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--hover);
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  .job-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+  }
+
+  .status-pending {
+    background: #fef3c7;
+    color: #d97706;
+  }
+  
+  .status-done {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .status-failed {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .job-caption {
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .job-error {
+    font-size: 11px;
+    color: var(--danger);
+    background: rgba(239, 68, 68, 0.05);
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px dashed var(--danger);
+    margin-top: 4px;
+    word-break: break-all;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--accent);
+    color: #ffffff;
+    padding: 10px 22px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity .3s, transform .3s;
+    pointer-events: none;
+    z-index: 1200;
+    box-shadow: var(--shadow);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <button type="button" id="menuBtn" class="menu-btn">☰</button>
+    <a href="/">Home</a>
+    <a href="/news/news.html">News</a>
+    <a href="/news/saved.html">Saved</a>
+    <a href="/news/deals.html">Deals</a>
+    <a href="/news/ios.html">iOS</a>
+    <a href="/news/android.html">Android</a>
+    <a href="/tools/buildImg.html">Image</a>
+    <a href="/tools/facebook.html" class="active-link">Lịch FB</a>
+  </div>
+
+  <div class="nav-center">
+    <a href="/" class="logo mobile-logo">TECHRUM<span>.</span></a>
+  </div>
+
+  <div class="nav-right">
+    <button type="button" id="themeToggle" class="theme-toggle">🌙</button>
+  </div>
+</nav>
+
+<div id="sidebar" class="sidebar">
+  <a href="/">🏠 Home</a>
+  <a href="/news/news.html">📰 News</a>
+  <a href="/news/saved.html">💾 Saved</a>
+  <a href="/news/deals.html">🏷️ Deals</a>
+  <a href="/news/ios.html">🍎 iOS</a>
+  <a href="/news/android.html">🤖 Android</a>
+  <a href="/tools/buildImg.html">🖼️ Image</a>
+  <a href="/tools/facebook.html">📅 Lịch FB</a>
+</div>
+<div id="overlay" class="overlay"></div>
+
+<div class="buildimg-main">
+  <h1 class="buildimg-title">Facebook Auto Poster</h1>
+
+  <!-- Tabs Navigation -->
+  <div class="sub-tabs">
+    <button type="button" class="sub-tab-btn active" onclick="switchSubTab('dashboard', this)">📝 Lên lịch đăng</button>
+    <button type="button" class="sub-tab-btn" onclick="switchSubTab('calendar', this)">📅 Xem lịch tuần</button>
+  </div>
+
+  <!-- Panel Scheduler -->
+  <div class="panel-card" id="subtab-dashboard">
+    <h2>Thông tin bài đăng</h2>
+
+    <!-- Dropzone image select -->
+    <div class="field">
+      <label>Hình ảnh chia sẻ</label>
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="img-input" accept="image/*" onchange="handleImageSelect(this)" />
+        <div class="dropzone-icon">📷</div>
+        <p id="dropzone-text"><span>Chọn ảnh</span> hoặc kéo thả vào đây</p>
+        <img id="preview-thumb" alt="Preview" />
+      </div>
+    </div>
+
+    <!-- Fanpage -->
+    <div class="field">
+      <label>Chọn Fanpage</label>
+      <select id="fb-page">
+        <option value="0">Techrum.vn</option>
+        <option value="1">App Free</option>
+      </select>
+    </div>
+
+    <!-- Caption -->
+    <div class="field">
+      <label>Nội dung (Caption)</label>
+      <textarea id="fb-caption" placeholder="Nhập nội dung bài đăng Facebook..."></textarea>
+    </div>
+
+    <!-- Link -->
+    <div class="field">
+      <label>Link liên kết</label>
+      <input type="url" id="fb-link" placeholder="https://www.techrum.vn/..." />
+    </div>
+
+    <!-- Time Schedule -->
+    <div class="field">
+      <label>Thời gian đăng (Hẹn giờ)</label>
+      <input type="datetime-local" id="fb-time" />
+      <div class="quick-times-grid">
+        <span class="time-badge" onclick="applyQuickTime('09:00', this)">09:00</span>
+        <span class="time-badge" onclick="applyQuickTime('09:30', this)">09:30</span>
+        <span class="time-badge" onclick="applyQuickTime('10:00', this)">10:00</span>
+        <span class="time-badge" onclick="applyQuickTime('10:30', this)">10:30</span>
+        <span class="time-badge" onclick="applyQuickTime('11:00', this)">11:00</span>
+        <span class="time-badge" onclick="applyQuickTime('11:30', this)">11:30</span>
+        <span class="time-badge" onclick="applyQuickTime('12:00', this)">12:00</span>
+        <span class="time-badge" onclick="applyQuickTime('12:30', this)">12:30</span>
+        <span class="time-badge" onclick="applyQuickTime('13:00', this)">13:00</span>
+        <span class="time-badge" onclick="applyQuickTime('14:30', this)">14:30</span>
+        <span class="time-badge" onclick="applyQuickTime('15:30', this)">15:30</span>
+        <span class="time-badge" onclick="applyQuickTime('17:00', this)">17:00</span>
+        <span class="time-badge" onclick="applyQuickTime('19:00', this)">19:00</span>
+        <span class="time-badge" onclick="applyQuickTime('20:00', this)">20:00</span>
+        <span class="time-badge" onclick="applyQuickTime('21:00', this)">21:00</span>
+        <span class="time-badge" onclick="applyQuickTime('22:00', this)">22:00</span>
+      </div>
+    </div>
+
+    <!-- Action button -->
+    <button type="button" class="btn-primary" id="btnFbSchedule" onclick="scheduleFbPost()">⏱ Lên lịch đăng bài</button>
+  </div>
+
+  <!-- Panel Calendar -->
+  <div class="panel-card" id="subtab-calendar" style="display: none;">
+    <h2>Lịch đã lên danh sách</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="field">
+        <label>Chọn Ngày</label>
+        <input type="date" id="cal-date" onchange="loadWeeklyCalendar()" />
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="field">
+          <label>Chọn Page</label>
+          <select id="cal-page" onchange="loadWeeklyCalendar()">
+            <option value="all">Tất cả Page</option>
+            <option value="0">Techrum.vn</option>
+            <option value="1">App Free</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Trạng thái</label>
+          <select id="cal-status" onchange="loadWeeklyCalendar()">
+            <option value="all">Tất cả</option>
+            <option value="pending">Chờ đăng</option>
+            <option value="done">Thành công</option>
+            <option value="failed">Lỗi</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly days listing -->
+    <div id="weekly-days-list" style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
+      <!-- Day blocks rendered dynamically -->
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let selectedImageFile = null;
+
+  // Toast Helper
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // Handle Drag over and Drop events on Dropzone
+  const dropzone = document.getElementById("dropzone");
+  dropzone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropzone.classList.add("drag");
+  });
+  dropzone.addEventListener("dragleave", () => {
+    dropzone.classList.remove("drag");
+  });
+  dropzone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropzone.classList.remove("drag");
+    const files = e.dataTransfer.files;
+    if (files.length > 0 && files[0].type.startsWith("image/")) {
+      document.getElementById("img-input").files = files;
+      handleImageSelect(document.getElementById("img-input"));
+    }
+  });
+
+  // Handle image file uploader preview
+  function handleImageSelect(input) {
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      selectedImageFile = file;
+      
+      const preview = document.getElementById("preview-thumb");
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+      
+      document.getElementById("dropzone-text").innerHTML = "✨ Đã chọn: <strong>" + file.name + "</strong> (Click để đổi)";
+      showToast("📸 Đã nạp ảnh thành công!");
+    }
+  }
+
+  // --- Sub-Tab switching logic ---
+  function switchSubTab(tabId, btnEl) {
+    document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+    btnEl.classList.add('active');
+
+    if (tabId === 'dashboard') {
+      document.getElementById('subtab-dashboard').style.display = 'flex';
+      document.getElementById('subtab-calendar').style.display = 'none';
+    } else if (tabId === 'calendar') {
+      document.getElementById('subtab-dashboard').style.display = 'none';
+      document.getElementById('subtab-calendar').style.display = 'flex';
+      loadWeeklyCalendar();
+    }
+  }
+
+  // --- Schedule post submit ---
+  async function scheduleFbPost() {
+    const page = document.getElementById("fb-page").value;
+    const caption = document.getElementById("fb-caption").value.trim();
+    const link = document.getElementById("fb-link").value.trim();
+    const scheduledTime = document.getElementById("fb-time").value;
+
+    if (!selectedImageFile) {
+      showToast("⚠️ Vui lòng tải lên hình ảnh chia sẻ trước!");
+      return;
+    }
+    if (!caption || !link || !scheduledTime) {
+      showToast("⚠️ Vui lòng nhập đủ Nội dung, Link và Thời gian hẹn giờ!");
+      return;
+    }
+
+    // Convert datetime-local value to ISO string with timezone offset
+    const d = new Date(scheduledTime);
+    const tzOffset = -d.getTimezoneOffset();
+    const diff = tzOffset >= 0 ? '+' : '-';
+    const pad = (num) => String(Math.floor(Math.abs(num))).padStart(2, '0');
+    const tzStr = diff + pad(tzOffset / 60) + ':' + pad(tzOffset % 60);
+    const formattedTime = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':00' + tzStr;
+
+    const btn = document.getElementById("btnFbSchedule");
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "⏳ Đang gửi lên lịch...";
+
+    try {
+      const formData = new FormData();
+      formData.append("page", page);
+      formData.append("caption", caption);
+      formData.append("link", link);
+      formData.append("scheduled_time", formattedTime);
+      formData.append("image", selectedImageFile, selectedImageFile.name);
+
+      const res = await fetch("https://fb-auto-poster.cuongnv.workers.dev/schedule", {
+        method: "POST",
+        body: formData
+      });
+      
+      const data = await res.json().catch(() => null);
+      if (res.ok) {
+        showToast("✅ Đã lên lịch đăng Facebook thành công!");
+        resetForm();
+      } else {
+        showToast("❌ Lỗi từ server FB: " + (data ? JSON.stringify(data) : res.statusText));
+      }
+    } catch (err) {
+      showToast("❌ Lỗi kết nối API: " + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  }
+
+  function resetForm() {
+    document.getElementById("fb-caption").value = "";
+    document.getElementById("fb-link").value = "";
+    document.getElementById("fb-time").value = "";
+    document.getElementById("img-input").value = "";
+    document.getElementById("preview-thumb").style.display = "none";
+    document.getElementById("preview-thumb").src = "";
+    document.getElementById("dropzone-text").innerHTML = "<span>Chọn ảnh</span> hoặc kéo thả vào đây";
+    document.querySelectorAll('.time-badge').forEach(b => b.classList.remove('selected'));
+    selectedImageFile = null;
+  }
+
+  // --- Load weekly calendar scheduler list ---
+  async function loadWeeklyCalendar() {
+    const selectedDate = document.getElementById('cal-date').value;
+    const pageVal = document.getElementById('cal-page').value;
+    const statusVal = document.getElementById('cal-status').value;
+    const listContainer = document.getElementById('weekly-days-list');
+    
+    if (!selectedDate) return;
+
+    listContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--muted); font-size: 13px;">⏳ Đang tải lịch...</div>';
+
+    try {
+      const d = new Date(selectedDate);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      const startOfWeek = new Date(d.setDate(diff));
+
+      const weekDates = [];
+      const dayNames = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"];
+      
+      for (let i = 0; i < 7; i++) {
+        const tempDate = new Date(startOfWeek);
+        tempDate.setDate(startOfWeek.getDate() + i);
+        const dateString = tempDate.toISOString().split('T')[0];
+        weekDates.push({
+          dateStr: dateString,
+          dayName: dayNames[i],
+          displayDate: tempDate.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }),
+          isToday: dateString === new Date().toISOString().split('T')[0]
+        });
+      }
+
+      // Parallel fetches for 7 days
+      const promises = weekDates.map(dayInfo => {
+        let url = `https://fb-auto-poster.cuongnv.workers.dev/jobs?date=${dayInfo.dateStr}`;
+        if (pageVal !== 'all') url += `&page=${pageVal}`;
+        if (statusVal !== 'all') url += `&status=${statusVal}`;
+        
+        return fetch(url)
+          .then(res => {
+            if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+            return res.json();
+          })
+          .then(data => ({
+            ...dayInfo,
+            jobs: (data.grouped && data.grouped[dayInfo.dateStr]) || []
+          }))
+          .catch(err => {
+            console.error(`Failed to load jobs for ${dayInfo.dateStr}:`, err);
+            return {
+              ...dayInfo,
+              jobs: [],
+              error: true
+            };
+          });
+      });
+
+      const dayResults = await Promise.all(promises);
+      listContainer.innerHTML = '';
+
+      dayResults.forEach(dayData => {
+        const dayBlock = document.createElement('div');
+        dayBlock.className = 'day-block';
+        
+        const headerClass = dayData.isToday ? 'day-header today' : 'day-header';
+        const todayBadge = dayData.isToday ? ' <span style="background: var(--accent); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 6px;">HÔM NAY</span>' : '';
+        
+        dayBlock.innerHTML = `
+          <div class="${headerClass}">
+            <span>${dayData.dayName} (${dayData.displayDate})${todayBadge}</span>
+            <span style="font-size: 12px; font-weight: 500; opacity: 0.8;">${dayData.jobs.length} bài</span>
+          </div>
+          <div class="day-jobs" id="jobs-${dayData.dateStr}">
+          </div>
+        `;
+        
+        const jobsContainer = dayBlock.querySelector('.day-jobs');
+        
+        if (dayData.jobs.length === 0) {
+          jobsContainer.innerHTML = `
+            <div style="text-align: center; padding: 14px; color: var(--muted); font-size: 12px; font-style: italic;">
+              Không có bài viết nào
+            </div>
+          `;
+        } else {
+          dayData.jobs.forEach(job => {
+            const jobItem = document.createElement('div');
+            jobItem.className = 'job-item';
+            
+            const pageName = (job.page === "1" || job.page === 1) ? "App Free" : "Techrum.vn";
+            const statusText = job.status === "done" ? "Thành công" : (job.status === "failed" ? "Lỗi" : "Chờ đăng");
+            const timeDisplay = job.scheduled_time_vn ? job.scheduled_time_vn.split(' ')[1] : 'VN Time';
+            
+            jobItem.innerHTML = `
+              <img class="job-thumb" src="${job.image_url || 'https://i.postimg.cc/mZSx24kQ/TECHRUM.png'}" onerror="this.src='https://i.postimg.cc/mZSx24kQ/TECHRUM.png'" alt="Thumb">
+              <div class="job-details">
+                <div class="job-meta">
+                  <span class="job-time">⏰ ${timeDisplay}</span>
+                  <span class="job-page">${pageName}</span>
+                  <span class="job-status status-${job.status}">${statusText}</span>
+                </div>
+                <div class="job-caption" style="font-weight: 600; font-size: 13px;" title="${job.caption || ''}">${job.caption || '(Không có tiêu đề)'}</div>
+                ${job.link ? `<a href="${job.link}" target="_blank" rel="noopener noreferrer" style="color: var(--button); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; margin-top: 2px;">🔗 Xem bài viết</a>` : ''}
+                ${job.error ? `<div class="job-error">⚠️ Lỗi: ${job.error}</div>` : ''}
+              </div>
+            `;
+            jobsContainer.appendChild(jobItem);
+          });
+        }
+        
+        listContainer.appendChild(dayBlock);
+      });
+
+    } catch (err) {
+      listContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--danger);">❌ Lỗi tải dữ liệu: ${err.message}</div>`;
+    }
+  }
+
+  // --- Quick Time Application ---
+  function applyQuickTime(timeStr, badgeEl) {
+    const timeInput = document.getElementById("fb-time");
+    let datePart = new Date().toISOString().split("T")[0]; // default today
+    
+    if (timeInput.value) {
+      const existingDate = timeInput.value.split("T")[0];
+      if (existingDate) {
+        datePart = existingDate;
+      }
+    }
+    
+    timeInput.value = `${datePart}T${timeStr}`;
+
+    // Reset previous badge selections
+    document.querySelectorAll('.time-badge').forEach(b => b.classList.remove('selected'));
+    if (badgeEl) {
+      badgeEl.classList.add('selected');
+    }
+  }
+
+  // Reset badges if user changes time manually
+  document.getElementById("fb-time").addEventListener("input", () => {
+    document.querySelectorAll('.time-badge').forEach(b => b.classList.remove('selected'));
+  });
+
+  // --- Theme Toggler Logic ---
+  const toggleBtn = document.getElementById('themeToggle');
+  function setTheme(mode) {
+    if (mode === 'dark') {
+      document.body.classList.add('dark');
+      toggleBtn.textContent = '☀️';
+    } else {
+      document.body.classList.remove('dark');
+      toggleBtn.textContent = '🌙';
+    }
+    localStorage.setItem('theme', mode);
+  }
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  setTheme(savedTheme);
+  toggleBtn.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark');
+    setTheme(isDark ? 'light' : 'dark');
+  });
+
+  // --- Sidebar Menu Logic ---
+  const menuBtn = document.getElementById('menuBtn');
+  const sidebar = document.getElementById('sidebar');
+  const overlayEl = document.getElementById('overlay');
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    overlayEl.classList.toggle('active');
+  });
+  overlayEl.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlayEl.classList.remove('active');
+  });
+
+  // Startup
+  document.getElementById('cal-date').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
