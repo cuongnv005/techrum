@@ -206,6 +206,53 @@
     background: var(--accent);
   }
 
+  .caption-emoji-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .caption-emoji-row .emoji-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    margin-right: 2px;
+  }
+
+  .buildimg-main .emoji-chip {
+    width: auto;
+    border: 1px solid var(--border);
+    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    font-size: 18px;
+    line-height: 1;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .emoji-chip:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    transform: scale(1.08);
+  }
+
+  .emoji-chip:active {
+    transform: scale(0.95);
+  }
+
   /* ---- Weekly Calendar blocks ---- */
   .day-block {
     border: 1px solid var(--border);
@@ -296,7 +343,8 @@
     text-transform: uppercase;
   }
 
-  .status-pending {
+  .status-pending,
+  .status-scheduled {
     background: #fef3c7;
     color: #d97706;
   }
@@ -328,6 +376,36 @@
     border: 1px dashed var(--danger);
     margin-top: 4px;
     word-break: break-all;
+  }
+
+  .job-actions {
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+  }
+
+  .buildimg-main .btn-cancel-job {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid var(--danger);
+    background: transparent;
+    color: var(--danger);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .btn-cancel-job:hover:not(:disabled) {
+    background: var(--danger);
+    color: #fff;
+  }
+
+  .btn-cancel-job:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .toast {
@@ -421,6 +499,12 @@
     <!-- Caption -->
     <div class="field">
       <label>Nội dung (Caption)</label>
+      <div class="caption-emoji-row">
+        <span class="emoji-label">Chèn emoji:</span>
+        <button type="button" class="emoji-chip" onclick="insertCaptionEmoji('👇')" title="Chèn 👇">👇</button>
+        <button type="button" class="emoji-chip" onclick="insertCaptionEmoji('🤔')" title="Chèn 🤔">🤔</button>
+        <button type="button" class="emoji-chip" onclick="insertCaptionEmoji('😅')" title="Chèn 😅">😅</button>
+      </div>
       <textarea id="fb-caption" placeholder="Nhập nội dung bài đăng Facebook..."></textarea>
     </div>
 
@@ -480,7 +564,7 @@
           <label>Trạng thái</label>
           <select id="cal-status" onchange="loadWeeklyCalendar()">
             <option value="all">Tất cả</option>
-            <option value="pending">Chờ đăng</option>
+            <option value="scheduled">Chờ đăng</option>
             <option value="done">Thành công</option>
             <option value="failed">Lỗi</option>
           </select>
@@ -500,6 +584,29 @@
 
 <script>
   let selectedImageFile = null;
+  const FB_API_BASE = "https://fb-auto-poster.cuongnv.workers.dev";
+  const CANCELABLE_JOB_STATUSES = new Set(["pending", "scheduled"]);
+
+  function isJobCancelable(job) {
+    return CANCELABLE_JOB_STATUSES.has(job.status);
+  }
+
+  function getJobId(job) {
+    return job.id || job.job_id;
+  }
+
+  function getJobStatusLabel(status) {
+    if (status === "done") return "Thành công";
+    if (status === "failed") return "Lỗi";
+    if (status === "pending" || status === "scheduled") return "Chờ đăng";
+    return status || "Chờ đăng";
+  }
+
+  function getJobStatusClass(status) {
+    if (status === "done" || status === "failed") return status;
+    if (status === "pending" || status === "scheduled") return "pending";
+    return status || "pending";
+  }
 
   // Toast Helper
   function showToast(msg) {
@@ -595,7 +702,7 @@
       formData.append("scheduled_time", formattedTime);
       formData.append("image", selectedImageFile, selectedImageFile.name);
 
-      const res = await fetch("https://fb-auto-poster.cuongnv.workers.dev/schedule", {
+      const res = await fetch(FB_API_BASE + "/schedule", {
         method: "POST",
         body: formData
       });
@@ -625,6 +732,50 @@
     document.getElementById("dropzone-text").innerHTML = "<span>Chọn ảnh</span> hoặc kéo thả vào đây";
     document.querySelectorAll('.time-badge').forEach(b => b.classList.remove('selected'));
     selectedImageFile = null;
+  }
+
+  // --- Cancel pending scheduled job ---
+  async function cancelPendingJob(jobId, btnEl) {
+    if (!jobId) {
+      showToast("⚠️ Không tìm thấy ID bài đăng!");
+      return;
+    }
+    if (!confirm("Hủy bài chờ đăng này? Hành động không thể hoàn tác.")) {
+      return;
+    }
+
+    const originalText = btnEl ? btnEl.textContent : "";
+    if (btnEl) {
+      btnEl.disabled = true;
+      btnEl.textContent = "⏳...";
+    }
+
+    try {
+      const res = await fetch(`${FB_API_BASE}/jobs/${encodeURIComponent(jobId)}`, {
+        method: "DELETE"
+      });
+      const data = await res.json().catch(() => null);
+
+      if (res.ok) {
+        showToast("✅ Đã hủy bài chờ đăng!");
+        loadWeeklyCalendar();
+      } else {
+        const msg = data && (data.error || data.message)
+          ? (data.error || data.message)
+          : res.statusText;
+        showToast("❌ Không hủy được: " + msg);
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.textContent = originalText;
+        }
+      }
+    } catch (err) {
+      showToast("❌ Lỗi kết nối: " + err.message);
+      if (btnEl) {
+        btnEl.disabled = false;
+        btnEl.textContent = originalText;
+      }
+    }
   }
 
   // --- Load weekly calendar scheduler list ---
@@ -661,7 +812,7 @@
 
       // Parallel fetches for 7 days
       const promises = weekDates.map(dayInfo => {
-        let url = `https://fb-auto-poster.cuongnv.workers.dev/jobs?date=${dayInfo.dateStr}`;
+        let url = `${FB_API_BASE}/jobs?date=${dayInfo.dateStr}`;
         if (pageVal !== 'all') url += `&page=${pageVal}`;
         if (statusVal !== 'all') url += `&status=${statusVal}`;
         
@@ -717,8 +868,10 @@
             jobItem.className = 'job-item';
             
             const pageName = (job.page === "1" || job.page === 1) ? "App Free" : "Techrum.vn";
-            const statusText = job.status === "done" ? "Thành công" : (job.status === "failed" ? "Lỗi" : "Chờ đăng");
+            const statusText = getJobStatusLabel(job.status);
+            const statusClass = getJobStatusClass(job.status);
             const timeDisplay = job.scheduled_time_vn ? job.scheduled_time_vn.split(' ')[1] : 'VN Time';
+            const jobId = getJobId(job);
             
             jobItem.innerHTML = `
               <img class="job-thumb" src="${job.image_url || 'https://i.postimg.cc/mZSx24kQ/TECHRUM.png'}" onerror="this.src='https://i.postimg.cc/mZSx24kQ/TECHRUM.png'" alt="Thumb">
@@ -726,13 +879,26 @@
                 <div class="job-meta">
                   <span class="job-time">⏰ ${timeDisplay}</span>
                   <span class="job-page">${pageName}</span>
-                  <span class="job-status status-${job.status}">${statusText}</span>
+                  <span class="job-status status-${statusClass}">${statusText}</span>
                 </div>
                 <div class="job-caption" style="font-weight: 600; font-size: 13px;" title="${job.caption || ''}">${job.caption || '(Không có tiêu đề)'}</div>
                 ${job.link ? `<a href="${job.link}" target="_blank" rel="noopener noreferrer" style="color: var(--button); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; margin-top: 2px;">🔗 Xem bài viết</a>` : ''}
                 ${job.error ? `<div class="job-error">⚠️ Lỗi: ${job.error}</div>` : ''}
               </div>
             `;
+
+            if (isJobCancelable(job) && jobId) {
+              const actions = document.createElement("div");
+              actions.className = "job-actions";
+              const cancelBtn = document.createElement("button");
+              cancelBtn.type = "button";
+              cancelBtn.className = "btn-cancel-job";
+              cancelBtn.textContent = "✕ Hủy";
+              cancelBtn.addEventListener("click", () => cancelPendingJob(jobId, cancelBtn));
+              actions.appendChild(cancelBtn);
+              jobItem.appendChild(actions);
+            }
+
             jobsContainer.appendChild(jobItem);
           });
         }
@@ -743,6 +909,18 @@
     } catch (err) {
       listContainer.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--danger);">❌ Lỗi tải dữ liệu: ${err.message}</div>`;
     }
+  }
+
+  // --- Insert emoji into caption at cursor ---
+  function insertCaptionEmoji(emoji) {
+    const ta = document.getElementById("fb-caption");
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const text = ta.value;
+    ta.value = text.slice(0, start) + emoji + text.slice(end);
+    const pos = start + emoji.length;
+    ta.setSelectionRange(pos, pos);
+    ta.focus();
   }
 
   // --- Quick Time Application ---
