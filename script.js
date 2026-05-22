@@ -34,13 +34,13 @@ document.getElementById("convertBtn").addEventListener("click", async () => {
       throw new Error("API trả về lỗi: " + res.status);
     }
 
-    const data = await res.text();
+    const json = await res.json();
 
-    if (!data.trim()) {
+    if (!json.data) {
       throw new Error("API trả về nội dung rỗng");
     }
-
-    output.value = data;
+    
+    output.value = json.data.replace(/\\n/g, '\n');
 
     // ⭐ refresh history sau khi convert
     loadHistory();
