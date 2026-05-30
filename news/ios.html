@@ -1,119 +1,118 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TECHRUM App Converter</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../main.css" />
 
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECHRUM App Converter</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../main.css" />
 
-  <body>
-    <nav class="navbar">
-      <div class="nav-left">
-        <button id="menuBtn" class="menu-btn">☰</button>
-        <a href="/">Home</a>
-        <a href="/news/news.html">News</a>
-        <a href="/news/saved.html">Saved</a>
-        <a href="/news/deals.html">Deals</a>
-        <a href="/news/ios.html" class="active-link">iOS</a>
-        <a href="/news/android.html">Android</a>
-        <a href="/tools/buildImg.html">Image</a>
-        <a href="/tools/facebook.html">Lịch FB</a>
-      </div>
+</head>
 
-      <div class="nav-center">
-        <a href="/"><div class="logo mobile-logo">TECHRUM</div></a>
-      </div>
-
-      <div class="nav-right">
-        <button id="themeToggle" class="theme-toggle">🌙</button>
-      </div>
-    </nav>
-
-    <div id="sidebar" class="sidebar">
-      <a href="/">🏠 Home</a>
-      <a href="/news/news.html">📰 News</a>
-      <a href="/news/saved.html">💾 Saved</a>
-      <a href="/news/deals.html">🏷️ Deals</a>
-      <a href="/news/ios.html">🍎 iOS</a>
-      <a href="/news/android.html">🤖 Android</a>
-      <a href="/tools/buildImg.html">🖼️ Image</a>
-      <a href="/tools/facebook.html">📅 Lịch FB</a>
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <button id="menuBtn" class="menu-btn">☰</button>
+      <a href="/">Home</a>
+      <a href="/news/news.html">News</a>
+      <a href="/news/saved.html">Saved</a>
+      <a href="/news/deals.html">Deals</a>
+      <a href="/news/ios.html" class="active-link">iOS</a>
+      <a href="/news/android.html">Android</a>
+      <a href="/tools/buildImg.html">Image</a>
+      <a href="/tools/facebook.html">Lịch FB</a>
     </div>
 
-    <div id="overlay" class="overlay"></div>
+    <div class="nav-center">
+      <a href="/">
+        <div class="logo mobile-logo">TECHRUM</div>
+      </a>
+    </div>
 
-    <div class="main">
-      <div class="page-header">
-        <div class="badge">🍎 iOS</div>
-        <h1>TECHRUM iOS<br />BBCode Converter</h1>
-        <p>Nhập App Store URL và giá — nhận BBCode ngay lập tức</p>
-      </div>
+    <div class="nav-right">
+      <button id="themeToggle" class="theme-toggle">🌙</button>
+    </div>
+  </nav>
 
-      <div id="appsContainer"></div>
+  <div id="sidebar" class="sidebar">
+    <a href="/">🏠 Home</a>
+    <a href="/news/news.html">📰 News</a>
+    <a href="/news/saved.html">💾 Saved</a>
+    <a href="/news/deals.html">🏷️ Deals</a>
+    <a href="/news/ios.html">🍎 iOS</a>
+    <a href="/news/android.html">🤖 Android</a>
+    <a href="/tools/buildImg.html">🖼️ Image</a>
+    <a href="/tools/facebook.html">📅 Lịch FB</a>
+  </div>
 
-      <button class="btn btn-add" id="addAppBtn">➕ Thêm App</button>
+  <div id="overlay" class="overlay"></div>
 
-      <div class="row" style="margin-top: 10px">
-        <select id="engineSelect" class="input">
-          <option value="openrouter">OpenRouter</option>
-          <option value="gemini">Gemini</option>
-          <option value="openai">OpenAI</option>
-          <option value="workersai">Workers AI</option>
-        </select>
-        <select id="modelSelect" class="input" style="display: none">
-          <option value="@cf/meta/llama-3.3-70b-instruct-fp8-fast">Qwen 3 70B</option>
-          <option value="@cf/google/gemma-3-12b-it">Gemma 3 12B</option>
-        </select>
-      </div>
+  <div class="main">
+    <div class="page-header">
+      <div class="badge">🍎 iOS</div>
+      <h1>TECHRUM iOS<br />BBCode Converter</h1>
+      <p>Nhập App Store URL và giá — nhận BBCode ngay lập tức</p>
+    </div>
 
-      <button class="btn btn-primary" id="convertBtn">
-        <span>⚡</span> Convert
-      </button>
+    <div id="appsContainer"></div>
 
-      <div id="loadingText" class="loading">
-        <div class="spinner"></div>
-        Đang xử lý...
-      </div>
+    <button class="btn btn-add" id="addAppBtn">➕ Thêm App</button>
 
-      <div class="output-section" id="outputSection" style="display: none">
-        <div class="output-header">
-          <span class="output-title">Output</span>
-          <div class="output-actions">
-            <button class="btn-sm" id="bbViewBtn">Preview</button>
-            <button class="btn-sm" id="copyBtn">📋 Copy</button>
-          </div>
+    <div class="row" style="margin-top: 10px">
+      <select id="engineSelect" class="input">
+        <option value="openrouter">OpenRouter</option>
+        <option value="gemini">Gemini</option>
+        <option value="openai">OpenAI</option>
+        <option value="workersai">Workers AI</option>
+      </select>
+      <select id="modelSelect" class="input" style="display: none">
+        <option value="@cf/meta/llama-3.3-70b-instruct-fp8-fast">Qwen 3 70B</option>
+        <option value="@cf/google/gemma-3-12b-it">Gemma 3 12B</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary" id="convertBtn">
+      <span>⚡</span> Convert
+    </button>
+
+    <div id="loadingText" class="loading">
+      <div class="spinner"></div>
+      Đang xử lý...
+    </div>
+
+    <div class="output-section" id="outputSection" style="display: none">
+      <div class="output-header">
+        <span class="output-title">Output</span>
+        <div class="output-actions">
+          <button class="btn-sm" id="bbViewBtn">Preview</button>
+          <button class="btn-sm" id="copyBtn">📋 Copy</button>
         </div>
-        <textarea
-          id="outputArea"
-          placeholder="BBCode sẽ hiển thị ở đây..."
-        ></textarea>
-        <div id="previewArea" class="preview"></div>
       </div>
+      <textarea id="outputArea" placeholder="BBCode sẽ hiển thị ở đây..."></textarea>
+      <div id="previewArea" class="preview"></div>
     </div>
+  </div>
 
-    <script>
-      const API_BASE = "https://generateappios.cuongnv.workers.dev";
+  <script>
+    const API_BASE = "https://genios.cuongnv.workers.dev";
 
-      /* =========================
+    /* =========================
 ADD APP
 ========================= */
 
-      const container = document.getElementById("appsContainer");
+    const container = document.getElementById("appsContainer");
 
-      let appCount = 0;
+    let appCount = 0;
 
-      function createApp(prefill = null) {
-        appCount++;
-        const div = document.createElement("div");
-        div.className = "app-card";
+    function createApp(prefill = null) {
+      appCount++;
+      const div = document.createElement("div");
+      div.className = "app-card";
 
-        div.innerHTML = `
+      div.innerHTML = `
 
 <div class="app-header">
 <span class="app-label">App ${appCount}</span>
@@ -146,290 +145,291 @@ ADD APP
 
 `;
 
-        div.querySelector(".remove-btn").onclick = () => div.remove();
+      div.querySelector(".remove-btn").onclick = () => div.remove();
 
-        if (prefill) {
-          const urlInput = div.querySelector(".url");
-          const priceInput = div.querySelector(".price");
-          const codeInput = div.querySelector(".code");
-          const lifetimeInput = div.querySelector(".lifetime");
-          if (prefill.url) urlInput.value = prefill.url;
-          if (prefill.price != null && prefill.price !== "") {
-            priceInput.value = String(prefill.price);
-          }
-          if (prefill.code) codeInput.value = prefill.code;
-          if (prefill.lifetime) lifetimeInput.checked = true;
+      if (prefill) {
+        const urlInput = div.querySelector(".url");
+        const priceInput = div.querySelector(".price");
+        const codeInput = div.querySelector(".code");
+        const lifetimeInput = div.querySelector(".lifetime");
+        if (prefill.url) urlInput.value = prefill.url;
+        if (prefill.price != null && prefill.price !== "") {
+          priceInput.value = String(prefill.price);
         }
-
-        container.appendChild(div);
+        if (prefill.code) codeInput.value = prefill.code;
+        if (prefill.lifetime) lifetimeInput.checked = true;
       }
 
-      document.getElementById("addAppBtn").onclick = () => createApp();
+      container.appendChild(div);
+    }
 
-      (function initAppsFromDeals() {
-        try {
-          const raw = sessionStorage.getItem("techrum_ios_prefill");
-          if (raw) {
-            sessionStorage.removeItem("techrum_ios_prefill");
-            const apps = JSON.parse(raw);
-            if (Array.isArray(apps) && apps.length > 0) {
-              container.innerHTML = "";
-              appCount = 0;
-              apps.forEach((a) => createApp(a));
-              return;
-            }
+    document.getElementById("addAppBtn").onclick = () => createApp();
+
+    (function initAppsFromDeals() {
+      try {
+        const raw = sessionStorage.getItem("techrum_ios_prefill");
+        if (raw) {
+          sessionStorage.removeItem("techrum_ios_prefill");
+          const apps = JSON.parse(raw);
+          if (Array.isArray(apps) && apps.length > 0) {
+            container.innerHTML = "";
+            appCount = 0;
+            apps.forEach((a) => createApp(a));
+            return;
           }
-        } catch (err) {
-          console.warn(err);
         }
-        createApp();
-      })();
+      } catch (err) {
+        console.warn(err);
+      }
+      createApp();
+    })();
 
-      /* =========================
+    /* =========================
 🚀 CONVERT
 ========================= */
 
-      const convertBtn = document.getElementById("convertBtn");
-      const outputArea = document.getElementById("outputArea");
-      const previewArea = document.getElementById("previewArea");
-      const loadingText = document.getElementById("loadingText");
-      const outputSection = document.getElementById("outputSection");
-      const engineSelect = document.getElementById("engineSelect");
-      const modelSelect = document.getElementById("modelSelect");
+    const convertBtn = document.getElementById("convertBtn");
+    const outputArea = document.getElementById("outputArea");
+    const previewArea = document.getElementById("previewArea");
+    const loadingText = document.getElementById("loadingText");
+    const outputSection = document.getElementById("outputSection");
+    const engineSelect = document.getElementById("engineSelect");
+    const modelSelect = document.getElementById("modelSelect");
 
-      engineSelect.addEventListener("change", () => {
-        modelSelect.style.display =
-          engineSelect.value === "workersai" ? "block" : "none";
+    engineSelect.addEventListener("change", () => {
+      modelSelect.style.display =
+        engineSelect.value === "workersai" ? "block" : "none";
+    });
+
+    convertBtn.addEventListener("click", async () => {
+      const apps = [];
+
+      document.querySelectorAll(".app-card").forEach((card) => {
+        const url = card.querySelector(".url").value.trim();
+
+        if (!url) return;
+
+        const lifetimeChecked = card.querySelector(".lifetime").checked;
+
+        apps.push({
+          url,
+          price: card.querySelector(".price").value.trim(),
+          code: card.querySelector(".code").value.trim(),
+          lifetime: lifetimeChecked,
+          isLifetime: lifetimeChecked,
+          is_lifetime: lifetimeChecked,
+        });
       });
 
-      convertBtn.addEventListener("click", async () => {
-        const apps = [];
+      if (!apps.length) {
+        alert("Vui lòng nhập ít nhất 1 App URL");
+        return;
+      }
 
-        document.querySelectorAll(".app-card").forEach((card) => {
-          const url = card.querySelector(".url").value.trim();
+      loadingText.classList.add("show");
+      convertBtn.disabled = true;
+      outputSection.style.display = "none";
 
-          if (!url) return;
+      // reset preview state
+      isPreview = false;
+      outputArea.style.display = "block";
+      previewArea.style.display = "none";
+      document.getElementById("bbViewBtn").textContent = "Preview";
 
-          const lifetimeChecked = card.querySelector(".lifetime").checked;
+      try {
+        const engine = engineSelect.value;
+        const model = modelSelect.value;
+        const modelParam =
+          engine === "workersai"
+            ? `&model=${encodeURIComponent(model)}`
+            : "";
 
-          apps.push({
-            url,
-            price: card.querySelector(".price").value.trim(),
-            code: card.querySelector(".code").value.trim(),
-            lifetime: lifetimeChecked,
-            isLifetime: lifetimeChecked,
-            is_lifetime: lifetimeChecked,
-          });
-        });
-
-        if (!apps.length) {
-          alert("Vui lòng nhập ít nhất 1 App URL");
-          return;
-        }
-
-        loadingText.classList.add("show");
-        convertBtn.disabled = true;
-        outputSection.style.display = "none";
-
-        // reset preview state
-        isPreview = false;
-        outputArea.style.display = "block";
-        previewArea.style.display = "none";
-        document.getElementById("bbViewBtn").textContent = "Preview";
-
-        try {
-          const engine = engineSelect.value;
-          const model = modelSelect.value;
-          const modelParam =
-            engine === "workersai"
-              ? `&model=${encodeURIComponent(model)}`
-              : "";
-
-          const res = await fetch(
-            `${API_BASE}/generate?engine=${encodeURIComponent(engine)}${modelParam}`,
-            {
+        const res = await fetch(
+          `${API_BASE}/generate?engine=${encodeURIComponent(engine)}${modelParam}`,
+          {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ apps }),
-            },
-          );
+          },
+        );
 
-          if (!res.ok) {
-            throw new Error("API lỗi: " + res.status);
-          }
-
-          const text = await res.text();
-
-          if (!text.trim()) {
-            throw new Error("API trả về rỗng");
-          }
-
-          outputArea.value = normalizeApiOutput(text);
-          outputSection.style.display = "block";
-        } catch (err) {
-          outputArea.value = "❌ Lỗi: " + err.message;
-          outputSection.style.display = "block";
-        } finally {
-          loadingText.classList.remove("show");
-          convertBtn.disabled = false;
+        if (!res.ok) {
+          throw new Error("API lỗi: " + res.status);
         }
-      });
 
-      /* =========================
+        const text = await res.text();
+
+        if (!text.trim()) {
+          throw new Error("API trả về rỗng");
+        }
+
+        outputArea.value = normalizeApiOutput(text);
+        outputSection.style.display = "block";
+      } catch (err) {
+        outputArea.value = "❌ Lỗi: " + err.message;
+        outputSection.style.display = "block";
+      } finally {
+        loadingText.classList.remove("show");
+        convertBtn.disabled = false;
+      }
+    });
+
+    /* =========================
 📋 COPY
 ========================= */
 
-      document.getElementById("copyBtn").addEventListener("click", async () => {
-        const text = outputArea.value;
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      const text = outputArea.value;
 
-        if (!text) {
-          alert("Không có nội dung để copy");
-          return;
-        }
+      if (!text) {
+        alert("Không có nội dung để copy");
+        return;
+      }
 
-        await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(text);
 
-        const btn = document.getElementById("copyBtn");
+      const btn = document.getElementById("copyBtn");
 
-        btn.textContent = "✅ Copied";
+      btn.textContent = "✅ Copied";
 
-        setTimeout(() => {
-          btn.textContent = "📋 Copy";
-        }, 1200);
-      });
+      setTimeout(() => {
+        btn.textContent = "📋 Copy";
+      }, 1200);
+    });
 
-      /* ===============================
+    /* ===============================
 🔄 BBCode ⇄ Preview
 =============================== */
 
-      const bbBtn = document.getElementById("bbViewBtn");
+    const bbBtn = document.getElementById("bbViewBtn");
 
-      let isPreview = false;
+    let isPreview = false;
 
-      bbBtn.addEventListener("click", () => {
-        if (!isPreview) {
-          const bbcode = outputArea.value;
+    bbBtn.addEventListener("click", () => {
+      if (!isPreview) {
+        const bbcode = outputArea.value;
 
-          if (!bbcode.trim()) return;
+        if (!bbcode.trim()) return;
 
-          previewArea.innerHTML = renderBBCode(bbcode);
+        previewArea.innerHTML = renderBBCode(bbcode);
 
-          outputArea.style.display = "none";
-          previewArea.style.display = "block";
+        outputArea.style.display = "none";
+        previewArea.style.display = "block";
 
-          bbBtn.textContent = "BBCode";
+        bbBtn.textContent = "BBCode";
 
-          isPreview = true;
-        } else {
-          outputArea.style.display = "block";
-          previewArea.style.display = "none";
+        isPreview = true;
+      } else {
+        outputArea.style.display = "block";
+        previewArea.style.display = "none";
 
-          bbBtn.textContent = "Preview";
+        bbBtn.textContent = "Preview";
 
-          isPreview = false;
-        }
-      });
+        isPreview = false;
+      }
+    });
 
-      /* ===============================
+    /* ===============================
 🧠 BBCode → HTML
 =============================== */
 
-      function normalizeApiOutput(text) {
-        return text
-          .replace(/^\s*---+\s*$/gm, "")
-          .replace(/\n{3,}/g, "\n\n")
-          .trim();
-      }
+    function normalizeApiOutput(text) {
+      return text
+        .replace(/^\s*---+\s*$/gm, "")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
 
-      function renderBBCode(text) {
-        return (
-          normalizeApiOutput(text)
+    function renderBBCode(text) {
+      return (
+        normalizeApiOutput(text)
 
-            // IMG
-            .replace(
-              /\[IMG\](.*?)\[\/IMG\]/gi,
-              '<img src="$1" style="max-width:100%;margin:5px;">',
-            )
+          // IMG
+          .replace(
+            /\[IMG\](.*?)\[\/IMG\]/gi,
+            '<img src="$1" style="max-width:100%;margin:5px;">',
+          )
 
-            // CENTER
-            .replace(
-              /\[CENTER\]([\s\S]*?)\[\/CENTER\]/gi,
-              '<div style="text-align:center">$1</div>',
-            )
+          // CENTER
+          .replace(
+            /\[CENTER\]([\s\S]*?)\[\/CENTER\]/gi,
+            '<div style="text-align:center">$1</div>',
+          )
 
-            // URL
-            .replace(
-              /\[URL=['"]?(.*?)['"]?\](.*?)\[\/URL\]/gi,
-              '<a href="$1" target="_blank" style="color:var(--accent)">$2</a>',
-            )
+          // URL
+          .replace(
+            /\[URL=['"]?(.*?)['"]?\](.*?)\[\/URL\]/gi,
+            '<a href="$1" target="_blank" style="color:var(--accent)">$2</a>',
+          )
 
-            // SIZE
-            .replace(
-              /\[SIZE=(.*?)\](.*?)\[\/SIZE\]/gi,
-              '<span style="font-size:$1">$2</span>',
-            )
+          // SIZE
+          .replace(
+            /\[SIZE=(.*?)\](.*?)\[\/SIZE\]/gi,
+            '<span style="font-size:$1">$2</span>',
+          )
 
-            // COLOR
-            .replace(
-              /\[COLOR=(.*?)\](.*?)\[\/COLOR\]/gi,
-              '<span style="color:$1">$2</span>',
-            )
+          // COLOR
+          .replace(
+            /\[COLOR=(.*?)\](.*?)\[\/COLOR\]/gi,
+            '<span style="color:$1">$2</span>',
+          )
 
-            // BOLD
-            .replace(/\[B\](.*?)\[\/B\]/gi, "<b>$1</b>")
+          // BOLD
+          .replace(/\[B\](.*?)\[\/B\]/gi, "<b>$1</b>")
 
-            // STRIKETHROUGH
-            .replace(/\[S\](.*?)\[\/S\]/gi, "<s>$1</s>")
+          // STRIKETHROUGH
+          .replace(/\[S\](.*?)\[\/S\]/gi, "<s>$1</s>")
 
-            // xuống dòng
-            .replace(/\n/g, "<br>")
-        );
-      }
+          // xuống dòng
+          .replace(/\n/g, "<br>")
+      );
+    }
 
-      /* =============================
+    /* =============================
 🌓 DARK MODE
 ============================= */
 
-      const toggleBtn = document.getElementById("themeToggle");
+    const toggleBtn = document.getElementById("themeToggle");
 
-      function setTheme(mode) {
-        if (mode === "dark") {
-          document.body.classList.add("dark");
-          toggleBtn.textContent = "☀️";
-        } else {
-          document.body.classList.remove("dark");
-          toggleBtn.textContent = "🌙";
-        }
-
-        localStorage.setItem("theme", mode);
+    function setTheme(mode) {
+      if (mode === "dark") {
+        document.body.classList.add("dark");
+        toggleBtn.textContent = "☀️";
+      } else {
+        document.body.classList.remove("dark");
+        toggleBtn.textContent = "🌙";
       }
 
-      const savedTheme = localStorage.getItem("theme") || "light";
+      localStorage.setItem("theme", mode);
+    }
 
-      setTheme(savedTheme);
+    const savedTheme = localStorage.getItem("theme") || "light";
 
-      toggleBtn.addEventListener("click", () => {
-        const isDark = document.body.classList.contains("dark");
+    setTheme(savedTheme);
 
-        setTheme(isDark ? "light" : "dark");
-      });
-    </script>
-    <script>
-      const menuBtn = document.getElementById("menuBtn");
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
+    toggleBtn.addEventListener("click", () => {
+      const isDark = document.body.classList.contains("dark");
 
-      menuBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
-        overlay.classList.toggle("active");
-      });
+      setTheme(isDark ? "light" : "dark");
+    });
+  </script>
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
 
-      overlay.addEventListener("click", () => {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-      });
-    </script>
-  </body>
+    menuBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      overlay.classList.toggle("active");
+    });
+
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
+    });
+  </script>
+</body>
+
 </html>

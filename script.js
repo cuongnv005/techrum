@@ -43,12 +43,202 @@ document.getElementById("convertBtn").addEventListener("click", async () => {
     
     output.value = json.data.replace(/\\n/g, '\n');
 
+    // Populate and show the publish form
+    let titleVal = "";
+    let contentVal = output.value;
+    let categoryVal = "technology";
+    let tagsVal = [];
+
+    try {
+      const parsed = JSON.parse(json.data);
+      if (parsed && typeof parsed === "object") {
+        titleVal = parsed.title || "";
+        contentVal = parsed.content || "";
+        categoryVal = parsed.category_id || "technology";
+        tagsVal = parsed.tags || [];
+      }
+    } catch (e) {
+      // not a JSON, use plain text
+    }
+
+    document.getElementById("postTitle").value = titleVal;
+    document.getElementById("postContent").value = contentVal;
+    document.getElementById("postCategory").value = categoryVal;
+    selectedTags = tagsVal;
+    renderTags();
+    document.getElementById("publishForm").style.display = "block";
+
     // ⭐ refresh history sau khi convert
     loadHistory();
   } catch (err) {
     output.value = "Lỗi: " + err.message;
   } finally {
     loadingEl.classList.remove("show");
+  }
+});
+
+// =============================
+// 📝 PUBLISH FORM HANDLERS & STATE
+// =============================
+const systemTags = [
+  'Gaming', 'Esports', 'Hardware', 'Intel', 'AMD', 'Nvidia',
+  'Nintendo', 'PlayStation', 'iOS', 'iPhone', 'Apple', 'Android',
+  'Google', 'Windows', 'Microsoft', 'AI', 'Review', 'Calm'
+];
+let selectedTags = [];
+
+function renderTags() {
+  const activeTagsList = document.getElementById("activeTagsList");
+  if (!activeTagsList) return;
+  activeTagsList.innerHTML = "";
+  selectedTags.forEach((tag, idx) => {
+    const chip = document.createElement("span");
+    chip.className = "tag-chip";
+    chip.title = tag;
+    chip.innerHTML = `<span class="tag-text-span">${tag}</span><span class="remove-tag" data-index="${idx}" style="cursor:pointer; margin-left: 5px;">&times;</span>`;
+    activeTagsList.appendChild(chip);
+  });
+
+  // Update system tag buttons active states
+  const systemBtns = document.querySelectorAll(".system-tag-btn");
+  systemBtns.forEach(btn => {
+    const tag = btn.getAttribute("data-tag");
+    if (selectedTags.some(t => t.toLowerCase() === tag.toLowerCase())) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+}
+
+function addTag(tag) {
+  if (!tag.trim()) return;
+  const tags = tag.split(',').map(t => t.trim()).filter(t => t.length > 0);
+  tags.forEach(t => {
+    const exists = selectedTags.some(existing => existing.toLowerCase() === t.toLowerCase());
+    if (!exists) {
+      selectedTags.push(t);
+    }
+  });
+  renderTags();
+}
+
+function initSystemTags() {
+  const container = document.getElementById("systemTagsList");
+  if (!container) return;
+  container.innerHTML = "";
+  systemTags.forEach(tag => {
+    const btn = document.createElement("button");
+    btn.className = "system-tag-btn";
+    btn.type = "button";
+    btn.setAttribute("data-tag", tag);
+    btn.textContent = tag;
+    btn.addEventListener("click", () => {
+      const idx = selectedTags.findIndex(t => t.toLowerCase() === tag.toLowerCase());
+      if (idx >= 0) {
+        selectedTags.splice(idx, 1);
+      } else {
+        selectedTags.push(tag);
+      }
+      renderTags();
+    });
+    container.appendChild(btn);
+  });
+}
+
+// Add Tag Button Event
+document.getElementById("addTagBtn")?.addEventListener("click", (e) => {
+  e.preventDefault();
+  const input = document.getElementById("tagInput");
+  addTag(input.value);
+  input.value = "";
+});
+
+document.getElementById("tagInput")?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    addTag(e.target.value);
+    e.target.value = "";
+  }
+});
+
+document.getElementById("activeTagsList")?.addEventListener("click", (e) => {
+  if (e.target.classList.contains("remove-tag")) {
+    const idx = parseInt(e.target.getAttribute("data-index"));
+    selectedTags.splice(idx, 1);
+    renderTags();
+  }
+});
+
+document.getElementById("isScheduled")?.addEventListener("change", function() {
+  const wrapper = document.getElementById("scheduleTimeWrapper");
+  if (wrapper) {
+    wrapper.style.display = this.checked ? "block" : "none";
+  }
+});
+
+document.getElementById("publishBtn")?.addEventListener("click", async () => {
+  const title = document.getElementById("postTitle").value.trim();
+  const content = document.getElementById("postContent").value.trim();
+  const categoryId = document.getElementById("postCategory").value;
+  const isScheduled = document.getElementById("isScheduled").checked;
+  const scheduleDate = document.getElementById("scheduleDate").value;
+
+  if (!title) {
+    alert("Vui lòng điền tiêu đề bài viết!");
+    return;
+  }
+  if (!content) {
+    alert("Vui lòng nhập nội dung bài viết!");
+    return;
+  }
+
+  const postData = {
+    title,
+    content,
+    category_id: categoryId,
+    tags: selectedTags,
+    scheduled_at: isScheduled && scheduleDate ? new Date(scheduleDate).toISOString() : null
+  };
+
+  const publishBtn = document.getElementById("publishBtn");
+  publishBtn.disabled = true;
+  publishBtn.textContent = "Đang xử lý...";
+
+  try {
+    const response = await fetch("https://techdeal-worker.mdchannelvn.workers.dev/api/posts", {
+      method: "POST",
+      headers: {
+        "accept": "*/*",
+        "accept-language": "en-US,en;q=0.9,vi;q=0.8",
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjNzkwMjMyZS0wMmRhLTQ4YzEtOWI0ZC1iMjcwYmY5YmQ2MjEiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwic3RhdHVzIjoiYWN0aXZlIiwiaWF0IjoxNzgwMTEzOTY5LCJleHAiOjE3ODA3MTg3Njl9.1Q2GXLut_m5jBBueU6mHO9mxvawDQNrat-rXDbmWwTA",
+        "content-type": "application/json",
+        "origin": "https://techdeal-bay.vercel.app",
+        "priority": "u=1, i",
+        "referer": "https://techdeal-bay.vercel.app/",
+        "sec-ch-ua": '"Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "cross-site",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, fill/theme/default.min.css; Gecko) Chrome/148.0.0.0 Safari/537.36"
+      },
+      body: JSON.stringify(postData)
+    });
+
+    const resJson = await response.json();
+    if (response.ok && resJson.success) {
+      alert(`Chúc mừng! Bài viết đã được ${postData.scheduled_at ? 'hẹn giờ đăng thành công!' : 'đăng thành công!'}`);
+    } else {
+      alert(resJson.message || "Có lỗi xảy ra khi đăng bài viết!");
+    }
+  } catch (err) {
+    console.error("Publish error:", err);
+    alert("Có lỗi xảy ra khi đăng bài viết!");
+  } finally {
+    publishBtn.disabled = false;
+    publishBtn.textContent = "Đăng bài viết";
   }
 });
 
@@ -187,6 +377,31 @@ async function viewItem(id) {
   const item = data.find((i) => i.id === id);
   if (item) {
     document.getElementById("outputArea").value = item.result;
+
+    // Populate and show the publish form
+    let titleVal = "";
+    let contentVal = item.result;
+    let categoryVal = "technology";
+    let tagsVal = [];
+
+    try {
+      const parsed = JSON.parse(item.result);
+      if (parsed && typeof parsed === "object") {
+        titleVal = parsed.title || "";
+        contentVal = parsed.content || "";
+        categoryVal = parsed.category_id || "technology";
+        tagsVal = parsed.tags || [];
+      }
+    } catch (e) {
+      // not a JSON, use plain text
+    }
+
+    document.getElementById("postTitle").value = titleVal;
+    document.getElementById("postContent").value = contentVal;
+    document.getElementById("postCategory").value = categoryVal;
+    selectedTags = tagsVal;
+    renderTags();
+    document.getElementById("publishForm").style.display = "block";
   }
 }
 
@@ -254,3 +469,4 @@ if (engineParam) {
 // 🌓 LOAD HISTORY khi mở trang
 // =============================
 loadHistory();
+initSystemTags();

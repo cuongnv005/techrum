@@ -1,694 +1,692 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Deal iOS — Tổng hợp</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../main.css" />
-    <style>
-      .deal-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 14px;
-      }
 
-      .deal-card {
-        border: 1px solid var(--border);
-        background: var(--card);
-        border-radius: 14px;
-        padding: 14px 16px;
-        box-shadow: var(--shadow);
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        transition:
-          transform 0.2s,
-          outline 0.2s;
-        position: relative;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deal iOS — Tổng hợp</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../main.css" />
+  <style>
+    .deal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
 
-      .deal-card:hover {
-        transform: translateY(-2px);
-      }
+    .deal-card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition:
+        transform 0.2s,
+        outline 0.2s;
+      position: relative;
+    }
 
-      .deal-card.in-cart {
-        outline: 2px solid rgba(61, 220, 132, 0.45);
-      }
+    .deal-card:hover {
+      transform: translateY(-2px);
+    }
 
-      .deal-title {
-        margin: 0;
-        font-size: 14px;
-        line-height: 1.45;
-        font-weight: 600;
-        color: var(--text);
-      }
+    .deal-card.in-cart {
+      outline: 2px solid rgba(61, 220, 132, 0.45);
+    }
 
-      .deal-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 12px;
-        font-size: 12px;
-        color: var(--muted);
-        align-items: center;
-      }
+    .deal-title {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 600;
+      color: var(--text);
+    }
 
-      .deal-meta strong {
-        color: var(--text);
-        font-weight: 600;
-      }
+    .deal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      align-items: center;
+    }
 
-      .deal-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: 11px;
-        font-weight: 600;
-        border: 1px solid var(--border);
-        background: var(--tag-bg);
-        color: var(--tag-text);
-      }
+    .deal-meta strong {
+      color: var(--text);
+      font-weight: 600;
+    }
 
-      .deal-badge.free {
-        background: rgba(61, 220, 132, 0.18);
-        border-color: rgba(61, 220, 132, 0.35);
-        color: var(--tag-text);
-      }
+    .deal-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--tag-bg);
+      color: var(--tag-text);
+    }
 
-      .deal-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: auto;
-        padding-top: 4px;
-      }
+    .deal-badge.free {
+      background: rgba(61, 220, 132, 0.18);
+      border-color: rgba(61, 220, 132, 0.35);
+      color: var(--tag-text);
+    }
 
-      .deal-actions button {
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: var(--card);
-        color: var(--text);
-        font-size: 12px;
-        font-weight: 600;
-        padding: 8px 12px;
-        cursor: pointer;
-        transition:
-          background 0.2s,
-          border-color 0.2s;
-      }
+    .deal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 4px;
+    }
 
-      .deal-actions button:hover {
-        background: var(--hover);
-      }
+    .deal-actions button {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition:
+        background 0.2s,
+        border-color 0.2s;
+    }
 
-      .deal-actions .deal-link-btn {
-        border-color: rgba(96, 165, 250, 0.45);
-        background: rgba(96, 165, 250, 0.1);
-      }
+    .deal-actions button:hover {
+      background: var(--hover);
+    }
 
-      .deal-actions .store-btn {
-        border-color: rgba(61, 220, 132, 0.45);
-        background: rgba(61, 220, 132, 0.1);
-      }
+    .deal-actions .deal-link-btn {
+      border-color: rgba(96, 165, 250, 0.45);
+      background: rgba(96, 165, 250, 0.1);
+    }
 
-      .deal-actions .cart-btn {
-        min-width: 40px;
-        padding: 8px 10px;
-        font-size: 16px;
-        line-height: 1;
-      }
+    .deal-actions .store-btn {
+      border-color: rgba(61, 220, 132, 0.45);
+      background: rgba(61, 220, 132, 0.1);
+    }
 
-      .deal-actions .cart-btn.in-cart {
-        background: rgba(61, 220, 132, 0.22);
-        border-color: rgba(61, 220, 132, 0.5);
-      }
+    .deal-actions .cart-btn {
+      min-width: 40px;
+      padding: 8px 10px;
+      font-size: 16px;
+      line-height: 1;
+    }
 
-      .deals-cart-bar {
-        position: fixed;
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
-        z-index: 40;
-        display: none;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
-        padding: 12px 16px;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: var(--card);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-        max-width: 720px;
-        margin: 0 auto;
-      }
+    .deal-actions .cart-btn.in-cart {
+      background: rgba(61, 220, 132, 0.22);
+      border-color: rgba(61, 220, 132, 0.5);
+    }
 
-      .deals-cart-bar.show {
-        display: flex;
-      }
+    .deals-cart-bar {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 40;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+      max-width: 720px;
+      margin: 0 auto;
+    }
 
-      .deals-cart-bar span {
-        font-size: 13px;
-        color: var(--muted);
-      }
+    .deals-cart-bar.show {
+      display: flex;
+    }
 
-      .deals-cart-bar strong {
-        color: var(--text);
-      }
+    .deals-cart-bar span {
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-      .deals-cart-actions {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
+    .deals-cart-bar strong {
+      color: var(--text);
+    }
 
-      .deals-cart-actions button {
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        padding: 8px 14px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        background: var(--tag-bg);
-        color: var(--tag-text);
-      }
+    .deals-cart-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-      .deals-cart-actions .primary {
-        background: linear-gradient(135deg, #3ddc84, #2eb872);
-        color: #052e16;
-        border: none;
-      }
+    .deals-cart-actions button {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+    }
 
-      .deals-cart-actions .ghost {
-        background: transparent;
-        color: var(--muted);
-      }
+    .deals-cart-actions .primary {
+      background: linear-gradient(135deg, #3ddc84, #2eb872);
+      color: #052e16;
+      border: none;
+    }
 
-      .empty-deals {
-        padding: 28px 16px;
-        text-align: center;
-        color: var(--muted);
-        font-size: 14px;
-        border: 1px dashed var(--border);
-        border-radius: 14px;
-      }
-    </style>
-  </head>
+    .deals-cart-actions .ghost {
+      background: transparent;
+      color: var(--muted);
+    }
 
-  <body>
-    <nav class="navbar">
-      <div class="nav-left">
-        <button id="menuBtn" class="menu-btn">☰</button>
-        <a href="/"><div class="logo">TECHRUM</div></a>
-        <a href="/">Home</a>
-        <a href="/news/news.html">News</a>
-        <a href="/news/saved.html">Saved</a>
-        <a href="/news/deals.html" class="active-link">Deals</a>
-        <a href="/news/ios.html">iOS</a>
-        <a href="/news/android.html">Android</a>
-        <a href="/tools/buildImg.html">Image</a>
-        <a href="/tools/facebook.html">Lịch FB</a>
-      </div>
+    .empty-deals {
+      padding: 28px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+    }
+  </style>
+</head>
 
-      <div class="nav-center">
-        <a href="/" class="logo mobile-logo">TECHRUM<span>.</span></a>
-      </div>
-
-      <div class="nav-right">
-        <button id="themeToggle" class="theme-toggle is-pc">🌙</button>
-        <button
-          id="menuBtnRight"
-          class="menu-btn"
-          onclick="toggleRightSidebar()"
-        >
-          ☰
-        </button>
-      </div>
-    </nav>
-
-    <div class="news-shell">
-      <div class="news-sidebar" id="newsSidebar">
-        <div class="sidebar-header">
-          <h3>Nguồn deal</h3>
-          <button class="add-btn" type="button" onclick="openAdd()">+</button>
-        </div>
-
-        <div id="sourcesLoading" class="loading">
-          <div class="spinner"></div>
-          Đang tải nguồn...
-        </div>
-
-        <div id="sources"></div>
-      </div>
-
-      <div id="sidebarRight" class="sidebar-right">
-        <a href="/">🏠 Home</a>
-        <a href="/news/news.html">📰 News</a>
-        <a href="/news/saved.html">💾 Saved</a>
-        <a href="/news/deals.html">🏷️ Deals</a>
-        <a href="/news/ios.html">🍎 iOS</a>
-        <a href="/news/android.html">📱 Android</a>
-        <a href="/tools/buildImg.html">🖼️ Image</a>
-        <a href="/tools/facebook.html">📅 Lịch FB</a>
-        <a href="#" id="themeToggleMobile">🌙 Dark mode</a>
-      </div>
-
-      <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
-      <div class="news-content">
-        <h2 id="pageTitle">Chọn nguồn deal</h2>
-
-        <div id="dealsLoading" class="loading">
-          <div class="spinner"></div>
-          Đang tải deal...
-        </div>
-
-        <div class="deal-grid" id="dealsGrid"></div>
-
-        <div class="pagination" id="pagination"></div>
-
-        <div class="loadmore-wrap">
-          <button id="loadmoreBtn" class="loadmore" type="button" onclick="loadMore()">
-            Load More
-          </button>
-        </div>
-      </div>
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <button id="menuBtn" class="menu-btn">☰</button>
+      <a href="/">
+        <div class="logo">TECHRUM</div>
+      </a>
+      <a href="/">Home</a>
+      <a href="/news/news.html">News</a>
+      <a href="/news/saved.html">Saved</a>
+      <a href="/news/deals.html" class="active-link">Deals</a>
+      <a href="/news/ios.html">iOS</a>
+      <a href="/news/android.html">Android</a>
+      <a href="/tools/buildImg.html">Image</a>
+      <a href="/tools/facebook.html">Lịch FB</a>
     </div>
 
-    <div class="modal" id="modal">
-      <div class="modal-box">
-        <h3 id="modalTitle">Thêm nguồn deal</h3>
-
-        <input id="srcName" placeholder="Tên hiển thị" />
-        <input id="srcLogo" placeholder="Logo URL (tuỳ chọn)" />
-        <input id="srcUrl" placeholder="RSS URL (vd: mydealz …/rss/...)" />
-
-        <div class="modal-actions">
-          <button type="button" onclick="saveSource()">Lưu</button>
-          <button type="button" onclick="closeModal()">Huỷ</button>
-        </div>
-      </div>
+    <div class="nav-center">
+      <a href="/" class="logo mobile-logo">TECHRUM<span>.</span></a>
     </div>
 
-    <div class="deals-cart-bar" id="cartBar" aria-live="polite">
-      <span id="cartBarText"></span>
-      <div class="deals-cart-actions">
-        <button type="button" class="ghost" onclick="clearCart()">Xoá giỏ</button>
-        <button type="button" class="primary" onclick="goToIos()">
-          Mở iOS converter →
+    <div class="nav-right">
+      <button id="themeToggle" class="theme-toggle is-pc">🌙</button>
+      <button id="menuBtnRight" class="menu-btn" onclick="toggleRightSidebar()">
+        ☰
+      </button>
+    </div>
+  </nav>
+
+  <div class="news-shell">
+    <div class="news-sidebar" id="newsSidebar">
+      <div class="sidebar-header">
+        <h3>Nguồn deal</h3>
+        <button class="add-btn" type="button" onclick="openAdd()">+</button>
+      </div>
+
+      <div id="sourcesLoading" class="loading">
+        <div class="spinner"></div>
+        Đang tải nguồn...
+      </div>
+
+      <div id="sources"></div>
+    </div>
+
+    <div id="sidebarRight" class="sidebar-right">
+      <a href="/">🏠 Home</a>
+      <a href="/news/news.html">📰 News</a>
+      <a href="/news/saved.html">💾 Saved</a>
+      <a href="/news/deals.html">🏷️ Deals</a>
+      <a href="/news/ios.html">🍎 iOS</a>
+      <a href="/news/android.html">📱 Android</a>
+      <a href="/tools/buildImg.html">🖼️ Image</a>
+      <a href="/tools/facebook.html">📅 Lịch FB</a>
+      <a href="#" id="themeToggleMobile">🌙 Dark mode</a>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <div class="news-content">
+      <h2 id="pageTitle">Chọn nguồn deal</h2>
+
+      <div id="dealsLoading" class="loading">
+        <div class="spinner"></div>
+        Đang tải deal...
+      </div>
+
+      <div class="deal-grid" id="dealsGrid"></div>
+
+      <div class="pagination" id="pagination"></div>
+
+      <div class="loadmore-wrap">
+        <button id="loadmoreBtn" class="loadmore" type="button" onclick="loadMore()">
+          Load More
         </button>
       </div>
     </div>
+  </div>
 
-    <script>
-      const DEALS_API = "https://ios-deals.cuongnv.workers.dev/deals";
-      const STORAGE_SOURCES = "techrum_deal_sources";
-      const STORAGE_CART = "techrum_deals_cart";
-      const IOS_PREFILL_KEY = "techrum_ios_prefill";
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <h3 id="modalTitle">Thêm nguồn deal</h3>
 
-      const DEFAULT_SOURCES = [
-        {
-          id: "seed-mydealz-ios",
-          name: "MyDealz — iOS Apps",
-          logo: "https://www.mydealz.de/favicon.ico",
-          url: "https://www.mydealz.de/rss/gruppe/ios-apps",
-        },
-      ];
+      <input id="srcName" placeholder="Tên hiển thị" />
+      <input id="srcLogo" placeholder="Logo URL (tuỳ chọn)" />
+      <input id="srcUrl" placeholder="RSS URL (vd: mydealz …/rss/...)" />
 
-      let sourcesData = [];
-      let currentSource = null;
-      let currentPage = 1;
-      let totalPages = 1;
-      let limit = 10;
-      let editingId = null;
+      <div class="modal-actions">
+        <button type="button" onclick="saveSource()">Lưu</button>
+        <button type="button" onclick="closeModal()">Huỷ</button>
+      </div>
+    </div>
+  </div>
 
-      const modal = document.getElementById("modal");
-      const modalTitle = document.getElementById("modalTitle");
-      const srcName = document.getElementById("srcName");
-      const srcLogo = document.getElementById("srcLogo");
-      const srcUrl = document.getElementById("srcUrl");
-      const dealsGrid = document.getElementById("dealsGrid");
-      const pageTitle = document.getElementById("pageTitle");
+  <div class="deals-cart-bar" id="cartBar" aria-live="polite">
+    <span id="cartBarText"></span>
+    <div class="deals-cart-actions">
+      <button type="button" class="ghost" onclick="clearCart()">Xoá giỏ</button>
+      <button type="button" class="primary" onclick="goToIos()">
+        Mở iOS converter →
+      </button>
+    </div>
+  </div>
 
-      function newId() {
-        if (typeof crypto !== "undefined" && crypto.randomUUID) {
-          return crypto.randomUUID();
-        }
-        return "id-" + Date.now() + "-" + Math.random().toString(16).slice(2);
+  <script>
+    const DEALS_API = "https://deals.cuongnv.workers.dev/deals";
+    const STORAGE_SOURCES = "techrum_deal_sources";
+    const STORAGE_CART = "techrum_deals_cart";
+    const IOS_PREFILL_KEY = "techrum_ios_prefill";
+
+    const DEFAULT_SOURCES = [
+      {
+        id: "seed-mydealz-ios",
+        name: "MyDealz — iOS Apps",
+        logo: "https://www.mydealz.de/favicon.ico",
+        url: "https://www.mydealz.de/rss/gruppe/ios-apps",
+      },
+    ];
+
+    let sourcesData = [];
+    let currentSource = null;
+    let currentPage = 1;
+    let totalPages = 1;
+    let limit = 10;
+    let editingId = null;
+
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const srcName = document.getElementById("srcName");
+    const srcLogo = document.getElementById("srcLogo");
+    const srcUrl = document.getElementById("srcUrl");
+    const dealsGrid = document.getElementById("dealsGrid");
+    const pageTitle = document.getElementById("pageTitle");
+
+    function newId() {
+      if (typeof crypto !== "undefined" && crypto.randomUUID) {
+        return crypto.randomUUID();
       }
+      return "id-" + Date.now() + "-" + Math.random().toString(16).slice(2);
+    }
 
-      function readSources() {
-        try {
-          const raw = localStorage.getItem(STORAGE_SOURCES);
-          const parsed = raw ? JSON.parse(raw) : null;
-          if (Array.isArray(parsed) && parsed.length) return parsed;
-        } catch (_) {}
-        return DEFAULT_SOURCES.slice();
+    function readSources() {
+      try {
+        const raw = localStorage.getItem(STORAGE_SOURCES);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (Array.isArray(parsed) && parsed.length) return parsed;
+      } catch (_) { }
+      return DEFAULT_SOURCES.slice();
+    }
+
+    function writeSources(list) {
+      localStorage.setItem(STORAGE_SOURCES, JSON.stringify(list));
+    }
+
+    function dealKey(d) {
+      return [d.appStoreUrl || "", d.dealLink || "", d.appName || ""].join("|");
+    }
+
+    function readCart() {
+      try {
+        const raw = sessionStorage.getItem(STORAGE_CART);
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch (_) {
+        return [];
       }
+    }
 
-      function writeSources(list) {
-        localStorage.setItem(STORAGE_SOURCES, JSON.stringify(list));
-      }
+    function writeCart(list) {
+      sessionStorage.setItem(STORAGE_CART, JSON.stringify(list));
+    }
 
-      function dealKey(d) {
-        return [d.appStoreUrl || "", d.dealLink || "", d.appName || ""].join("|");
-      }
+    function cartHas(key) {
+      return readCart().some((x) => dealKey(x) === key);
+    }
 
-      function readCart() {
-        try {
-          const raw = sessionStorage.getItem(STORAGE_CART);
-          const arr = raw ? JSON.parse(raw) : [];
-          return Array.isArray(arr) ? arr : [];
-        } catch (_) {
-          return [];
-        }
-      }
-
-      function writeCart(list) {
-        sessionStorage.setItem(STORAGE_CART, JSON.stringify(list));
-      }
-
-      function cartHas(key) {
-        return readCart().some((x) => dealKey(x) === key);
-      }
-
-      function toggleCart(deal) {
-        const key = dealKey(deal);
-        let cart = readCart();
-        const idx = cart.findIndex((x) => dealKey(x) === key);
-        if (idx >= 0) {
-          cart.splice(idx, 1);
-        } else {
-          cart.push({
-            appName: deal.appName,
-            dealLink: deal.dealLink,
-            appStoreUrl: deal.appStoreUrl,
-            redeemUrl: deal.redeemUrl,
-            originalPrice: deal.originalPrice,
-            isFreeCheck: deal.isFreeCheck,
-            pubDate: deal.pubDate,
-          });
-        }
-        writeCart(cart);
-        updateCartBar();
-        document.querySelectorAll(".deal-card").forEach((el) => {
-          if (el.dataset.dealKey === key) {
-            el.classList.toggle("in-cart", cartHas(key));
-            const btn = el.querySelector(".cart-btn");
-            if (btn) {
-              btn.classList.toggle("in-cart", cartHas(key));
-              btn.textContent = cartHas(key) ? "✓" : "+";
-              btn.setAttribute(
-                "aria-label",
-                cartHas(key) ? "Bỏ khỏi giỏ" : "Thêm vào giỏ",
-              );
-            }
-          }
+    function toggleCart(deal) {
+      const key = dealKey(deal);
+      let cart = readCart();
+      const idx = cart.findIndex((x) => dealKey(x) === key);
+      if (idx >= 0) {
+        cart.splice(idx, 1);
+      } else {
+        cart.push({
+          appName: deal.appName,
+          dealLink: deal.dealLink,
+          appStoreUrl: deal.appStoreUrl,
+          redeemUrl: deal.redeemUrl,
+          originalPrice: deal.originalPrice,
+          isFreeCheck: deal.isFreeCheck,
+          pubDate: deal.pubDate,
         });
       }
-
-      function updateCartBar() {
-        const cart = readCart();
-        const bar = document.getElementById("cartBar");
-        const text = document.getElementById("cartBarText");
-        if (!cart.length) {
-          bar.classList.remove("show");
-          return;
-        }
-        bar.classList.add("show");
-        text.innerHTML =
-          "<strong>" +
-          cart.length +
-          "</strong> deal trong giỏ — sẵn sàng chuyển sang iOS converter";
-      }
-
-      function clearCart() {
-        if (!readCart().length) return;
-        if (!confirm("Xoá toàn bộ deal trong giỏ?")) return;
-        writeCart([]);
-        updateCartBar();
-        loadDeals(false);
-      }
-
-      function goToIos() {
-        const cart = readCart();
-        if (!cart.length) {
-          alert("Giỏ đang trống. Hãy bấm + trên từng deal.");
-          return;
-        }
-        const prefill = cart.map((d) => ({
-          url: (d.appStoreUrl || "").trim(),
-          price:
-            d.originalPrice != null && d.originalPrice !== ""
-              ? String(d.originalPrice)
-              : "",
-        }));
-        const missing = prefill.filter((p) => !p.url);
-        if (missing.length) {
-          alert("Một số deal chưa có App Store URL — bỏ chúng hoặc mở deal gốc.");
-          return;
-        }
-        sessionStorage.setItem(IOS_PREFILL_KEY, JSON.stringify(prefill));
-        window.location.href = "/news/ios.html";
-      }
-
-      function normalizeExternalUrl(url) {
-        const cleaned = (url || "").trim();
-        if (!cleaned) return "";
-        if (/^https?:\/\//i.test(cleaned)) return cleaned;
-        if (/^\/\//.test(cleaned)) return "https:" + cleaned;
-        if (/^[a-z]+:/i.test(cleaned)) return cleaned;
-        return "https://" + cleaned;
-      }
-
-      function openExternalLink(url) {
-        const safeUrl = normalizeExternalUrl(url);
-        if (!safeUrl) return false;
-        const popup = window.open(safeUrl, "_blank", "noopener,noreferrer");
-        if (popup) return true;
-        const a = document.createElement("a");
-        a.href = safeUrl;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        a.style.display = "none";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => {
-          if (document.visibilityState === "visible") {
-            window.location.assign(safeUrl);
+      writeCart(cart);
+      updateCartBar();
+      document.querySelectorAll(".deal-card").forEach((el) => {
+        if (el.dataset.dealKey === key) {
+          el.classList.toggle("in-cart", cartHas(key));
+          const btn = el.querySelector(".cart-btn");
+          if (btn) {
+            btn.classList.toggle("in-cart", cartHas(key));
+            btn.textContent = cartHas(key) ? "✓" : "+";
+            btn.setAttribute(
+              "aria-label",
+              cartHas(key) ? "Bỏ khỏi giỏ" : "Thêm vào giỏ",
+            );
           }
-        }, 120);
-        return true;
-      }
+        }
+      });
+    }
 
-      function formatPrice(n, isFree) {
-        if (isFree) return "Miễn phí";
-        if (n == null || n === "" || Number.isNaN(Number(n))) return "—";
-        return (
-          new Intl.NumberFormat("de-DE", {
-            style: "currency",
-            currency: "EUR",
-            maximumFractionDigits: 2,
-          }).format(Number(n)) + " (giá gốc)"
+    function updateCartBar() {
+      const cart = readCart();
+      const bar = document.getElementById("cartBar");
+      const text = document.getElementById("cartBarText");
+      if (!cart.length) {
+        bar.classList.remove("show");
+        return;
+      }
+      bar.classList.add("show");
+      text.innerHTML =
+        "<strong>" +
+        cart.length +
+        "</strong> deal trong giỏ — sẵn sàng chuyển sang iOS converter";
+    }
+
+    function clearCart() {
+      if (!readCart().length) return;
+      if (!confirm("Xoá toàn bộ deal trong giỏ?")) return;
+      writeCart([]);
+      updateCartBar();
+      loadDeals(false);
+    }
+
+    function goToIos() {
+      const cart = readCart();
+      if (!cart.length) {
+        alert("Giỏ đang trống. Hãy bấm + trên từng deal.");
+        return;
+      }
+      const prefill = cart.map((d) => ({
+        url: (d.appStoreUrl || "").trim(),
+        price:
+          d.originalPrice != null && d.originalPrice !== ""
+            ? String(d.originalPrice)
+            : "",
+      }));
+      const missing = prefill.filter((p) => !p.url);
+      if (missing.length) {
+        alert("Một số deal chưa có App Store URL — bỏ chúng hoặc mở deal gốc.");
+        return;
+      }
+      sessionStorage.setItem(IOS_PREFILL_KEY, JSON.stringify(prefill));
+      window.location.href = "/news/ios.html";
+    }
+
+    function normalizeExternalUrl(url) {
+      const cleaned = (url || "").trim();
+      if (!cleaned) return "";
+      if (/^https?:\/\//i.test(cleaned)) return cleaned;
+      if (/^\/\//.test(cleaned)) return "https:" + cleaned;
+      if (/^[a-z]+:/i.test(cleaned)) return cleaned;
+      return "https://" + cleaned;
+    }
+
+    function openExternalLink(url) {
+      const safeUrl = normalizeExternalUrl(url);
+      if (!safeUrl) return false;
+      const popup = window.open(safeUrl, "_blank", "noopener,noreferrer");
+      if (popup) return true;
+      const a = document.createElement("a");
+      a.href = safeUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => {
+        if (document.visibilityState === "visible") {
+          window.location.assign(safeUrl);
+        }
+      }, 120);
+      return true;
+    }
+
+    function formatPrice(n, isFree) {
+      if (isFree) return "Miễn phí";
+      if (n == null || n === "" || Number.isNaN(Number(n))) return "—";
+      return (
+        new Intl.NumberFormat("de-DE", {
+          style: "currency",
+          currency: "EUR",
+          maximumFractionDigits: 2,
+        }).format(Number(n)) + " (giá gốc)"
+      );
+    }
+
+    function formatTime(pubDate) {
+      if (!pubDate) return "—";
+      const t = new Date(pubDate);
+      if (Number.isNaN(t.getTime())) return pubDate;
+      return t.toLocaleString("vi-VN", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+    }
+
+    function isDealFree(d) {
+      return (
+        !!d.isFreeCheck ||
+        d.originalPrice === 0 ||
+        d.originalPrice === "0"
+      );
+    }
+
+    function openAdd() {
+      editingId = null;
+      modalTitle.innerText = "Thêm nguồn deal";
+      srcName.value = srcLogo.value = srcUrl.value = "";
+      modal.style.display = "flex";
+    }
+
+    function openEdit(s) {
+      editingId = s.id;
+      modalTitle.innerText = "Sửa nguồn deal";
+      srcName.value = s.name;
+      srcLogo.value = s.logo || "";
+      srcUrl.value = s.url;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    function saveSource() {
+      const name = srcName.value.trim();
+      const logo = srcLogo.value.trim();
+      const url = srcUrl.value.trim();
+      if (!name || !url) {
+        alert("Cần tên và RSS URL.");
+        return;
+      }
+      sourcesData = readSources();
+      if (editingId) {
+        sourcesData = sourcesData.map((s) =>
+          s.id === editingId ? { ...s, name, logo, url } : s,
         );
+      } else {
+        sourcesData.push({ id: newId(), name, logo, url });
       }
+      writeSources(sourcesData);
+      closeModal();
+      renderSources();
+    }
 
-      function formatTime(pubDate) {
-        if (!pubDate) return "—";
-        const t = new Date(pubDate);
-        if (Number.isNaN(t.getTime())) return pubDate;
-        return t.toLocaleString("vi-VN", {
-          dateStyle: "medium",
-          timeStyle: "short",
+    function deleteSource(id) {
+      if (!confirm("Xoá nguồn này?")) return;
+      sourcesData = readSources().filter((s) => s.id !== id);
+      writeSources(sourcesData);
+      if (currentSource?.id === id) {
+        currentSource = null;
+        dealsGrid.innerHTML = "";
+        pageTitle.innerText = "Chọn nguồn deal";
+      }
+      renderSources();
+    }
+
+    function renderSources() {
+      sourcesData = readSources();
+      const box = document.getElementById("sources");
+      box.innerHTML = "";
+      sourcesData.forEach((s) => {
+        const div = document.createElement("div");
+        div.className = "source";
+        if (currentSource?.id === s.id) div.classList.add("active");
+
+        const left = document.createElement("div");
+        left.className = "source-left";
+        const img = document.createElement("img");
+        img.src = s.logo || "";
+        img.alt = "";
+        img.loading = "lazy";
+        const span = document.createElement("span");
+        span.textContent = s.name;
+        left.appendChild(img);
+        left.appendChild(span);
+
+        const actions = document.createElement("div");
+        actions.className = "source-actions";
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "icon-btn edit";
+        editBtn.type = "button";
+        editBtn.title = "Sửa";
+        editBtn.setAttribute("aria-label", "Sửa");
+        editBtn.textContent = "✏️";
+        editBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openEdit(s);
         });
-      }
 
-      function isDealFree(d) {
-        return (
-          !!d.isFreeCheck ||
-          d.originalPrice === 0 ||
-          d.originalPrice === "0"
-        );
-      }
-
-      function openAdd() {
-        editingId = null;
-        modalTitle.innerText = "Thêm nguồn deal";
-        srcName.value = srcLogo.value = srcUrl.value = "";
-        modal.style.display = "flex";
-      }
-
-      function openEdit(s) {
-        editingId = s.id;
-        modalTitle.innerText = "Sửa nguồn deal";
-        srcName.value = s.name;
-        srcLogo.value = s.logo || "";
-        srcUrl.value = s.url;
-        modal.style.display = "flex";
-      }
-
-      function closeModal() {
-        modal.style.display = "none";
-      }
-
-      function saveSource() {
-        const name = srcName.value.trim();
-        const logo = srcLogo.value.trim();
-        const url = srcUrl.value.trim();
-        if (!name || !url) {
-          alert("Cần tên và RSS URL.");
-          return;
-        }
-        sourcesData = readSources();
-        if (editingId) {
-          sourcesData = sourcesData.map((s) =>
-            s.id === editingId ? { ...s, name, logo, url } : s,
-          );
-        } else {
-          sourcesData.push({ id: newId(), name, logo, url });
-        }
-        writeSources(sourcesData);
-        closeModal();
-        renderSources();
-      }
-
-      function deleteSource(id) {
-        if (!confirm("Xoá nguồn này?")) return;
-        sourcesData = readSources().filter((s) => s.id !== id);
-        writeSources(sourcesData);
-        if (currentSource?.id === id) {
-          currentSource = null;
-          dealsGrid.innerHTML = "";
-          pageTitle.innerText = "Chọn nguồn deal";
-        }
-        renderSources();
-      }
-
-      function renderSources() {
-        sourcesData = readSources();
-        const box = document.getElementById("sources");
-        box.innerHTML = "";
-        sourcesData.forEach((s) => {
-          const div = document.createElement("div");
-          div.className = "source";
-          if (currentSource?.id === s.id) div.classList.add("active");
-
-          const left = document.createElement("div");
-          left.className = "source-left";
-          const img = document.createElement("img");
-          img.src = s.logo || "";
-          img.alt = "";
-          img.loading = "lazy";
-          const span = document.createElement("span");
-          span.textContent = s.name;
-          left.appendChild(img);
-          left.appendChild(span);
-
-          const actions = document.createElement("div");
-          actions.className = "source-actions";
-
-          const editBtn = document.createElement("button");
-          editBtn.className = "icon-btn edit";
-          editBtn.type = "button";
-          editBtn.title = "Sửa";
-          editBtn.setAttribute("aria-label", "Sửa");
-          editBtn.textContent = "✏️";
-          editBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            openEdit(s);
-          });
-
-          const delBtn = document.createElement("button");
-          delBtn.className = "icon-btn delete";
-          delBtn.type = "button";
-          delBtn.title = "Xoá";
-          delBtn.setAttribute("aria-label", "Xoá");
-          delBtn.textContent = "🗑️";
-          delBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            deleteSource(s.id);
-          });
-
-          actions.appendChild(editBtn);
-          actions.appendChild(delBtn);
-          div.appendChild(left);
-          div.appendChild(actions);
-
-          div.addEventListener("click", () => selectSource(s));
-          box.appendChild(div);
+        const delBtn = document.createElement("button");
+        delBtn.className = "icon-btn delete";
+        delBtn.type = "button";
+        delBtn.title = "Xoá";
+        delBtn.setAttribute("aria-label", "Xoá");
+        delBtn.textContent = "🗑️";
+        delBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          deleteSource(s.id);
         });
-        if (!currentSource && sourcesData.length) {
-          selectSource(sourcesData[0]);
-        }
+
+        actions.appendChild(editBtn);
+        actions.appendChild(delBtn);
+        div.appendChild(left);
+        div.appendChild(actions);
+
+        div.addEventListener("click", () => selectSource(s));
+        box.appendChild(div);
+      });
+      if (!currentSource && sourcesData.length) {
+        selectSource(sourcesData[0]);
       }
+    }
 
-      function escapeHtml(s) {
-        return String(s)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-      }
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
 
-      function selectSource(source) {
-        currentSource = source;
-        currentPage = 1;
-        pageTitle.innerText = source.name;
-        scrollTopMobile();
-        document.querySelectorAll(".source").forEach((el) => {
-          el.classList.remove("active");
-        });
-        const idx = sourcesData.findIndex((s) => s.id === source.id);
-        document.querySelectorAll(".source")[idx]?.classList.add("active");
-        if (window.innerWidth <= 768) closeSidebar();
-        loadDeals(false);
-      }
+    function selectSource(source) {
+      currentSource = source;
+      currentPage = 1;
+      pageTitle.innerText = source.name;
+      scrollTopMobile();
+      document.querySelectorAll(".source").forEach((el) => {
+        el.classList.remove("active");
+      });
+      const idx = sourcesData.findIndex((s) => s.id === source.id);
+      document.querySelectorAll(".source")[idx]?.classList.add("active");
+      if (window.innerWidth <= 768) closeSidebar();
+      loadDeals(false);
+    }
 
-      async function loadDeals(append) {
-        if (!currentSource) return;
-        const loading = document.getElementById("dealsLoading");
-        loading?.classList.add("show");
-        let data;
-        try {
-          const u = `${DEALS_API}?url=${encodeURIComponent(currentSource.url)}&page=${currentPage}&limit=${limit}`;
-          const res = await fetch(u);
-          data = await res.json();
-        } catch (e) {
-          console.error(e);
-          if (!append) {
-            dealsGrid.innerHTML =
-              '<p class="empty-deals">Không tải được deal. Kiểm tra mạng hoặc URL RSS.</p>';
-          }
-          loading?.classList.remove("show");
-          return;
-        } finally {
-          loading?.classList.remove("show");
-        }
-
-        const list = Array.isArray(data.deals) ? data.deals : [];
-        if (!append) dealsGrid.innerHTML = "";
-
-        if (!append && !list.length) {
+    async function loadDeals(append) {
+      if (!currentSource) return;
+      const loading = document.getElementById("dealsLoading");
+      loading?.classList.add("show");
+      let data;
+      try {
+        const u = `${DEALS_API}?url=${encodeURIComponent(currentSource.url)}&page=${currentPage}&limit=${limit}`;
+        const res = await fetch(u);
+        data = await res.json();
+      } catch (e) {
+        console.error(e);
+        if (!append) {
           dealsGrid.innerHTML =
-            '<p class="empty-deals">Không có deal trên trang này.</p>';
+            '<p class="empty-deals">Không tải được deal. Kiểm tra mạng hoặc URL RSS.</p>';
         }
+        loading?.classList.remove("show");
+        return;
+      } finally {
+        loading?.classList.remove("show");
+      }
 
-        list.forEach((deal) => {
-          const key = dealKey(deal);
-          const free = isDealFree(deal);
-          const card = document.createElement("article");
-          card.className = "deal-card" + (cartHas(key) ? " in-cart" : "");
+      const list = Array.isArray(data.deals) ? data.deals : [];
+      if (!append) dealsGrid.innerHTML = "";
 
-          const title = escapeHtml(deal.appName || "(Không tên)");
-          const priceLine = formatPrice(deal.originalPrice, free);
-          const timeLine = formatTime(deal.pubDate);
+      if (!append && !list.length) {
+        dealsGrid.innerHTML =
+          '<p class="empty-deals">Không có deal trên trang này.</p>';
+      }
 
-          card.innerHTML = `
+      list.forEach((deal) => {
+        const key = dealKey(deal);
+        const free = isDealFree(deal);
+        const card = document.createElement("article");
+        card.className = "deal-card" + (cartHas(key) ? " in-cart" : "");
+
+        const title = escapeHtml(deal.appName || "(Không tên)");
+        const priceLine = formatPrice(deal.originalPrice, free);
+        const timeLine = formatTime(deal.pubDate);
+
+        card.innerHTML = `
     <h3 class="deal-title">${title}</h3>
     <div class="deal-meta">
       <span><strong>Giá:</strong> ${escapeHtml(priceLine)}</span>
@@ -702,183 +700,184 @@
         data-act="cart" aria-label="${cartHas(key) ? "Bỏ khỏi giỏ" : "Thêm vào giỏ"}">${cartHas(key) ? "✓" : "+"}</button>
     </div>`;
 
-          card.querySelector('[data-act="deal"]').onclick = (e) => {
-            e.stopPropagation();
-            if (!deal.dealLink) {
-              alert("Không có link deal.");
-              return;
-            }
-            openExternalLink(deal.dealLink);
-          };
-          card.querySelector('[data-act="store"]').onclick = (e) => {
-            e.stopPropagation();
-            if (!deal.appStoreUrl) {
-              alert("Không có App Store URL.");
-              return;
-            }
-            openExternalLink(deal.appStoreUrl);
-          };
-          card.querySelector('[data-act="cart"]').onclick = (e) => {
-            e.stopPropagation();
-            toggleCart(deal);
-          };
-
-          card.dataset.dealKey = key;
-          dealsGrid.appendChild(card);
-        });
-
-        const total = Number(data.total);
-        if (Number.isFinite(total) && total > 0) {
-          totalPages = Math.max(1, Math.ceil(total / limit));
-        } else if (data.hasMore === true) {
-          totalPages = Math.max(totalPages, currentPage + 1);
-        } else {
-          totalPages = currentPage;
-        }
-
-        renderPagination();
-        updateCartBar();
-      }
-
-      function renderPagination() {
-        const box = document.getElementById("pagination");
-        box.innerHTML = "";
-
-        function createBtn(label, page, disabled, active) {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.textContent = label;
-          if (active) btn.classList.add("active");
-          if (disabled) btn.classList.add("disabled");
-          btn.onclick = () => {
-            if (disabled) return;
-            currentPage = page;
-            scrollTopMobile();
-            loadDeals(false);
-          };
-          box.appendChild(btn);
-        }
-
-        createBtn("←", currentPage - 1, currentPage === 1);
-
-        let start = Math.max(1, currentPage - 2);
-        let end = Math.min(totalPages, currentPage + 2);
-
-        if (start > 1) {
-          createBtn("1", 1, false, false);
-          if (start > 2) {
-            const dots = document.createElement("span");
-            dots.textContent = "...";
-            box.appendChild(dots);
+        card.querySelector('[data-act="deal"]').onclick = (e) => {
+          e.stopPropagation();
+          if (!deal.dealLink) {
+            alert("Không có link deal.");
+            return;
           }
-        }
-
-        for (let i = start; i <= end; i++) {
-          createBtn(String(i), i, false, i === currentPage);
-        }
-
-        if (end < totalPages) {
-          if (end < totalPages - 1) {
-            const dots = document.createElement("span");
-            dots.textContent = "...";
-            box.appendChild(dots);
+          openExternalLink(deal.dealLink);
+        };
+        card.querySelector('[data-act="store"]').onclick = (e) => {
+          e.stopPropagation();
+          if (!deal.appStoreUrl) {
+            alert("Không có App Store URL.");
+            return;
           }
-          createBtn(String(totalPages), totalPages, false, false);
-        }
+          openExternalLink(deal.appStoreUrl);
+        };
+        card.querySelector('[data-act="cart"]').onclick = (e) => {
+          e.stopPropagation();
+          toggleCart(deal);
+        };
 
-        createBtn("→", currentPage + 1, currentPage === totalPages);
-      }
-
-      function loadMore() {
-        if (currentPage >= totalPages) return;
-        currentPage++;
-        loadDeals(true).then(() => {
-          scrollToPageStart(currentPage);
-        });
-      }
-
-      function scrollTopMobile() {
-        if (window.innerWidth <= 768) {
-          document.documentElement.scrollTop = 0;
-          document.body.scrollTop = 0;
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          document.querySelector(".news-content")?.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-        }
-      }
-
-      function scrollToPageStart(page) {
-        const items = document.querySelectorAll(".deal-card");
-        const index = (page - 1) * limit;
-        items[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
-      function closeSidebar() {
-        document.getElementById("newsSidebar").classList.remove("open");
-        document.getElementById("sidebarRight").classList.remove("open");
-        document.getElementById("overlay").classList.remove("show");
-      }
-
-      function toggleRightSidebar() {
-        document.getElementById("sidebarRight").classList.toggle("open");
-        document.getElementById("overlay").classList.toggle("show");
-      }
-
-      async function init() {
-        document.getElementById("sourcesLoading")?.classList.add("show");
-        if (!localStorage.getItem(STORAGE_SOURCES)) {
-          writeSources(DEFAULT_SOURCES);
-        }
-        renderSources();
-        document.getElementById("sourcesLoading")?.classList.remove("show");
-        updateCartBar();
-      }
-
-      init();
-
-      const menuBtn = document.getElementById("menuBtn");
-      menuBtn.addEventListener("click", () => {
-        document.getElementById("newsSidebar").classList.toggle("open");
-        document.getElementById("overlay").classList.toggle("show");
+        card.dataset.dealKey = key;
+        dealsGrid.appendChild(card);
       });
 
-      function checkMobile() {
-        if (window.innerWidth <= 768) {
-          menuBtn.style.display = "inline-block";
-        } else {
-          menuBtn.style.display = "none";
-          document.getElementById("newsSidebar").classList.remove("open");
+      const total = Number(data.total);
+      if (Number.isFinite(total) && total > 0) {
+        totalPages = Math.max(1, Math.ceil(total / limit));
+      } else if (data.hasMore === true) {
+        totalPages = Math.max(totalPages, currentPage + 1);
+      } else {
+        totalPages = currentPage;
+      }
+
+      renderPagination();
+      updateCartBar();
+    }
+
+    function renderPagination() {
+      const box = document.getElementById("pagination");
+      box.innerHTML = "";
+
+      function createBtn(label, page, disabled, active) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = label;
+        if (active) btn.classList.add("active");
+        if (disabled) btn.classList.add("disabled");
+        btn.onclick = () => {
+          if (disabled) return;
+          currentPage = page;
+          scrollTopMobile();
+          loadDeals(false);
+        };
+        box.appendChild(btn);
+      }
+
+      createBtn("←", currentPage - 1, currentPage === 1);
+
+      let start = Math.max(1, currentPage - 2);
+      let end = Math.min(totalPages, currentPage + 2);
+
+      if (start > 1) {
+        createBtn("1", 1, false, false);
+        if (start > 2) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          box.appendChild(dots);
         }
       }
-      window.addEventListener("resize", checkMobile);
-      checkMobile();
 
-      function bindTheme(btn) {
-        if (!btn) return;
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          document.body.classList.toggle("dark");
-          const isDark = document.body.classList.contains("dark");
-          localStorage.setItem("theme", isDark ? "dark" : "light");
-          const icon = isDark ? "☀️" : "🌙";
-          document.getElementById("themeToggle").textContent = icon;
-          const m = document.getElementById("themeToggleMobile");
-          if (m) m.textContent = isDark ? "☀️ Sáng" : "🌙 Dark mode";
+      for (let i = start; i <= end; i++) {
+        createBtn(String(i), i, false, i === currentPage);
+      }
+
+      if (end < totalPages) {
+        if (end < totalPages - 1) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          box.appendChild(dots);
+        }
+        createBtn(String(totalPages), totalPages, false, false);
+      }
+
+      createBtn("→", currentPage + 1, currentPage === totalPages);
+    }
+
+    function loadMore() {
+      if (currentPage >= totalPages) return;
+      currentPage++;
+      loadDeals(true).then(() => {
+        scrollToPageStart(currentPage);
+      });
+    }
+
+    function scrollTopMobile() {
+      if (window.innerWidth <= 768) {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        document.querySelector(".news-content")?.scrollTo({
+          top: 0,
+          behavior: "smooth",
         });
       }
+    }
 
-      if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark");
-        const t = document.getElementById("themeToggle");
-        if (t) t.textContent = "☀️";
-        const m = document.getElementById("themeToggleMobile");
-        if (m) m.textContent = "☀️ Sáng";
+    function scrollToPageStart(page) {
+      const items = document.querySelectorAll(".deal-card");
+      const index = (page - 1) * limit;
+      items[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeSidebar() {
+      document.getElementById("newsSidebar").classList.remove("open");
+      document.getElementById("sidebarRight").classList.remove("open");
+      document.getElementById("overlay").classList.remove("show");
+    }
+
+    function toggleRightSidebar() {
+      document.getElementById("sidebarRight").classList.toggle("open");
+      document.getElementById("overlay").classList.toggle("show");
+    }
+
+    async function init() {
+      document.getElementById("sourcesLoading")?.classList.add("show");
+      if (!localStorage.getItem(STORAGE_SOURCES)) {
+        writeSources(DEFAULT_SOURCES);
       }
-      bindTheme(document.getElementById("themeToggle"));
-      bindTheme(document.getElementById("themeToggleMobile"));
-    </script>
-  </body>
+      renderSources();
+      document.getElementById("sourcesLoading")?.classList.remove("show");
+      updateCartBar();
+    }
+
+    init();
+
+    const menuBtn = document.getElementById("menuBtn");
+    menuBtn.addEventListener("click", () => {
+      document.getElementById("newsSidebar").classList.toggle("open");
+      document.getElementById("overlay").classList.toggle("show");
+    });
+
+    function checkMobile() {
+      if (window.innerWidth <= 768) {
+        menuBtn.style.display = "inline-block";
+      } else {
+        menuBtn.style.display = "none";
+        document.getElementById("newsSidebar").classList.remove("open");
+      }
+    }
+    window.addEventListener("resize", checkMobile);
+    checkMobile();
+
+    function bindTheme(btn) {
+      if (!btn) return;
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        document.body.classList.toggle("dark");
+        const isDark = document.body.classList.contains("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        const icon = isDark ? "☀️" : "🌙";
+        document.getElementById("themeToggle").textContent = icon;
+        const m = document.getElementById("themeToggleMobile");
+        if (m) m.textContent = isDark ? "☀️ Sáng" : "🌙 Dark mode";
+      });
+    }
+
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark");
+      const t = document.getElementById("themeToggle");
+      if (t) t.textContent = "☀️";
+      const m = document.getElementById("themeToggleMobile");
+      if (m) m.textContent = "☀️ Sáng";
+    }
+    bindTheme(document.getElementById("themeToggle"));
+    bindTheme(document.getElementById("themeToggleMobile"));
+  </script>
+</body>
+
 </html>

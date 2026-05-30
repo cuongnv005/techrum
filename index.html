@@ -215,6 +215,87 @@
       .engine-badge.openai {
         color: #1a73e8;
       }
+
+      /* Publication Form Styles */
+      .publish-form {
+        margin-top: 24px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+      }
+      .tag-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 8px;
+        background: rgba(52, 152, 219, 0.1);
+        color: #3498db;
+        border: 1px solid rgba(52, 152, 219, 0.2);
+        user-select: none;
+        transition: all 0.2s ease;
+        max-width: 140px;
+        overflow: hidden;
+      }
+      body.dark .tag-chip {
+        background: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+        border-color: rgba(231, 76, 60, 0.2);
+      }
+      .tag-text-span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+      }
+      .tag-chip .remove-tag {
+        font-weight: bold;
+        cursor: pointer;
+        opacity: 0.7;
+        margin-left: 2px;
+        flex-shrink: 0;
+      }
+      .tag-chip .remove-tag:hover {
+        opacity: 1;
+        color: var(--danger);
+      }
+      .system-tag-btn {
+        background: var(--hover);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 5px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .system-tag-btn:hover:not(.active) {
+        border-color: #3498db;
+        color: #3498db;
+      }
+      body.dark .system-tag-btn:hover:not(.active) {
+        border-color: #e74c3c;
+        color: #e74c3c;
+      }
+      .system-tag-btn.active {
+        background: #3498db;
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+      }
+      body.dark .system-tag-btn.active {
+        background: #e74c3c;
+        box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+      }
     </style>
   </head>
 
@@ -292,6 +373,62 @@
 
     <!-- Preview area -->
     <div id="previewArea" class="preview" style="display: none"></div>
+
+    <!-- Publication Form -->
+    <div id="publishForm" class="publish-form" style="display: none;">
+      <h2 style="margin-top: 0; font-size: 20px; font-weight: 700; border-b: 1px solid var(--border); padding-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+        <span>📝</span> Đăng bài viết mới
+      </h2>
+      
+      <div style="margin-bottom: 16px;">
+        <label class="field-label">Tiêu đề bài viết <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="postTitle" placeholder="Nhập tiêu đề ấn tượng cho bài viết..." />
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label class="field-label">Nội dung chi tiết <span style="color:var(--danger)">*</span></label>
+        <textarea id="postContent" placeholder="Nhập nội dung bài viết bằng mã BBCode..." style="height: 200px;"></textarea>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label class="field-label">Chuyên mục <span style="color:var(--danger)">*</span></label>
+        <select id="postCategory">
+          <option value="technology">Công nghệ</option>
+          <option value="gaming">Thế giới Game</option>
+          <option value="android">Android</option>
+          <option value="ios">iOS</option>
+          <option value="windows">Windows</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label class="field-label">Gán thẻ bài viết (Tags)</label>
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <input type="text" id="tagInput" placeholder="Nhập thẻ mới (ngăn cách bằng dấu phẩy)..." style="margin: 0;" />
+          <button id="addTagBtn" class="btn btn-secondary" style="width: auto; margin: 0; white-space: nowrap;">Thêm thẻ</button>
+        </div>
+        <div id="activeTagsList" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;"></div>
+        <div style="margin-top: 8px;">
+          <p class="field-label" style="font-size: 10px; margin-bottom: 6px;">Chọn thẻ có sẵn trong hệ thống:</p>
+          <div id="systemTagsList" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px; border-t: 1px solid var(--border); padding-top: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="isScheduled" style="width: auto; margin: 0; cursor: pointer;" />
+          <label for="isScheduled" style="font-size: 13px; font-weight: 600; cursor: pointer; user-select: none;">Hẹn giờ đăng bài viết</label>
+        </div>
+        <div id="scheduleTimeWrapper" style="display: none; margin-top: 10px;">
+          <input type="datetime-local" id="scheduleDate" style="max-width: 250px; margin: 0;" />
+          <p class="field-label" style="font-size: 10px; margin-top: 4px; text-transform: none;">Hệ thống sẽ tự động xuất bản bài viết vào khung giờ bạn đã chọn bên trên.</p>
+        </div>
+      </div>
+
+      <div style="border-t: 1px solid var(--border); padding-top: 14px;">
+        <button id="publishBtn" class="btn btn-primary">Đăng bài viết</button>
+      </div>
+    </div>
 
     <div class="history">
       <h2>Lịch sử</h2>
