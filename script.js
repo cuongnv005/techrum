@@ -209,20 +209,8 @@ document.getElementById("publishBtn")?.addEventListener("click", async () => {
     const response = await fetch("https://techdeal-worker.mdchannelvn.workers.dev/api/posts", {
       method: "POST",
       headers: {
-        "accept": "*/*",
-        "accept-language": "en-US,en;q=0.9,vi;q=0.8",
-        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjNzkwMjMyZS0wMmRhLTQ4YzEtOWI0ZC1iMjcwYmY5YmQ2MjEiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwic3RhdHVzIjoiYWN0aXZlIiwiaWF0IjoxNzgwMTEzOTY5LCJleHAiOjE3ODA3MTg3Njl9.1Q2GXLut_m5jBBueU6mHO9mxvawDQNrat-rXDbmWwTA",
-        "content-type": "application/json",
-        "origin": "https://techdeal-bay.vercel.app",
-        "priority": "u=1, i",
-        "referer": "https://techdeal-bay.vercel.app/",
-        "sec-ch-ua": '"Chromium";v="148", "Google Chrome";v="148", "Not/A)Brand";v="99"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"Windows"',
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "cross-site",
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, fill/theme/default.min.css; Gecko) Chrome/148.0.0.0 Safari/537.36"
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjNzkwMjMyZS0wMmRhLTQ4YzEtOWI0ZC1iMjcwYmY5YmQ2MjEiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwic3RhdHVzIjoiYWN0aXZlIiwiaWF0IjoxNzgwMTEzOTY5LCJleHAiOjE3ODA3MTg3Njl9.1Q2GXLut_m5jBBueU6mHO9mxvawDQNrat-rXDbmWwTA"
       },
       body: JSON.stringify(postData)
     });

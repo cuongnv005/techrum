@@ -1,457 +1,478 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TECHRUM Converter</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/main.css" />
 
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial;
-        background: var(--bg);
-        color: var(--text);
-        transition: 0.3s;
-        padding: 40px;
-        max-width: 900px;
-        margin: auto;
-        transition: 0.3s;
-        height: 100vh;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECHRUM Converter</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/main.css" />
 
-      h1 {
-        text-align: center;
-      }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.3s;
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+      transition: 0.3s;
+      height: 100vh;
+    }
 
-      body {
-        padding-top: 80px;
-      }
+    h1 {
+      text-align: center;
+    }
 
-      input,
-      textarea,
-      button {
-        width: 100%;
-        box-sizing: border-box;
-      }
-      input {
-        padding: 12px;
-        margin: 15px 0;
-        font-size: 16px;
-        background: var(--card);
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
+    body {
+      padding-top: 80px;
+    }
 
-      textarea {
-        height: 250px;
-        padding: 12px;
-        margin-top: 15px;
-        background: var(--card);
-        color: var(--text);
-        border: 1px solid var(--border);
-        resize: vertical;
-      }
+    input,
+    textarea,
+    button {
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-      button {
-        padding: 12px;
-        background: var(--button);
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-        margin-top: 10px;
-      }
+    input {
+      padding: 12px;
+      margin: 15px 0;
+      font-size: 16px;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
 
-      button:hover {
-        background: var(--button-hover);
-      }
+    textarea {
+      height: 250px;
+      padding: 12px;
+      margin-top: 15px;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      resize: vertical;
+    }
 
-      select {
-        padding: 12px;
-        margin-bottom: 10px;
-        background: var(--card);
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
+    button {
+      padding: 12px;
+      background: var(--button);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
 
-      .row {
-        display: flex;
-        gap: 10px;
-      }
+    button:hover {
+      background: var(--button-hover);
+    }
 
-      .row button {
-        flex: 1;
-      }
+    select {
+      padding: 12px;
+      margin-bottom: 10px;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
 
-      .history {
-        margin-top: 40px;
-      }
+    .row {
+      display: flex;
+      gap: 10px;
+    }
 
-      .history-item {
-        background: var(--card);
-        border: 1px solid var(--border);
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 6px;
-      }
+    .row button {
+      flex: 1;
+    }
 
-      .history-item small {
-        opacity: 0.6;
-      }
+    .history {
+      margin-top: 40px;
+    }
 
-      .history-buttons {
-        display: flex;
-        gap: 5px;
-        margin-top: 5px;
-      }
+    .history-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+    }
 
-      .output-wrapper {
-        position: relative;
-      }
+    .history-item small {
+      opacity: 0.6;
+    }
 
-      #outputArea {
-        height: 300px;
-        padding: 12px;
-        padding-right: 90px;
-        font-size: 15px;
-        resize: vertical;
-      }
+    .history-buttons {
+      display: flex;
+      gap: 5px;
+      margin-top: 5px;
+    }
 
-      .output-actions {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        display: flex;
-        gap: 6px;
-      }
+    .output-wrapper {
+      position: relative;
+    }
 
-      .output-actions button {
-        width: auto;
-        padding: 6px 10px;
-        font-size: 13px;
-        border-radius: 6px;
-        cursor: pointer;
-      }
+    #outputArea {
+      height: 300px;
+      padding: 12px;
+      padding-right: 90px;
+      font-size: 15px;
+      resize: vertical;
+    }
 
-      /* ===== SIDEBAR ===== */
+    .output-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 6px;
+    }
 
-      .menu-btn {
-        position: fixed;
-        left: 20px;
-        width: auto;
-        padding: 8px 12px;
-        font-size: 20px;
-        border-radius: 8px;
-        z-index: 1001;
-        margin-top: 0 !important;
-      }
+    .output-actions button {
+      width: auto;
+      padding: 6px 10px;
+      font-size: 13px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-      /* ===== SIDEBAR ===== */
+    /* ===== SIDEBAR ===== */
 
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: -300px;
-        width: 250px;
-        height: 100%;
-        background: var(--card);
-        border-right: 1px solid var(--border);
-        padding: 60px 20px;
-        transition: 0.3s ease;
-        z-index: 1002;
-      }
+    .menu-btn {
+      position: fixed;
+      left: 20px;
+      width: auto;
+      padding: 8px 12px;
+      font-size: 20px;
+      border-radius: 8px;
+      z-index: 1001;
+      margin-top: 0 !important;
+    }
 
-      .sidebar.active {
-        left: 0;
-      }
+    /* ===== SIDEBAR ===== */
 
-      .sidebar a {
-        display: block;
-        padding: 12px;
-        margin-bottom: 10px;
-        text-decoration: none;
-        color: var(--text);
-        border-radius: 6px;
-      }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 250px;
+      height: 100%;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: 60px 20px;
+      transition: 0.3s ease;
+      z-index: 1002;
+    }
 
-      .sidebar a:hover {
-        background: var(--border);
-      }
+    .sidebar.active {
+      left: 0;
+    }
 
-      .overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        opacity: 0;
-        visibility: hidden;
-        transition: 0.3s;
-        z-index: 999;
-      }
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: var(--text);
+      border-radius: 6px;
+    }
 
-      .overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
+    .sidebar a:hover {
+      background: var(--border);
+    }
 
-      .overlay.show {
-        display: block;
-      }
-      .engine-badge {
-        font-size: 12px;
-        padding: 2px 6px;
-        margin-left: 6px;
-        border-radius: 6px;
-        background: var(--bg);
-      }
-      .engine-badge.gemini {
-        color: #009e5c;
-      }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s;
+      z-index: 999;
+    }
 
-      .engine-badge.openai {
-        color: #1a73e8;
-      }
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
 
-      /* Publication Form Styles */
-      .publish-form {
-        margin-top: 24px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-      }
-      .tag-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        font-size: 11px;
-        font-weight: 600;
-        border-radius: 8px;
-        background: rgba(52, 152, 219, 0.1);
-        color: #3498db;
-        border: 1px solid rgba(52, 152, 219, 0.2);
-        user-select: none;
-        transition: all 0.2s ease;
-        max-width: 140px;
-        overflow: hidden;
-      }
-      body.dark .tag-chip {
-        background: rgba(231, 76, 60, 0.1);
-        color: #e74c3c;
-        border-color: rgba(231, 76, 60, 0.2);
-      }
-      .tag-text-span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        flex: 1;
-      }
-      .tag-chip .remove-tag {
-        font-weight: bold;
-        cursor: pointer;
-        opacity: 0.7;
-        margin-left: 2px;
-        flex-shrink: 0;
-      }
-      .tag-chip .remove-tag:hover {
-        opacity: 1;
-        color: var(--danger);
-      }
-      .system-tag-btn {
-        background: var(--hover);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 5px 12px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 11px;
-        font-weight: 600;
-        transition: all 0.2s ease;
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .system-tag-btn:hover:not(.active) {
-        border-color: #3498db;
-        color: #3498db;
-      }
-      body.dark .system-tag-btn:hover:not(.active) {
-        border-color: #e74c3c;
-        color: #e74c3c;
-      }
-      .system-tag-btn.active {
-        background: #3498db;
-        color: white;
-        border-color: transparent;
-        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
-      }
-      body.dark .system-tag-btn.active {
-        background: #e74c3c;
-        box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
-      }
-    </style>
-  </head>
+    .overlay.show {
+      display: block;
+    }
 
-  <body>
-    <nav class="navbar">
-      <div class="nav-left">
-        <button id="menuBtn" class="menu-btn">☰</button>
-        <a href="/"><div class="logo">TECHRUM</div></a>
-        <a href="/" class="active-link">Home</a>
-        <a href="/news/news.html">News</a>
-        <a href="/news/saved.html">Saved</a>
-        <a href="/news/deals.html">Deals</a>
-        <a href="/news/ios.html">iOS</a>
-        <a href="/news/android.html">Android</a>
-        <a href="/tools/buildImg.html">Image</a>
-        <a href="/tools/facebook.html">Lịch FB</a>
-      </div>
+    .engine-badge {
+      font-size: 12px;
+      padding: 2px 6px;
+      margin-left: 6px;
+      border-radius: 6px;
+      background: var(--bg);
+    }
 
-      <div class="nav-center">
-        <a href="/"><div class="logo mobile-logo">TECHRUM</div></a>
-      </div>
+    .engine-badge.gemini {
+      color: #009e5c;
+    }
 
-      <div class="nav-right">
-        <button id="themeToggle" class="theme-toggle">🌙</button>
-      </div>
-    </nav>
-    <div id="sidebar" class="sidebar">
-      <a href="/">🏠 Home</a>
-      <a href="/news/news.html">📰 News</a>
-      <a href="/news/saved.html">💾 Saved</a>
-      <a href="/news/deals.html">🏷️ Deals</a>
-      <a href="/news/ios.html">🍎 iOS</a>
-      <a href="/news/android.html">📱Android</a>
-      <a href="/tools/buildImg.html">🖼️ Image</a>
-      <a href="/tools/facebook.html">📅 Lịch FB</a>
+    .engine-badge.openai {
+      color: #1a73e8;
+    }
+
+    /* Publication Form Styles */
+    .publish-form {
+      margin-top: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 8px;
+      background: rgba(52, 152, 219, 0.1);
+      color: #3498db;
+      border: 1px solid rgba(52, 152, 219, 0.2);
+      user-select: none;
+      transition: all 0.2s ease;
+      max-width: 140px;
+      overflow: hidden;
+    }
+
+    body.dark .tag-chip {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+      border-color: rgba(231, 76, 60, 0.2);
+    }
+
+    .tag-text-span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .tag-chip .remove-tag {
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0.7;
+      margin-left: 2px;
+      flex-shrink: 0;
+    }
+
+    .tag-chip .remove-tag:hover {
+      opacity: 1;
+      color: var(--danger);
+    }
+
+    .system-tag-btn {
+      background: var(--hover);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .system-tag-btn:hover:not(.active) {
+      border-color: #3498db;
+      color: #3498db;
+    }
+
+    body.dark .system-tag-btn:hover:not(.active) {
+      border-color: #e74c3c;
+      color: #e74c3c;
+    }
+
+    .system-tag-btn.active {
+      background: #3498db;
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    }
+
+    body.dark .system-tag-btn.active {
+      background: #e74c3c;
+      box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <button id="menuBtn" class="menu-btn">☰</button>
+      <a href="/">
+        <div class="logo">TECHRUM</div>
+      </a>
+      <a href="/" class="active-link">Home</a>
+      <a href="/news/news.html">News</a>
+      <a href="/news/saved.html">Saved</a>
+      <a href="/news/deals.html">Deals</a>
+      <a href="/news/ios.html">iOS</a>
+      <a href="/news/android.html">Android</a>
+      <a href="/tools/buildImg.html">Image</a>
+      <a href="/tools/facebook.html">Lịch FB</a>
     </div>
 
-    <div id="overlay" class="overlay"></div>
+    <div class="nav-center">
+      <a href="/">
+        <div class="logo mobile-logo">TECHRUM</div>
+      </a>
+    </div>
 
-    <h1>TECHRUM Article Converter</h1>
+    <div class="nav-right">
+      <button id="themeToggle" class="theme-toggle">🌙</button>
+    </div>
+  </nav>
+  <div id="sidebar" class="sidebar">
+    <a href="/">🏠 Home</a>
+    <a href="/news/news.html">📰 News</a>
+    <a href="/news/saved.html">💾 Saved</a>
+    <a href="/news/deals.html">🏷️ Deals</a>
+    <a href="/news/ios.html">🍎 iOS</a>
+    <a href="/news/android.html">📱Android</a>
+    <a href="/tools/buildImg.html">🖼️ Image</a>
+    <a href="/tools/facebook.html">📅 Lịch FB</a>
+  </div>
 
-    <input id="urlInput" type="text" placeholder="Nhập URL bài viết…" />
-    <div class="row">
-      <select id="engineSelect">
-        <option value="openrouter">OpenRouter</option>
-        <option value="gemini">Gemini</option>
-        <option value="openai">OpenAI</option>
-        <option value="workersai">Workers AI</option>
+  <div id="overlay" class="overlay"></div>
+
+  <h1>TECHRUM Article Converter</h1>
+
+  <input id="urlInput" type="text" placeholder="Nhập URL bài viết…" />
+  <div class="row">
+    <select id="engineSelect">
+      <option value="openrouter">OpenRouter</option>
+      <option value="gemini">Gemini</option>
+      <option value="openai">OpenAI</option>
+      <option value="workersai">Workers AI</option>
+    </select>
+    <select id="modelSelect" style="display:none">
+      <option value="@cf/meta/llama-3.3-70b-instruct-fp8-fast">Qwen 3 70B</option>
+      <option value="@cf/google/gemma-3-12b-it">Gemma 3 12B</option>
+    </select>
+  </div>
+  <div class="row">
+    <button id="convertBtn">Convert</button>
+  </div>
+
+  <div id="loadingText" class="loading">
+    <div class="spinner"></div>
+    Đang xử lý...
+  </div>
+
+  <div class="output-wrapper">
+    <textarea id="outputArea" placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+
+    <div class="output-actions">
+      <button id="bbViewBtn">BBCode</button>
+      <button id="copyBtn">📋</button>
+    </div>
+  </div>
+
+  <!-- Preview area -->
+  <div id="previewArea" class="preview" style="display: none"></div>
+
+  <!-- Publication Form -->
+  <div id="publishForm" class="publish-form" style="display: none;">
+    <h2
+      style="margin-top: 0; font-size: 20px; font-weight: 700; border-b: 1px solid var(--border); padding-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+      <span>📝</span> Đăng bài viết mới
+    </h2>
+
+    <div style="margin-bottom: 16px;">
+      <label class="field-label">Tiêu đề bài viết <span style="color:var(--danger)">*</span></label>
+      <input type="text" id="postTitle" placeholder="Nhập tiêu đề ấn tượng cho bài viết..." />
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <label class="field-label">Nội dung chi tiết <span style="color:var(--danger)">*</span></label>
+      <textarea id="postContent" placeholder="Nhập nội dung bài viết bằng mã BBCode..."
+        style="height: 200px;"></textarea>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <label class="field-label">Chuyên mục <span style="color:var(--danger)">*</span></label>
+      <select id="postCategory">
+        <option value="technology">Công nghệ</option>
+        <option value="android">Android</option>
+        <option value="ios">iOS</option>
+        <option value="windows">Windows</option>
+        <option value="pc">PC máy tính</option>
+        <option value="gaming">Thế giới Game</option>
       </select>
-      <select id="modelSelect" style="display:none">
-        <option value="@cf/meta/llama-3.3-70b-instruct-fp8-fast">Qwen 3 70B</option>
-        <option value="@cf/google/gemma-3-12b-it">Gemma 3 12B</option>
-      </select>
-    </div>
-    <div class="row">
-      <button id="convertBtn">Convert</button>
     </div>
 
-    <div id="loadingText" class="loading">
-      <div class="spinner"></div>
-      Đang xử lý...
-    </div>
-
-    <div class="output-wrapper">
-      <textarea
-        id="outputArea"
-        placeholder="Kết quả sẽ hiển thị ở đây..."
-      ></textarea>
-
-      <div class="output-actions">
-        <button id="bbViewBtn">BBCode</button>
-        <button id="copyBtn">📋</button>
+    <div style="margin-bottom: 16px;">
+      <label class="field-label">Gán thẻ bài viết (Tags)</label>
+      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+        <input type="text" id="tagInput" placeholder="Nhập thẻ mới (ngăn cách bằng dấu phẩy)..." style="margin: 0;" />
+        <button id="addTagBtn" class="btn btn-secondary" style="width: auto; margin: 0; white-space: nowrap;">Thêm
+          thẻ</button>
+      </div>
+      <div id="activeTagsList" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;"></div>
+      <div style="margin-top: 8px;">
+        <p class="field-label" style="font-size: 10px; margin-bottom: 6px;">Chọn thẻ có sẵn trong hệ thống:</p>
+        <div id="systemTagsList" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
       </div>
     </div>
 
-    <!-- Preview area -->
-    <div id="previewArea" class="preview" style="display: none"></div>
-
-    <!-- Publication Form -->
-    <div id="publishForm" class="publish-form" style="display: none;">
-      <h2 style="margin-top: 0; font-size: 20px; font-weight: 700; border-b: 1px solid var(--border); padding-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-        <span>📝</span> Đăng bài viết mới
-      </h2>
-      
-      <div style="margin-bottom: 16px;">
-        <label class="field-label">Tiêu đề bài viết <span style="color:var(--danger)">*</span></label>
-        <input type="text" id="postTitle" placeholder="Nhập tiêu đề ấn tượng cho bài viết..." />
+    <div style="margin-bottom: 16px; border-t: 1px solid var(--border); padding-top: 14px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <input type="checkbox" id="isScheduled" style="width: auto; margin: 0; cursor: pointer;" />
+        <label for="isScheduled" style="font-size: 13px; font-weight: 600; cursor: pointer; user-select: none;">Hẹn giờ
+          đăng bài viết</label>
       </div>
-
-      <div style="margin-bottom: 16px;">
-        <label class="field-label">Nội dung chi tiết <span style="color:var(--danger)">*</span></label>
-        <textarea id="postContent" placeholder="Nhập nội dung bài viết bằng mã BBCode..." style="height: 200px;"></textarea>
-      </div>
-
-      <div style="margin-bottom: 16px;">
-        <label class="field-label">Chuyên mục <span style="color:var(--danger)">*</span></label>
-        <select id="postCategory">
-          <option value="technology">Công nghệ</option>
-          <option value="gaming">Thế giới Game</option>
-          <option value="android">Android</option>
-          <option value="ios">iOS</option>
-          <option value="windows">Windows</option>
-        </select>
-      </div>
-
-      <div style="margin-bottom: 16px;">
-        <label class="field-label">Gán thẻ bài viết (Tags)</label>
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <input type="text" id="tagInput" placeholder="Nhập thẻ mới (ngăn cách bằng dấu phẩy)..." style="margin: 0;" />
-          <button id="addTagBtn" class="btn btn-secondary" style="width: auto; margin: 0; white-space: nowrap;">Thêm thẻ</button>
-        </div>
-        <div id="activeTagsList" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;"></div>
-        <div style="margin-top: 8px;">
-          <p class="field-label" style="font-size: 10px; margin-bottom: 6px;">Chọn thẻ có sẵn trong hệ thống:</p>
-          <div id="systemTagsList" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
-        </div>
-      </div>
-
-      <div style="margin-bottom: 16px; border-t: 1px solid var(--border); padding-top: 14px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <input type="checkbox" id="isScheduled" style="width: auto; margin: 0; cursor: pointer;" />
-          <label for="isScheduled" style="font-size: 13px; font-weight: 600; cursor: pointer; user-select: none;">Hẹn giờ đăng bài viết</label>
-        </div>
-        <div id="scheduleTimeWrapper" style="display: none; margin-top: 10px;">
-          <input type="datetime-local" id="scheduleDate" style="max-width: 250px; margin: 0;" />
-          <p class="field-label" style="font-size: 10px; margin-top: 4px; text-transform: none;">Hệ thống sẽ tự động xuất bản bài viết vào khung giờ bạn đã chọn bên trên.</p>
-        </div>
-      </div>
-
-      <div style="border-t: 1px solid var(--border); padding-top: 14px;">
-        <button id="publishBtn" class="btn btn-primary">Đăng bài viết</button>
+      <div id="scheduleTimeWrapper" style="display: none; margin-top: 10px;">
+        <input type="datetime-local" id="scheduleDate" style="max-width: 250px; margin: 0;" />
+        <p class="field-label" style="font-size: 10px; margin-top: 4px; text-transform: none;">Hệ thống sẽ tự động xuất
+          bản bài viết vào khung giờ bạn đã chọn bên trên.</p>
       </div>
     </div>
 
-    <div class="history">
-      <h2>Lịch sử</h2>
-      <button id="clearHistoryBtn">Xóa toàn bộ</button>
-      <div id="historyList"></div>
+    <div style="border-t: 1px solid var(--border); padding-top: 14px;">
+      <button id="publishBtn" class="btn btn-primary">Đăng bài viết</button>
     </div>
+  </div>
 
-    <script src="script.js"></script>
-  </body>
+  <div class="history">
+    <h2>Lịch sử</h2>
+    <button id="clearHistoryBtn">Xóa toàn bộ</button>
+    <div id="historyList"></div>
+  </div>
 
-  <script>
-    const menuBtn = document.getElementById("menuBtn");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
+  <script src="script.js"></script>
+</body>
 
-    menuBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-      overlay.classList.toggle("active");
-    });
+<script>
+  const menuBtn = document.getElementById("menuBtn");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
 
-    overlay.addEventListener("click", () => {
-      sidebar.classList.remove("active");
-      overlay.classList.remove("active");
-    });
-  </script>
+  menuBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
+  });
+
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+</script>
+
 </html>
