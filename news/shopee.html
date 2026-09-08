@@ -81,6 +81,23 @@
       gap: 4px;
     }
 
+    .card-time-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.72);
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 7px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-family: 'Space Mono', monospace;
+    }
+
     .card-content {
       display: flex;
       flex-direction: column;
@@ -294,13 +311,15 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
       z-index: 999;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 16px;
+      transition: opacity 0.2s ease;
     }
 
     .modal-backdrop.open {
@@ -310,46 +329,161 @@
     .curation-modal {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 18px;
       width: 100%;
-      max-width: 900px;
+      max-width: 940px;
       max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-height: 90dvh;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      animation: modalSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: scale(0.97) translateY(8px);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
     }
 
     .modal-header {
-      padding: 16px 20px;
+      padding: 14px 18px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
       background: var(--card);
+      flex-shrink: 0;
       z-index: 10;
     }
 
-    .modal-body {
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+    .modal-close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--hover);
+      color: var(--muted);
+      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1;
+      padding: 0;
     }
 
-    @media (max-width: 768px) {
-      .modal-body {
-        grid-template-columns: 1fr;
-      }
+    .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .modal-mobile-tabs {
+      display: none;
+      background: var(--hover);
+      padding: 4px;
+      border-radius: 10px;
+      margin: 10px 14px 0 14px;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .modal-mobile-tab {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .modal-mobile-tab.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .modal-body {
+      padding: 18px;
+      overflow-y: auto;
+      flex: 1;
+      -webkit-overflow-scrolling: touch;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .modal-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .modal-evidence-snippet {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: var(--hover);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .modal-evidence-snippet:hover {
+      background: var(--border);
+    }
+
+    .evidence-mini-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #000;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-footer {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
+      background: var(--card);
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .form-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .form-group label {
@@ -367,6 +501,9 @@
       border-radius: 8px;
       outline: none;
       font-family: inherit;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
     }
 
     .form-control:focus {
@@ -376,11 +513,75 @@
     .price-stats-box {
       background: var(--hover);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 8px;
+    }
+
+    /* Modal Mobile Responsive Rules */
+    @media (max-width: 768px) {
+      .modal-backdrop {
+        padding: 0;
+        align-items: flex-end;
+      }
+
+      .curation-modal {
+        max-height: 94vh;
+        max-height: 94dvh;
+        height: 94vh;
+        height: 94dvh;
+        border-radius: 20px 20px 0 0;
+        border-bottom: none;
+        max-width: 100%;
+      }
+
+      .modal-header {
+        padding: 12px 16px;
+      }
+
+      .modal-mobile-tabs {
+        display: flex;
+      }
+
+      .modal-body {
+        padding: 14px;
+        display: block;
+      }
+
+      .modal-col-evidence,
+      .modal-col-form {
+        display: none !important;
+      }
+
+      .modal-col-evidence.active-tab-col,
+      .modal-col-form.active-tab-col {
+        display: flex !important;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .modal-evidence-snippet {
+        display: flex;
+      }
+
+      .modal-footer {
+        padding: 10px 14px;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .modal-footer button {
+        font-size: 12px !important;
+        padding: 9px 8px !important;
+      }
     }
   </style>
 </head>
@@ -466,14 +667,23 @@
 
       <!-- TAB 1: DEAL VỪA CÀO (TODAY / SCRAPED RESULT) -->
       <section id="tabTodayContent">
-        <div class="section-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h2 style="margin: 0; font-size: 16px; font-weight: 700;" id="todaySectionTitle">Kết quả cào mới nhất</h2>
-          <span style="font-size: 12px; color: var(--muted);" id="todayStatusText">Chọn một nguồn bên trái để bấm cào</span>
+        <div class="section-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h2 style="margin: 0; font-size: 16px; font-weight: 700;" id="todaySectionTitle">Kết quả cào mới nhất</h2>
+          </div>
         </div>
         <div class="deal-grid" id="todayDealsGrid">
           <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted); background: var(--card); border: 1px dashed var(--border); border-radius: 14px;">
             👈 Hãy bấm nút <b>"Cào Deal"</b> ở nguồn bên trái để quét bài đăng mới nhất!
           </div>
+        </div>
+        <div id="todayActions" style="display: none; justify-content: center; align-items: center; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+          <button type="button" id="btnCrawlHistory" class="btn-curate" style="font-size: 13px; font-weight: 600; padding: 10px 18px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); color: var(--text); cursor: pointer;" onclick="crawlCurrentSourceHistory()">
+            <span>📥</span> Xem thêm
+          </button>
+          <button type="button" id="btnCrawlLatest" class="btn-curate" style="font-size: 13px; font-weight: 600; padding: 10px 18px; border-radius: 10px; cursor: pointer;" onclick="crawlCurrentSourceLatest()">
+            <span>🔄</span> Làm mới
+          </button>
         </div>
       </section>
 
@@ -482,7 +692,7 @@
         <div class="section-header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px;">
           <h2 style="margin: 0; font-size: 16px; font-weight: 700;">Hàng đợi deal</h2>
           <div class="section-header-actions" style="display: flex; gap: 8px;">
-            <select id="selectFilterSource" class="form-control" style="font-size: 12px; padding: 7px 10px; min-width: 140px;" onchange="loadPendingDeals()">
+            <select id="selectFilterSource" class="form-control" style="font-size: 12px; padding: 7px 10px; min-width: 140px;" onchange="onPendingFilterChange()">
               <option value="">Tất cả nguồn</option>
             </select>
           </div>
@@ -490,83 +700,112 @@
         <div class="deal-grid" id="pendingDealsGrid">
           <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Đang tải hàng đợi chờ duyệt...</div>
         </div>
+        <div class="pagination" id="pendingPagination" style="display: none; margin-top: 24px;"></div>
       </section>
     </div>
   </div>
 
   <!-- SMART CURATION MODAL -->
-  <div class="modal-backdrop" id="curationModal">
+  <div class="modal-backdrop" id="curationModal" onclick="handleModalBackdropClick(event)">
     <div class="curation-modal">
       <div class="modal-header">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="shopee-badge">Smart Curation</span>
-          <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text);">Duyệt & Soi Giá Deal Shopee</h3>
+        <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+          <span class="shopee-badge" style="flex-shrink: 0;">Smart Curation</span>
+          <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Duyệt & Soi Giá Shopee</h3>
         </div>
-        <button onclick="closeModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted);">&times;</button>
+        <button type="button" class="modal-close-btn" onclick="closeModal()" title="Đóng">&times;</button>
+      </div>
+
+      <!-- MOBILE SEGMENTED TABS (VISIBLE ON MOBILE ONLY) -->
+      <div class="modal-mobile-tabs" id="modalMobileTabs">
+        <button type="button" class="modal-mobile-tab active" id="modalTabBtnForm" onclick="switchModalTab('form')">
+          <span>📊 Soi Giá & Biểu Mẫu</span>
+        </button>
+        <button type="button" class="modal-mobile-tab" id="modalTabBtnEvidence" onclick="switchModalTab('evidence')">
+          <span>📸 Bill & Telegram</span>
+        </button>
       </div>
 
       <div class="modal-body">
         <!-- LEFT: EVIDENCE IMAGE & RAW TELEGRAM CONTENT -->
-        <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="modal-col modal-col-evidence" id="modalColEvidence">
           <div>
             <label style="font-size: 12px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 6px;">📸 Ảnh Bằng Chứng Bill (Telegram):</label>
-            <div style="width: 100%; height: 260px; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;">
-              <img id="modalEvidenceImg" src="" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Evidence" />
+            <div style="width: 100%; height: 260px; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; position: relative;">
+              <img id="modalEvidenceImg" src="" style="max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in;" alt="Evidence" onclick="toggleImageZoom(this)" title="Chạm để phóng to ảnh" />
             </div>
           </div>
 
           <div>
             <label style="font-size: 12px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 6px;">📝 Nội dung bài đăng Telegram gốc:</label>
-            <div id="modalRawText" style="font-size: 12.5px; line-height: 1.5; color: var(--text); background: var(--hover); padding: 12px; border-radius: 10px; border: 1px solid var(--border); max-height: 130px; overflow-y: auto; white-space: pre-line;"></div>
+            <div id="modalRawText" style="font-size: 12.5px; line-height: 1.5; color: var(--text); background: var(--hover); padding: 12px; border-radius: 10px; border: 1px solid var(--border); max-height: 130px; overflow-y: auto; white-space: pre-line; word-break: break-word;"></div>
           </div>
 
-          <div style="font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace;">
-            Link gốc: <a id="modalRawLink" href="#" target="_blank" style="color: var(--text); font-weight: 600; text-decoration: underline; word-break: break-all;"></a>
+          <div style="font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; word-break: break-all;">
+            Link gốc: <a id="modalRawLink" href="#" target="_blank" style="color: var(--text); font-weight: 600; text-decoration: underline;"></a>
           </div>
         </div>
 
         <!-- RIGHT: SOIGIA ADDLIVETAG DATA & CURATION FORM -->
-        <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="modal-col modal-col-form active-tab-col" id="modalColForm">
+          <!-- MOBILE MINI EVIDENCE QUICKVIEW -->
+          <div class="modal-evidence-snippet" onclick="switchModalTab('evidence')">
+            <img id="modalEvidenceThumb" src="" alt="Bill" class="evidence-mini-thumb" />
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text);">📸 Xem ảnh bill Telegram & bài viết gốc</div>
+              <div id="modalEvidenceSnippetText" style="font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+            </div>
+            <span style="font-size: 12px; color: var(--accent); font-weight: 700;">Xem &rarr;</span>
+          </div>
+
           <!-- SOIGIA LIVE RESULT -->
           <div class="price-stats-box" id="modalPriceStatsBox">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px;">
               <span style="font-size: 12px; font-weight: 700; color: var(--text);">📊 Tham Chiếu Giá Shop (addlivetag):</span>
               <span id="modalShopVerdictBadge" class="shopee-badge">Đang tải...</span>
             </div>
             <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
-              <img id="modalProductImg" src="" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border);" />
+              <img id="modalProductImg" src="" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0;" />
               <div style="flex: 1; min-width: 0;">
                 <div id="modalProductName" style="font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
                 <div style="font-size: 11.5px; color: var(--muted);">Shop: <strong id="modalShopName">-</strong> | ⭐ <span id="modalRating">-</span> (<span id="modalSales">-</span> đã bán)</div>
               </div>
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; margin-top: 4px; padding-top: 6px; border-top: 1px dashed var(--border);">
-              <div>Giá niêm yết shop: <strong id="modalShopPrice" style="color: var(--text);">-</strong></div>
-              <div>Hoa hồng sàn: <strong id="modalCommission" style="color: #10b981;">-</strong></div>
+              <div>Giá niêm yết: <strong id="modalShopPrice" style="color: var(--text);">-</strong></div>
+              <div>Hoa hồng: <strong id="modalCommission" style="color: #10b981;">-</strong></div>
               <div>Đáy 30 ngày: <span id="modalMinPrice">-</span></div>
               <div>Giá TB 30 ngày: <span id="modalAvgPrice">-</span></div>
             </div>
           </div>
 
+          <!-- RAW LINK INFO ROW IN SOI GIA TAB -->
+          <div style="font-size: 11.5px; color: var(--muted); font-family: 'Space Mono', monospace; background: var(--hover); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
+              🔗 Link gốc: <a id="modalRawLinkTabForm" href="#" target="_blank" style="color: var(--text); font-weight: 600; text-decoration: underline;"></a>
+            </div>
+            <a id="modalRawLinkTabFormBtn" href="#" target="_blank" style="font-size: 11px; padding: 3px 8px; border-radius: 6px; background: var(--tag-bg); color: var(--tag-text); font-weight: 700; text-decoration: none; white-space: nowrap; border: 1px solid var(--border); flex-shrink: 0;">Mở Link ↗</a>
+          </div>
+
           <!-- ADMIN INPUT FIELDS -->
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom: 10px;">
             <label>Tên Sản Phẩm Chính Thức:</label>
             <input type="text" id="modalInputTitle" class="form-control" placeholder="Tên sản phẩm hiển thị trên TechDeal" />
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="form-group">
+          <div class="form-grid-2col" style="margin-bottom: 10px;">
+            <div class="form-group" style="margin-bottom: 0;">
               <label>🔥 Giá sau áp mã (VNĐ):</label>
               <input type="number" id="modalInputDealPrice" class="form-control" placeholder="VD: 13000" style="color: var(--text); font-weight: 700; font-family: 'Space Mono', monospace;" />
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 0;">
               <label>🏷️ Giá gốc niêm yết (VNĐ):</label>
               <input type="number" id="modalInputOriginalPrice" class="form-control" placeholder="VD: 35000" style="font-family: 'Space Mono', monospace;" />
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="form-group">
+          <div class="form-grid-2col" style="margin-bottom: 10px;">
+            <div class="form-group" style="margin-bottom: 0;">
               <label>📂 Danh mục:</label>
               <select id="modalInputCategory" class="form-control">
                 <option value="phu-kien-dien-thoai">Phụ kiện điện thoại</option>
@@ -577,25 +816,27 @@
                 <option value="khac">Khác</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 0;">
               <label>🎟️ Mã giảm giá nhập tay (nếu có):</label>
               <input type="text" id="modalInputVoucherCode" class="form-control" placeholder="VD: SALETHANG9" />
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom: 0;">
             <label>💡 Mẹo săn từ TechDeal (Admin Note):</label>
             <textarea id="modalInputVoucherGuide" class="form-control" rows="2" placeholder="VD: Anh em vào xem qua Shopee Video để áp voucher giảm 20k nhé..."></textarea>
           </div>
-
-          <!-- ACTIONS -->
-          <div style="display: flex; gap: 10px; margin-top: 6px;">
-            <button type="button" class="btn-reject" onclick="rejectCurrentDeal()" style="flex: 1;">❌ Bỏ qua Deal này</button>
-            <button type="button" class="btn-curate" id="btnPublishSubmit" onclick="submitPublishDeal()" style="flex: 2;">
-              <span>✅</span> DUYỆT & XUẤT BẢN DEAL
-            </button>
-          </div>
         </div>
+      </div>
+
+      <!-- STICKY MODAL FOOTER -->
+      <div class="modal-footer">
+        <button type="button" class="btn-reject" onclick="rejectCurrentDeal()" style="flex: 1; padding: 10px 12px; font-size: 13px;">
+          <span>❌</span> Bỏ qua
+        </button>
+        <button type="button" class="btn-curate" id="btnPublishSubmit" onclick="submitPublishDeal()" style="flex: 2; padding: 10px 14px; font-size: 13px;">
+          <span>✅</span> DUYỆT & XUẤT BẢN DEAL
+        </button>
       </div>
     </div>
   </div>
@@ -626,6 +867,10 @@
     let currentScrapedDeals = [];
     let activeTab = 'today';
     let currentCuratingDeal = null;
+
+    let pendingCurrentPage = 1;
+    let pendingTotalPages = 1;
+    const PENDING_PAGE_LIMIT = 10;
 
     // INIT
     document.addEventListener("DOMContentLoaded", () => {
@@ -851,47 +1096,89 @@
     }
 
     // 4. CRAWL SINGLE SOURCE (ON-DEMAND)
-    async function crawlSingleSource(sourceId, username) {
-      const statusText = document.getElementById("todayStatusText");
+    async function crawlSingleSource(sourceId, username, direction = "after") {
       const grid = document.getElementById("todayDealsGrid");
+      const todayActions = document.getElementById("todayActions");
+      const btnHistory = document.getElementById("btnCrawlHistory");
+      const btnLatest = document.getElementById("btnCrawlLatest");
 
-      statusText.innerHTML = `⏳ Đang cào bài mới từ <b>@${username}</b>...`;
-      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Đang cào dữ liệu từ Telegram và giải mã link Shopee...</div>`;
+      if (todayActions) todayActions.style.display = "flex";
+
+      if (direction === "before") {
+        if (btnHistory) {
+          btnHistory.disabled = true;
+          btnHistory.innerHTML = `<span class="spinner" style="display:inline-block; vertical-align:middle; width:13px; height:13px; border-width:2px; margin-right:4px;"></span> Đang tải thêm...`;
+        }
+      } else {
+        if (btnLatest) {
+          btnLatest.disabled = true;
+          btnLatest.innerHTML = `<span class="spinner" style="display:inline-block; vertical-align:middle; width:13px; height:13px; border-width:2px; margin-right:4px;"></span> Đang làm mới...`;
+        }
+        grid.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 48px 20px; color: var(--muted); background: var(--card); border: 1px dashed var(--border); border-radius: 14px;">
+            <div class="spinner" style="width: 28px; height: 28px; border-width: 3px; margin: 0 auto 12px auto;"></div>
+            <div style="font-weight: 600; font-size: 14px; color: var(--text);">Đang quét bài đăng từ @${escapeHtml(username)}...</div>
+            <div style="font-size: 12px; margin-top: 5px; color: var(--muted);">Vui lòng chờ giải mã link và tải hình ảnh bằng chứng...</div>
+          </div>
+        `;
+      }
       switchTab('today');
 
       try {
-        const res = await fetch(`${SHOPEE_BASE_API}/crawl?source_id=${sourceId}`);
+        const res = await fetch(`${SHOPEE_BASE_API}/crawl?source_id=${sourceId}&direction=${direction}`);
         const json = await res.json();
 
         if (!json.success) throw new Error(json.error || "Cào thất bại");
 
-        statusText.innerHTML = `✅ Đã quét ${json.scanned_posts} bài từ @${username} (Tạo mới: ${json.new_deals_count} deal, Trùng lặp: ${json.duplicate_deals_skipped})`;
-        
         // Load pending deals to refresh data
         await loadPendingDeals();
 
         // Filter and display in Today Tab
-        const newlyAdded = pendingDeals.filter(d => d.source_id === sourceId).slice(0, json.new_deals_count || 10);
-        renderTodayGrid(newlyAdded.length ? newlyAdded : pendingDeals.slice(0, 10));
+        const newlyAdded = pendingDeals.filter(d => d.source_id === sourceId).slice(0, 40);
+        renderTodayGrid(newlyAdded.length ? newlyAdded : pendingDeals.slice(0, 40));
 
       } catch (err) {
-        statusText.innerHTML = `<span style="color: var(--danger);">Lỗi cào: ${escapeHtml(err.message)}</span>`;
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--danger);">Lỗi: ${escapeHtml(err.message)}</div>`;
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--danger);">Lỗi cào: ${escapeHtml(err.message)}</div>`;
+      } finally {
+        if (btnHistory) {
+          btnHistory.disabled = false;
+          btnHistory.innerHTML = `<span>📥</span> Xem thêm`;
+        }
+        if (btnLatest) {
+          btnLatest.disabled = false;
+          btnLatest.innerHTML = `<span>🔄</span> Làm mới`;
+        }
       }
+    }
+
+    function crawlCurrentSourceHistory() {
+      if (!currentSource) {
+        alert("Vui lòng chọn 1 nguồn bên trái trước!");
+        return;
+      }
+      crawlSingleSource(currentSource.id, currentSource.channel_username, "before");
+    }
+
+    function crawlCurrentSourceLatest() {
+      if (!currentSource) {
+        alert("Vui lòng chọn 1 nguồn bên trái trước!");
+        return;
+      }
+      crawlSingleSource(currentSource.id, currentSource.channel_username, "after");
     }
 
     // 5. CRAWL ALL ACTIVE SOURCES
     document.getElementById("btnCrawlAll").addEventListener("click", async () => {
       const btn = document.getElementById("btnCrawlAll");
-      const statusText = document.getElementById("todayStatusText");
       const grid = document.getElementById("todayDealsGrid");
 
       if (!confirm("Bắt đầu cào tất cả nguồn Telegram đang bật?")) return;
 
       btn.disabled = true;
       btn.innerHTML = `<span>⏳</span> Đang cào tuần tự...`;
-      statusText.innerHTML = `Đang quét toàn bộ nguồn...`;
       grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Đang cào tất cả nguồn tuần tự để tránh rate limit...</div>`;
+      const todayActions = document.getElementById("todayActions");
+      if (todayActions) todayActions.style.display = "none";
       switchTab('today');
 
       try {
@@ -900,12 +1187,11 @@
 
         if (!json.success) throw new Error(json.error || "Cào thất bại");
 
-        statusText.innerHTML = `✅ Hoàn tất cào ${json.total_sources} nguồn. Tổng deal mới: ${json.total_new_deals}`;
         await loadPendingDeals();
         renderTodayGrid(pendingDeals.slice(0, 20));
 
       } catch (err) {
-        statusText.innerHTML = `<span style="color: var(--danger);">Lỗi cào tất cả: ${escapeHtml(err.message)}</span>`;
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--danger);">Lỗi cào tất cả: ${escapeHtml(err.message)}</div>`;
       } finally {
         btn.disabled = false;
         btn.innerHTML = `<span>⚡</span> Cào Tất Cả Nguồn Đang Bật`;
@@ -913,31 +1199,102 @@
     });
 
     // 6. LOAD PENDING DEALS (TAB 2)
-    async function loadPendingDeals() {
+    function onPendingFilterChange() {
+      pendingCurrentPage = 1;
+      loadPendingDeals(1);
+    }
+
+    async function loadPendingDeals(page = pendingCurrentPage) {
+      pendingCurrentPage = Math.max(1, page);
       const grid = document.getElementById("pendingDealsGrid");
-      const filterSource = document.getElementById("selectFilterSource").value;
+      const filterSource = document.getElementById("selectFilterSource")?.value;
       const badge = document.getElementById("pendingCountBadge");
+      const paginationBox = document.getElementById("pendingPagination");
 
       try {
-        let url = `${SHOPEE_BASE_API}/api/deals/pending?limit=60`;
+        let url = `${SHOPEE_BASE_API}/api/deals/pending?page=${pendingCurrentPage}&limit=${PENDING_PAGE_LIMIT}`;
         if (filterSource) url += `&source_id=${filterSource}`;
 
         const res = await fetch(url);
         const json = await res.json();
         pendingDeals = json.deals || [];
+        const total = typeof json.total === 'number' ? json.total : pendingDeals.length;
+        pendingTotalPages = Math.ceil(total / PENDING_PAGE_LIMIT) || 1;
 
-        badge.textContent = json.total || pendingDeals.length;
+        if (badge) badge.textContent = total;
 
         if (!pendingDeals.length) {
           grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted); background: var(--card); border-radius: 14px;">Hàng đợi trống! Không có deal nào đang chờ duyệt.</div>`;
+          if (paginationBox) paginationBox.style.display = "none";
           return;
         }
 
         grid.innerHTML = pendingDeals.map(deal => renderDealCardHtml(deal, 'pending')).join("");
+        renderPendingPagination();
 
       } catch (err) {
         grid.innerHTML = `<div style="grid-column: 1/-1; color: var(--danger); text-align: center; padding: 20px;">Lỗi tải hàng đợi: ${escapeHtml(err.message)}</div>`;
+        if (paginationBox) paginationBox.style.display = "none";
       }
+    }
+
+    function renderPendingPagination() {
+      const box = document.getElementById("pendingPagination");
+      if (!box) return;
+      box.innerHTML = "";
+
+      if (pendingTotalPages <= 1) {
+        box.style.display = "none";
+        return;
+      }
+      box.style.display = "flex";
+
+      function createBtn(label, page, disabled, active) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = label;
+        if (active) btn.classList.add("active");
+        if (disabled) btn.classList.add("disabled");
+        btn.onclick = () => {
+          if (disabled) return;
+          loadPendingDeals(page);
+          if (window.innerWidth <= 768) {
+            document.getElementById("tabPendingContent")?.scrollIntoView({ behavior: "smooth" });
+          }
+        };
+        box.appendChild(btn);
+      }
+
+      // Prev button
+      createBtn("←", pendingCurrentPage - 1, pendingCurrentPage === 1);
+
+      let start = Math.max(1, pendingCurrentPage - 2);
+      let end = Math.min(pendingTotalPages, pendingCurrentPage + 2);
+
+      if (start > 1) {
+        createBtn("1", 1, false, pendingCurrentPage === 1);
+        if (start > 2) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          box.appendChild(dots);
+        }
+      }
+
+      for (let i = start; i <= end; i++) {
+        createBtn(String(i), i, false, i === pendingCurrentPage);
+      }
+
+      if (end < pendingTotalPages) {
+        if (end < pendingTotalPages - 1) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          box.appendChild(dots);
+        }
+        createBtn(String(pendingTotalPages), pendingTotalPages, false, pendingCurrentPage === pendingTotalPages);
+      }
+
+      // Next button
+      createBtn("→", pendingCurrentPage + 1, pendingCurrentPage === pendingTotalPages);
     }
 
     // 7. RENDER TODAY GRID
@@ -961,16 +1318,17 @@
       const cleanTitle = deal.raw_text 
         ? deal.raw_text.split('\n')[0].replace(/^[🔥⚡💥🎉🎁📌🛒]+\s*/, '') 
         : ('Deal #' + deal.id);
+      const timeStr = formatDealTime(deal.posted_at || deal.crawled_at);
 
       return `
         <div class="shopee-card" id="card-${deal.id}">
           <div class="card-thumb-wrap">
             <img src="${escapeHtml(imgSrc)}" alt="Evidence" loading="lazy" />
             <span class="card-thumb-badge">@${escapeHtml(channelName)}</span>
+            ${timeStr ? `<span class="card-time-badge">🕒 ${escapeHtml(timeStr)}</span>` : ''}
           </div>
           <div class="card-content">
             <h4 class="card-title">${escapeHtml(cleanTitle || 'Deal Shopee')}</h4>
-            <div class="card-raw-text">${escapeHtml(deal.raw_text || deal.raw_link)}</div>
           </div>
           <div class="card-actions">
             <button class="btn-reject" onclick="rejectDealFromCard(${deal.id})">Bỏ qua</button>
@@ -989,11 +1347,48 @@
 
       currentCuratingDeal = deal;
 
-      // Populate left column
-      document.getElementById("modalEvidenceImg").src = deal.evidence_image_url || '';
+      // Reset mobile modal tab to 'form'
+      switchModalTab('form');
+
+      // Populate evidence details
+      const evidenceImg = document.getElementById("modalEvidenceImg");
+      if (evidenceImg) {
+        evidenceImg.src = deal.evidence_image_url || '';
+        evidenceImg.classList.remove("zoomed");
+        evidenceImg.style.maxHeight = "100%";
+        evidenceImg.style.cursor = "zoom-in";
+      }
+
+      const evidenceThumb = document.getElementById("modalEvidenceThumb");
+      if (evidenceThumb) {
+        evidenceThumb.src = deal.evidence_image_url || 'https://placehold.co/100x100/1e293b/94a3b8?text=Bill';
+      }
+
+      const snippetText = document.getElementById("modalEvidenceSnippetText");
+      if (snippetText) {
+        snippetText.textContent = deal.raw_text ? deal.raw_text.replace(/\n+/g, ' ') : 'Chạm để xem bài viết gốc Telegram';
+      }
+
       document.getElementById("modalRawText").textContent = deal.raw_text || '(Không có nội dung bài viết)';
-      document.getElementById("modalRawLink").href = deal.raw_link || '#';
-      document.getElementById("modalRawLink").textContent = deal.raw_link || '';
+      
+      const rawLink = deal.raw_link || '';
+      const rawLinkEl = document.getElementById("modalRawLink");
+      if (rawLinkEl) {
+        rawLinkEl.href = rawLink || '#';
+        rawLinkEl.textContent = rawLink || '(Không có link gốc)';
+      }
+
+      const rawLinkTabForm = document.getElementById("modalRawLinkTabForm");
+      if (rawLinkTabForm) {
+        rawLinkTabForm.href = rawLink || '#';
+        rawLinkTabForm.textContent = rawLink || '(Không có link)';
+      }
+
+      const rawLinkTabFormBtn = document.getElementById("modalRawLinkTabFormBtn");
+      if (rawLinkTabFormBtn) {
+        rawLinkTabFormBtn.href = rawLink || '#';
+        rawLinkTabFormBtn.style.display = rawLink ? 'inline-block' : 'none';
+      }
 
       // Reset form
       document.getElementById("modalInputTitle").value = "";
@@ -1167,7 +1562,70 @@
       currentCuratingDeal = null;
     }
 
+    // SWITCH MODAL TAB (FOR MOBILE)
+    function switchModalTab(tab) {
+      const btnForm = document.getElementById("modalTabBtnForm");
+      const btnEvidence = document.getElementById("modalTabBtnEvidence");
+      const colForm = document.getElementById("modalColForm");
+      const colEvidence = document.getElementById("modalColEvidence");
+
+      if (tab === 'evidence') {
+        btnEvidence?.classList.add("active");
+        btnForm?.classList.remove("active");
+        colEvidence?.classList.add("active-tab-col");
+        colForm?.classList.remove("active-tab-col");
+      } else {
+        btnForm?.classList.add("active");
+        btnEvidence?.classList.remove("active");
+        colForm?.classList.add("active-tab-col");
+        colEvidence?.classList.remove("active-tab-col");
+      }
+    }
+
+    // BACKDROP CLICK HANDLER
+    function handleModalBackdropClick(e) {
+      if (e.target.id === "curationModal") {
+        closeModal();
+      }
+    }
+
+    // TOGGLE IMAGE ZOOM
+    function toggleImageZoom(img) {
+      if (!img || !img.src) return;
+      const isZoomed = img.classList.toggle("zoomed");
+      if (isZoomed) {
+        img.style.maxHeight = "75vh";
+        img.style.cursor = "zoom-out";
+      } else {
+        img.style.maxHeight = "100%";
+        img.style.cursor = "zoom-in";
+      }
+    }
+
+    // KEYBOARD LISTENER (ESC TO CLOSE)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeModal();
+        if (typeof closeSourceModal === 'function') closeSourceModal();
+      }
+    });
+
     // UTILITIES
+    function formatDealTime(dateStr) {
+      if (!dateStr) return '';
+      try {
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        const hours = String(d.getHours()).padStart(2, '0');
+        const mins = String(d.getMinutes()).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        return `${hours}:${mins} ${day}/${month}`;
+      } catch (e) {
+        return dateStr;
+      }
+    }
+
     function extractPriceFromText(text) {
       if (!text) return null;
       // Match các dạng 13k, 150k, 28k
