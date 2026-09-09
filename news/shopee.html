@@ -1498,6 +1498,9 @@
     async function submitPublishDeal() {
       if (!currentCuratingDeal) return;
 
+      const dealToPublish = currentCuratingDeal;
+      const dealId = dealToPublish.id;
+
       const btn = document.getElementById("btnPublishSubmit");
       const title = document.getElementById("modalInputTitle").value.trim();
       const dealPrice = Number(document.getElementById("modalInputDealPrice").value);
@@ -1516,9 +1519,9 @@
 
       try {
         const payload = {
-          crawled_deal_id: currentCuratingDeal.id,
-          item_id: currentCuratingDeal.item_id,
-          shop_id: currentCuratingDeal.shop_id,
+          crawled_deal_id: dealToPublish.id,
+          item_id: dealToPublish.item_id,
+          shop_id: dealToPublish.shop_id,
           title,
           deal_price: dealPrice,
           original_price: originalPrice,
@@ -1527,7 +1530,7 @@
           voucher_code: voucherCode,
           voucher_guide: voucherGuide,
           product_image_url: document.getElementById("modalProductImg").src || "",
-          evidence_image_url: currentCuratingDeal.evidence_image_url || "",
+          evidence_image_url: dealToPublish.evidence_image_url || "",
           shop_name: document.getElementById("modalShopName").textContent || "",
         };
 
@@ -1540,12 +1543,14 @@
         const json = await res.json();
         if (!res.ok) throw new Error(json.error || "Duyệt thất bại");
 
-        alert("🎉 Đã duyệt và xuất bản deal thành công!");
-        closeModal();
-
         // Remove card from UI
-        const card = document.getElementById(`card-${currentCuratingDeal.id}`);
-        if (card) card.remove();
+        if (dealId) {
+          const card = document.getElementById(`card-${dealId}`);
+          if (card) card.remove();
+        }
+
+        closeModal();
+        alert("🎉 Đã duyệt và xuất bản deal thành công!");
 
         loadPendingDeals();
 
@@ -1562,15 +1567,19 @@
       if (!currentCuratingDeal) return;
       if (!confirm("Bạn có chắc chắn muốn bỏ qua deal này không?")) return;
 
+      const dealId = currentCuratingDeal.id;
+
       try {
         await fetch(`${SHOPEE_BASE_API}/api/deals/reject`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: currentCuratingDeal.id }),
+          body: JSON.stringify({ id: dealId }),
         });
 
-        const card = document.getElementById(`card-${currentCuratingDeal.id}`);
-        if (card) card.remove();
+        if (dealId) {
+          const card = document.getElementById(`card-${dealId}`);
+          if (card) card.remove();
+        }
 
         closeModal();
         loadPendingDeals();
