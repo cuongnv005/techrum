@@ -552,6 +552,11 @@
             </div>
           </div>
 
+          <div class="field" id="shortImageField" style="display:none;">
+            <label>URL Ảnh (gán đầu & cuối bài viết)</label>
+            <input type="url" id="shortImageUrl" placeholder="https://i.ibb.co/..." />
+          </div>
+
           <div class="field" id="coverField">
             <label>Ảnh bìa (chỉ dùng cho bài dài)</label>
             <div class="dropzone" id="dropzone">
@@ -814,6 +819,8 @@
     let coverImageUrl = "";
     let prefillIconUrl = ""; // Icon app đã lấy sẵn từ Verified Apps — dùng làm ảnh Thread
     let activeTab = "write";
+    let lastRawVi = "";
+    let lastRawEn = "";
 
     function showToast(msg) {
       const t = document.getElementById("toast");
@@ -827,10 +834,43 @@
       document.getElementById("btnLong").classList.toggle("active", val === "long");
       document.getElementById("btnShort").classList.toggle("active", val === "short");
       updateGiveawayFieldsVisibility();
+      
+      const coverField = document.getElementById("coverField");
+      const shortImageField = document.getElementById("shortImageField");
+      if (coverField) coverField.style.display = val === "long" ? "flex" : "none";
+      if (shortImageField) shortImageField.style.display = val === "short" ? "flex" : "none";
+
       // Nội dung form đăng bài (post/thread) sinh ra trước đó không còn khớp với chế độ mới — ẩn cả 2 cho tới khi sinh lại
       document.getElementById("publishForm").style.display = "none";
       document.getElementById("publishThreadForm").style.display = "none";
     }
+
+    function formatShortContent(text, imgUrl) {
+      if (!text) return "";
+      let trimmed = text.trim();
+      // Loại bỏ thẻ [IMG]...[/IMG] ở đầu và cuối nếu đã có (tránh lặp khi format lại)
+      trimmed = trimmed.replace(/^\[IMG\][\s\S]*?\[\/IMG\]\s*/i, "").replace(/\s*\[IMG\][\s\S]*?\[\/IMG\]$/i, "").trim();
+      const cleanImg = (imgUrl || "").trim().replace(/^\[IMG\]/i, "").replace(/\[\/IMG\]$/i, "").trim();
+      if (!cleanImg) return trimmed;
+      const imgTag = `[IMG]${cleanImg}[/IMG]`;
+      return `${imgTag}\n${trimmed}\n${imgTag}`;
+    }
+
+    function updateShortImageContent() {
+      if (length !== "short" || (!lastRawVi && !lastRawEn)) return;
+      const shortImg = (document.getElementById("shortImageUrl")?.value || "").trim();
+      const viText = formatShortContent(lastRawVi, shortImg);
+      const enText = formatShortContent(lastRawEn, shortImg);
+      showResult(viText, enText);
+      const threadContent = document.getElementById("threadContent");
+      const threadContentEn = document.getElementById("threadContentEn");
+      const threadImageUrl = document.getElementById("threadImageUrl");
+      if (threadContent) threadContent.value = viText;
+      if (threadContentEn) threadContentEn.value = enText;
+      if (threadImageUrl && shortImg) threadImageUrl.value = shortImg;
+    }
+
+    document.getElementById("shortImageUrl")?.addEventListener("input", updateShortImageContent);
 
     // Ô "Giá gốc / Số lượng key" chỉ cần thiết khi bài dài + có link redeem (sẽ tạo Giveaway)
     function updateGiveawayFieldsVisibility() {
@@ -852,6 +892,13 @@
         if (p.link) document.getElementById("link").value = p.link;
         if (p.redeemUrl) document.getElementById("redeemUrl").value = p.redeemUrl;
         if (p.iconUrl) prefillIconUrl = p.iconUrl;
+        if (p.imageUrl) {
+          const sImg = document.getElementById("shortImageUrl");
+          if (sImg) sImg.value = p.imageUrl;
+        } else if (p.iconUrl) {
+          const sImg = document.getElementById("shortImageUrl");
+          if (sImg) sImg.value = p.iconUrl;
+        }
         setLength(p.length === "short" ? "short" : "long");
       } catch (err) {
         console.warn(err);
@@ -956,20 +1003,33 @@
         }
 
         const data = await res.json();
-        showResult(data.data, data.data_en);
+        lastRawVi = data.data || "";
+        lastRawEn = data.data_en || "";
+
+        let viText = lastRawVi;
+        let enText = lastRawEn;
+
+        if (length === "short") {
+          const shortImg = (document.getElementById("shortImageUrl")?.value || "").trim();
+          viText = formatShortContent(lastRawVi, shortImg);
+          enText = formatShortContent(lastRawEn, shortImg);
+        }
+
+        showResult(viText, enText);
         showToast(`✅ Đã sinh bài (engine: ${data.engine || "?"})`);
 
         if (length === "short") {
+          const shortImg = (document.getElementById("shortImageUrl")?.value || "").trim();
           // Điền sẵn form đăng Thread từ kết quả vừa sinh
           document.getElementById("threadAppName").value = appName;
           document.getElementById("threadPlatform").value = guessPlatformType(link);
-          document.getElementById("threadImageUrl").value = prefillIconUrl || coverImageUrl;
-          document.getElementById("threadSummary").value = getFirstTwoSentences(data.data);
-          document.getElementById("threadContent").value = data.data;
+          document.getElementById("threadImageUrl").value = shortImg || prefillIconUrl || coverImageUrl;
+          document.getElementById("threadSummary").value = getFirstTwoSentences(lastRawVi);
+          document.getElementById("threadContent").value = viText;
 
           // Điền sẵn phần tiếng Anh (lấy từ bản dịch AI)
-          document.getElementById("threadSummaryEn").value = getFirstTwoSentences(data.data_en);
-          document.getElementById("threadContentEn").value = data.data_en;
+          document.getElementById("threadSummaryEn").value = getFirstTwoSentences(lastRawEn);
+          document.getElementById("threadContentEn").value = enText;
 
           document.getElementById("threadDealLink").value = redeemUrl || link;
           document.getElementById("threadOriginalPrice").value = "";
@@ -983,8 +1043,8 @@
           // Điền sẵn form đăng bài từ kết quả vừa sinh
           document.getElementById("postTitle").value = appName;
           document.getElementById("postTitleEn").value = appName;
-          document.getElementById("postContent").value = data.data;
-          document.getElementById("postContentEn").value = data.data_en;
+          document.getElementById("postContent").value = viText;
+          document.getElementById("postContentEn").value = enText;
           document.getElementById("postCategory").value = guessCategory(link);
           selectedTags = [];
           renderTags();
@@ -1083,8 +1143,9 @@
 
     function getFirstTwoSentences(text) {
       if (!text) return "";
-      const matches = text.trim().match(/[^.!?]+[.!?]+(?:\s+|$)/g);
-      if (!matches) return text.slice(0, 150).trim();
+      const clean = text.replace(/\[\/?(?:IMG|img)[^\]]*\]/gi, "").trim();
+      const matches = clean.match(/[^.!?]+[.!?]+(?:\s+|$)/g);
+      if (!matches) return clean.slice(0, 150).trim();
       return matches.slice(0, 2).join("").trim();
     }
 
@@ -1101,6 +1162,8 @@
     }
 
     function clearResult() {
+      lastRawVi = "";
+      lastRawEn = "";
       document.getElementById("resultText").value = "";
       document.getElementById("resultTextEn").value = "";
       document.getElementById("resultWrapper").style.display = "none";
@@ -1194,6 +1257,9 @@
           }
           card.querySelector('[data-act="view"]').onclick = () => {
             switchTab("write");
+            setLength(item.length === "short" ? "short" : "long");
+            lastRawVi = item.result || "";
+            lastRawEn = item.result_en || "";
             showResult(item.result || "", item.result_en || "");
           };
           card.querySelector('[data-act="delete"]').onclick = async () => {
