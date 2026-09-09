@@ -552,6 +552,11 @@
             </div>
           </div>
 
+          <div class="field" id="shortIconField" style="display:none;">
+            <label>Icon ứng dụng (tự động lấy từ deal)</label>
+            <input type="url" id="appIconUrl" placeholder="https://is1-ssl.mzstatic.com/..." />
+          </div>
+
           <div class="field" id="shortImageField" style="display:none;">
             <label>URL Ảnh (gán đầu & cuối bài viết)</label>
             <input type="url" id="shortImageUrl" placeholder="https://i.ibb.co/..." />
@@ -836,8 +841,10 @@
       updateGiveawayFieldsVisibility();
       
       const coverField = document.getElementById("coverField");
+      const shortIconField = document.getElementById("shortIconField");
       const shortImageField = document.getElementById("shortImageField");
       if (coverField) coverField.style.display = val === "long" ? "flex" : "none";
+      if (shortIconField) shortIconField.style.display = val === "short" ? "flex" : "none";
       if (shortImageField) shortImageField.style.display = val === "short" ? "flex" : "none";
 
       // Nội dung form đăng bài (post/thread) sinh ra trước đó không còn khớp với chế độ mới — ẩn cả 2 cho tới khi sinh lại
@@ -864,13 +871,18 @@
       showResult(viText, enText);
       const threadContent = document.getElementById("threadContent");
       const threadContentEn = document.getElementById("threadContentEn");
-      const threadImageUrl = document.getElementById("threadImageUrl");
       if (threadContent) threadContent.value = viText;
       if (threadContentEn) threadContentEn.value = enText;
-      if (threadImageUrl && shortImg) threadImageUrl.value = shortImg;
     }
 
     document.getElementById("shortImageUrl")?.addEventListener("input", updateShortImageContent);
+
+    document.getElementById("appIconUrl")?.addEventListener("input", (e) => {
+      const threadImageUrl = document.getElementById("threadImageUrl");
+      if (threadImageUrl) {
+        threadImageUrl.value = e.target.value.trim();
+      }
+    });
 
     // Ô "Giá gốc / Số lượng key" chỉ cần thiết khi bài dài + có link redeem (sẽ tạo Giveaway)
     function updateGiveawayFieldsVisibility() {
@@ -891,14 +903,15 @@
         if (p.content) document.getElementById("content").value = p.content;
         if (p.link) document.getElementById("link").value = p.link;
         if (p.redeemUrl) document.getElementById("redeemUrl").value = p.redeemUrl;
-        if (p.iconUrl) prefillIconUrl = p.iconUrl;
-        if (p.imageUrl) {
-          const sImg = document.getElementById("shortImageUrl");
-          if (sImg) sImg.value = p.imageUrl;
-        } else if (p.iconUrl) {
-          const sImg = document.getElementById("shortImageUrl");
-          if (sImg) sImg.value = p.iconUrl;
+        if (p.iconUrl) {
+          prefillIconUrl = p.iconUrl;
+          const iconInput = document.getElementById("appIconUrl");
+          if (iconInput) iconInput.value = p.iconUrl;
         }
+        // URL Ảnh (gán đầu & cuối bài viết) để trống ban đầu
+        const sImg = document.getElementById("shortImageUrl");
+        if (sImg) sImg.value = "";
+
         setLength(p.length === "short" ? "short" : "long");
       } catch (err) {
         console.warn(err);
@@ -1019,11 +1032,11 @@
         showToast(`✅ Đã sinh bài (engine: ${data.engine || "?"})`);
 
         if (length === "short") {
-          const shortImg = (document.getElementById("shortImageUrl")?.value || "").trim();
+          const appIcon = (document.getElementById("appIconUrl")?.value || "").trim();
           // Điền sẵn form đăng Thread từ kết quả vừa sinh
           document.getElementById("threadAppName").value = appName;
           document.getElementById("threadPlatform").value = guessPlatformType(link);
-          document.getElementById("threadImageUrl").value = shortImg || prefillIconUrl || coverImageUrl;
+          document.getElementById("threadImageUrl").value = appIcon || prefillIconUrl || coverImageUrl;
           document.getElementById("threadSummary").value = getFirstTwoSentences(lastRawVi);
           document.getElementById("threadContent").value = viText;
 
@@ -1597,7 +1610,7 @@
         if (isHidden) {
           document.getElementById("threadAppName").value = "";
           document.getElementById("threadPlatform").value = "android";
-          document.getElementById("threadImageUrl").value = prefillIconUrl || coverImageUrl;
+          document.getElementById("threadImageUrl").value = (document.getElementById("appIconUrl")?.value || "").trim() || prefillIconUrl || coverImageUrl;
           document.getElementById("threadOriginalPrice").value = "";
           document.getElementById("threadSummary").value = "";
           document.getElementById("threadSummaryEn").value = "";
