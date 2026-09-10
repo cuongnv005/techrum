@@ -827,6 +827,20 @@
             </div>
           </div>
 
+          <div class="form-group" style="margin-bottom: 10px;">
+            <label>⏱️ Thời hạn ưu đãi (Tối đa 24 giờ):</label>
+            <div style="display: flex; gap: 8px; flex-direction: column;">
+              <select id="modalInputExpirePreset" class="form-control" onchange="onExpirePresetChange()">
+                <option value="24" selected>1 ngày (24 giờ) - Mặc định</option>
+                <option value="12">12 tiếng</option>
+                <option value="6">6 tiếng</option>
+                <option value="1">1 tiếng</option>
+                <option value="custom">⏱️ Tự nhập thời gian kết thúc...</option>
+              </select>
+              <input type="datetime-local" id="modalInputCustomExpire" class="form-control" style="display: none;" />
+            </div>
+          </div>
+
           <div class="form-group" style="margin-bottom: 0;">
             <label>💡 Mẹo săn từ TechDeal (Admin Note):</label>
             <textarea id="modalInputVoucherGuide" class="form-control" rows="2" placeholder="VD: Anh em vào xem qua Shopee Video để áp voucher giảm 20k nhé..."></textarea>
@@ -1420,6 +1434,16 @@
       document.getElementById("modalInputVoucherGuide").value = "";
       document.getElementById("modalShopVerdictBadge").textContent = "Đang tra cứu giá...";
 
+      const presetEl = document.getElementById("modalInputExpirePreset");
+      if (presetEl) presetEl.value = "24";
+      const customExpireEl = document.getElementById("modalInputCustomExpire");
+      if (customExpireEl) {
+        customExpireEl.style.display = "none";
+        const d = new Date(Date.now() + 24 * 3600 * 1000);
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        customExpireEl.value = d.toISOString().slice(0, 16);
+      }
+
       document.getElementById("curationModal").classList.add("open");
 
       // Call API Soi Giá addlivetag
@@ -1460,6 +1484,9 @@
               document.getElementById("modalMinPrice").textContent = (info.priceStats.minPrice || 0).toLocaleString('vi-VN') + ' đ';
               document.getElementById("modalAvgPrice").textContent = Math.round(info.priceStats.avgPrice || 0).toLocaleString('vi-VN') + ' đ';
             }
+
+            // Lưu mảng lịch sử giá để gửi kèm khi duyệt
+            deal.prices_history = json.data?.prices_history || json.prices_history || [];
 
             // Set form defaults from API
             document.getElementById("modalInputTitle").value = info.productName || "";
@@ -1517,6 +1544,32 @@
       btn.disabled = true;
       btn.innerHTML = `<span>⏳</span> Đang Re-host Ảnh & Xuất Bản...`;
 
+      // Tính thời gian hết hạn
+      const expirePreset = document.getElementById("modalInputExpirePreset")?.value || "24";
+      let expiresHours = 24;
+      let expiresAt = null;
+
+      if (expirePreset === "custom") {
+        const customVal = document.getElementById("modalInputCustomExpire")?.value;
+        if (customVal) {
+          const targetDate = new Date(customVal);
+          if (isNaN(targetDate.getTime()) || targetDate.getTime() <= Date.now()) {
+            alert("Thời gian kết thúc tự chọn phải lớn hơn thời điểm hiện tại!");
+            btn.disabled = false;
+            btn.innerHTML = `<span>✅</span> DUYỆT & XUẤT BẢN DEAL`;
+            return;
+          }
+          expiresAt = targetDate.toISOString();
+          expiresHours = Math.max(1, Math.round((targetDate.getTime() - Date.now()) / (3600 * 1000)));
+        } else {
+          expiresHours = 24;
+          expiresAt = new Date(Date.now() + 24 * 3600 * 1000).toISOString();
+        }
+      } else {
+        expiresHours = Number(expirePreset) || 24;
+        expiresAt = new Date(Date.now() + expiresHours * 3600 * 1000).toISOString();
+      }
+
       try {
         const payload = {
           crawled_deal_id: dealToPublish.id,
@@ -1532,6 +1585,9 @@
           product_image_url: document.getElementById("modalProductImg").src || "",
           evidence_image_url: dealToPublish.evidence_image_url || "",
           shop_name: document.getElementById("modalShopName").textContent || "",
+          expires_hours: expiresHours,
+          expires_at: expiresAt,
+          prices_history: dealToPublish.prices_history || [],
         };
 
         const res = await fetch(`${SHOPEE_BASE_API}/api/deals/publish`, {
@@ -1608,6 +1664,23 @@
     function closeModal() {
       document.getElementById("curationModal").classList.remove("open");
       currentCuratingDeal = null;
+    }
+
+    // PRESET EXPIRE CHANGE HANDLER
+    function onExpirePresetChange() {
+      const preset = document.getElementById("modalInputExpirePreset")?.value;
+      const customEl = document.getElementById("modalInputCustomExpire");
+      if (!customEl) return;
+
+      if (preset === 'custom') {
+        customEl.style.display = 'block';
+      } else {
+        customEl.style.display = 'none';
+        const hours = Number(preset) || 24;
+        const d = new Date(Date.now() + hours * 3600 * 1000);
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        customEl.value = d.toISOString().slice(0, 16);
+      }
     }
 
     // SWITCH MODAL TAB (FOR MOBILE)
