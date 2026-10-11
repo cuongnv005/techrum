@@ -57,6 +57,10 @@
         gap: 20px;
       }
 
+      .left-col {
+        width: 100% !important;
+      }
+
       .preview-wrap {
         width: 100% !important;
       }
@@ -70,6 +74,15 @@
       }
     }
 
+    /* ---- Left Column ---- */
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 320px;
+      flex-shrink: 0;
+    }
+
     /* ---- Panel trái ---- */
     .panel {
       background: var(--card);
@@ -79,9 +92,261 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      width: 320px;
-      flex-shrink: 0;
+      width: 100%;
       box-shadow: var(--shadow);
+    }
+
+    /* ---- Upload ImgBB Panel ---- */
+    .upload-panel {
+      gap: 14px;
+    }
+
+    .upload-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .upload-header h2 {
+      margin: 0;
+    }
+
+    .badge-webp {
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(61, 220, 132, 0.15);
+      color: var(--tag-text);
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .uploader-dropzone {
+      padding: 16px 12px;
+    }
+
+    .uploader-dropzone .dropzone-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .uploader-dropzone p {
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .uploader-dropzone .sub-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .uploader-url-input {
+      font-size: 12px !important;
+      min-height: 56px !important;
+      padding: 8px 10px !important;
+      resize: vertical;
+    }
+
+    .btn-sm {
+      padding: 8px 12px !important;
+      font-size: 12px !important;
+      border-radius: 8px !important;
+    }
+
+    .queue-wrap, .results-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .queue-header, .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .queue-title, .results-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-link-danger {
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 0;
+      font-weight: 600;
+    }
+
+    .btn-link-danger:hover {
+      text-decoration: underline;
+    }
+
+    .uploader-queue, .uploader-results {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .queue-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--hover);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .queue-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--card);
+    }
+
+    .queue-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .queue-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .queue-meta {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .queue-status-tag {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: var(--border);
+      color: var(--muted);
+    }
+    .queue-status-tag.processing {
+      background: rgba(0, 123, 255, 0.15);
+      color: #007bff;
+    }
+    .queue-status-tag.success {
+      background: rgba(61, 220, 132, 0.15);
+      color: var(--tag-text);
+    }
+    .queue-status-tag.error {
+      background: rgba(255, 59, 48, 0.15);
+      color: var(--danger);
+    }
+
+    .queue-remove {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+    .queue-remove:hover {
+      color: var(--danger);
+    }
+
+    .uploader-status {
+      font-size: 12px;
+      color: var(--text);
+      padding: 8px 10px;
+      background: var(--hover);
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+      line-height: 1.4;
+    }
+
+    .result-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--hover);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .result-item-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .result-thumb {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .result-input {
+      flex: 1;
+      min-width: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      padding: 6px 8px;
+      outline: none;
+    }
+
+    .result-btn-copy {
+      padding: 6px 10px !important;
+      font-size: 11px !important;
+      border-radius: 6px !important;
+      white-space: nowrap;
+    }
+
+    .result-item-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    .btn-xs {
+      padding: 4px 8px !important;
+      font-size: 11px !important;
+      border-radius: 6px !important;
+      border: 1px solid var(--border) !important;
+      background: var(--card) !important;
+      color: var(--muted) !important;
+      cursor: pointer;
+    }
+    .btn-xs:hover {
+      color: var(--text) !important;
+      background: var(--hover) !important;
     }
 
     .panel h2 {
@@ -411,36 +676,87 @@
 
     <div class="layout">
 
-      <!-- Panel trái -->
-      <div class="panel">
-        <h2>Cài đặt</h2>
+      <div class="left-col">
+        <!-- Panel trái -->
+        <div class="panel">
+          <h2>Cài đặt</h2>
 
-        <div class="field">
-          <label>Ảnh nội dung</label>
-          <div class="dropzone" id="dropzone">
-            <input type="file" id="img-input" accept="image/*">
-            <div class="dropzone-icon">🖼️</div>
-            <p><span>Chọn ảnh</span> hoặc kéo thả vào đây</p>
-            <img id="preview-thumb" alt="preview">
+          <div class="field">
+            <label>Ảnh nội dung</label>
+            <div class="dropzone" id="dropzone">
+              <input type="file" id="img-input" accept="image/*">
+              <div class="dropzone-icon">🖼️</div>
+              <p><span>Chọn ảnh</span> hoặc kéo thả vào đây</p>
+              <img id="preview-thumb" alt="preview">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Nội dung</label>
+            <textarea id="content-text"
+              placeholder="(Windows) *Đang miễn phí* tựa game bắn Zombie trị giá 50.000 VNĐ"></textarea>
+            <label for="highlight-phrases">Highlight theo cụm (tùy chọn)</label>
+            <textarea id="highlight-phrases" class="highlight-phrases-input"
+              placeholder="Mỗi dòng một cụm cần tô đỏ trong nội dung&#10;Ví dụ: Đang miễn phí"></textarea>
+            <div class="hint">
+              Có thể gõ cụm ở ô trên — tìm đúng trong nội dung và tô đỏ. Vẫn dùng <code>*...*</code> như cũ.<br>
+              VD: <code>(Windows) *Đang miễn phí* tựa game</code> hoặc nhập <code>Đang miễn phí</code> ở ô highlight.
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn-primary" id="btn-download" disabled>⬇ Tải về</button>
+            <button type="button" class="btn-secondary" id="btn-copy" disabled>📋 Copy</button>
           </div>
         </div>
 
-        <div class="field">
-          <label>Nội dung</label>
-          <textarea id="content-text"
-            placeholder="(Windows) *Đang miễn phí* tựa game bắn Zombie trị giá 50.000 VNĐ"></textarea>
-          <label for="highlight-phrases">Highlight theo cụm (tùy chọn)</label>
-          <textarea id="highlight-phrases" class="highlight-phrases-input"
-            placeholder="Mỗi dòng một cụm cần tô đỏ trong nội dung&#10;Ví dụ: Đang miễn phí"></textarea>
-          <div class="hint">
-            Có thể gõ cụm ở ô trên — tìm đúng trong nội dung và tô đỏ. Vẫn dùng <code>*...*</code> như cũ.<br>
-            VD: <code>(Windows) *Đang miễn phí* tựa game</code> hoặc nhập <code>Đang miễn phí</code> ở ô highlight.
+        <!-- Panel Upload ảnh ImgBB (bên dưới Cài đặt) -->
+        <div class="panel upload-panel" id="upload-panel">
+          <div class="upload-header">
+            <h2>Upload ảnh (ImgBB)</h2>
+            <span class="badge-webp">Auto WebP</span>
           </div>
-        </div>
 
-        <div class="btn-group">
-          <button type="button" class="btn-primary" id="btn-download" disabled>⬇ Tải về</button>
-          <button type="button" class="btn-secondary" id="btn-copy" disabled>📋 Copy</button>
+          <div class="field">
+            <label>Chọn / Kéo thả ảnh</label>
+            <div class="dropzone uploader-dropzone" id="uploader-dropzone">
+              <input type="file" id="uploader-file-input" accept="image/*" multiple>
+              <div class="dropzone-icon">☁️</div>
+              <p><span>Chọn nhiều ảnh</span> hoặc kéo thả</p>
+              <span class="sub-hint">Hỗ trợ dán trực tiếp (Ctrl+V)</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Hoặc dán URL ảnh</label>
+            <textarea id="uploader-url-input" class="uploader-url-input"
+              placeholder="https://example.com/photo.jpg&#10;https://ibb.co/27kjZyGn&#10;(Mỗi dòng một link)"></textarea>
+            <button type="button" class="btn-secondary btn-sm" id="btn-add-urls" style="margin-top: 6px;">➕ Thêm link vào hàng chờ</button>
+          </div>
+
+          <!-- Queue wrap -->
+          <div class="queue-wrap" id="uploader-queue-wrap" style="display: none;">
+            <div class="queue-header">
+              <span class="queue-title">Ảnh chờ upload (<span id="queue-count">0</span>)</span>
+              <button type="button" class="btn-link-danger" id="btn-clear-queue">Xóa hết</button>
+            </div>
+            <div class="uploader-queue" id="uploader-queue"></div>
+          </div>
+
+          <!-- Upload action & status -->
+          <button type="button" class="btn-primary" id="btn-uploader-upload" disabled>
+            🚀 Bắt đầu Upload (<span id="btn-upload-count">0</span>)
+          </button>
+          <div class="uploader-status" id="uploader-status" style="display: none;"></div>
+
+          <!-- Results wrap -->
+          <div class="results-wrap" id="uploader-results-wrap" style="display: none;">
+            <div class="results-header">
+              <span class="results-title">✅ Link ảnh [IMG]</span>
+              <button type="button" class="btn-secondary btn-sm" id="btn-copy-all-links">📋 Copy tất cả [IMG]</button>
+            </div>
+            <div class="uploader-results" id="uploader-results"></div>
+          </div>
         </div>
       </div>
       <!--https://i.postimg.cc/mZSx24kQ/TECHRUM.png-->
@@ -691,6 +1007,521 @@
       t.textContent = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ===== IMGBB UPLOADER (TỰ ĐỘNG CHUYỂN WEBP) =====
+    const IMGBB_API_ENDPOINT = "https://gendeal.mdchannelvn.workers.dev/api/upload-cover";
+
+    const uploaderDropzone = document.getElementById('uploader-dropzone');
+    const uploaderFileInput = document.getElementById('uploader-file-input');
+    const uploaderUrlInput = document.getElementById('uploader-url-input');
+    const btnAddUrls = document.getElementById('btn-add-urls');
+    const uploaderQueueWrap = document.getElementById('uploader-queue-wrap');
+    const uploaderQueue = document.getElementById('uploader-queue');
+    const queueCount = document.getElementById('queue-count');
+    const btnClearQueue = document.getElementById('btn-clear-queue');
+    const btnUploaderUpload = document.getElementById('btn-uploader-upload');
+    const btnUploadCount = document.getElementById('btn-upload-count');
+    const uploaderStatus = document.getElementById('uploader-status');
+    const uploaderResultsWrap = document.getElementById('uploader-results-wrap');
+    const uploaderResults = document.getElementById('uploader-results');
+    const btnCopyAllLinks = document.getElementById('btn-copy-all-links');
+
+    let uploadQueue = []; // { id, type: 'file'|'url', file, url, name, size, preview, status: 'pending'|'processing'|'success'|'error', statusText, directUrl }
+    let uploadResults = []; // { directUrl, preview, name }
+    let isUploading = false;
+
+    function formatBytes(bytes) {
+      if (!bytes || bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+    }
+
+    function renderQueue() {
+      const pendingItems = uploadQueue.filter(item => item.status !== 'success');
+      queueCount.textContent = pendingItems.length;
+      btnUploadCount.textContent = pendingItems.length;
+      btnUploaderUpload.disabled = isUploading || pendingItems.length === 0;
+
+      if (pendingItems.length === 0) {
+        uploaderQueueWrap.style.display = 'none';
+        uploaderQueue.innerHTML = '';
+        return;
+      }
+
+      uploaderQueueWrap.style.display = 'flex';
+      uploaderQueue.innerHTML = '';
+
+      pendingItems.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'queue-item';
+
+        const thumbImg = document.createElement('img');
+        thumbImg.className = 'queue-thumb';
+        thumbImg.src = item.preview || '';
+        thumbImg.alt = item.name;
+        thumbImg.onerror = () => { thumbImg.style.display = 'none'; };
+
+        const info = document.createElement('div');
+        info.className = 'queue-info';
+
+        const name = document.createElement('div');
+        name.className = 'queue-name';
+        name.textContent = item.name;
+        name.title = item.name;
+
+        const meta = document.createElement('div');
+        meta.className = 'queue-meta';
+
+        if (item.size) {
+          const sizeSpan = document.createElement('span');
+          sizeSpan.textContent = formatBytes(item.size);
+          meta.appendChild(sizeSpan);
+        }
+
+        const tag = document.createElement('span');
+        tag.className = 'queue-status-tag ' + (item.status === 'processing' ? 'processing' : item.status === 'error' ? 'error' : '');
+        tag.textContent = item.statusText || 'Chờ tải lên';
+        meta.appendChild(tag);
+
+        info.appendChild(name);
+        info.appendChild(meta);
+
+        row.appendChild(thumbImg);
+        row.appendChild(info);
+
+        if (!isUploading) {
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'queue-remove';
+          removeBtn.textContent = '✕';
+          removeBtn.title = 'Xóa ảnh này';
+          removeBtn.onclick = () => removeQueueItem(item.id);
+          row.appendChild(removeBtn);
+        }
+
+        uploaderQueue.appendChild(row);
+      });
+    }
+
+    function renderResults() {
+      if (uploadResults.length === 0) {
+        uploaderResultsWrap.style.display = 'none';
+        uploaderResults.innerHTML = '';
+        return;
+      }
+
+      uploaderResultsWrap.style.display = 'flex';
+      uploaderResults.innerHTML = '';
+
+      uploadResults.forEach((res, index) => {
+        const item = document.createElement('div');
+        item.className = 'result-item';
+
+        const main = document.createElement('div');
+        main.className = 'result-item-main';
+
+        const thumb = document.createElement('img');
+        thumb.className = 'result-thumb';
+        thumb.src = res.directUrl;
+        thumb.alt = res.name || 'uploaded';
+        thumb.onerror = () => { thumb.style.display = 'none'; };
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'result-input';
+        const bbCode = `[IMG]${res.directUrl}[/IMG]`;
+        input.value = bbCode;
+        input.readOnly = true;
+        input.onclick = () => input.select();
+
+        const btnCopy = document.createElement('button');
+        btnCopy.type = 'button';
+        btnCopy.className = 'btn-primary result-btn-copy';
+        btnCopy.textContent = '📋 Copy';
+        btnCopy.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(bbCode);
+            showToast('✅ Đã copy: ' + bbCode);
+          } catch (e) {
+            input.select();
+            document.execCommand('copy');
+            showToast('✅ Đã copy: ' + bbCode);
+          }
+        };
+
+        main.appendChild(thumb);
+        main.appendChild(input);
+        main.appendChild(btnCopy);
+
+        const actions = document.createElement('div');
+        actions.className = 'result-item-actions';
+
+        const btnUse = document.createElement('button');
+        btnUse.type = 'button';
+        btnUse.className = 'btn-xs';
+        btnUse.textContent = '🖼️ Dùng làm ảnh nội dung';
+        btnUse.onclick = () => useUploadedImageInBuilder(res.directUrl);
+
+        const btnOpen = document.createElement('a');
+        btnOpen.className = 'btn-xs';
+        btnOpen.textContent = '🔗 Mở link';
+        btnOpen.href = res.directUrl;
+        btnOpen.target = '_blank';
+        btnOpen.rel = 'noopener noreferrer';
+        btnOpen.style.textDecoration = 'none';
+
+        actions.appendChild(btnUse);
+        actions.appendChild(btnOpen);
+
+        item.appendChild(main);
+        item.appendChild(actions);
+
+        uploaderResults.appendChild(item);
+      });
+    }
+
+    function addFilesToQueue(files) {
+      if (!files || files.length === 0) return;
+      Array.from(files).forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        const id = 'file_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+        const preview = URL.createObjectURL(file);
+        uploadQueue.push({
+          id,
+          type: 'file',
+          file,
+          name: file.name,
+          size: file.size,
+          preview,
+          status: 'pending',
+          statusText: 'Chờ tải lên',
+          directUrl: ''
+        });
+      });
+      renderQueue();
+    }
+
+    function addUrlsToQueue(text) {
+      if (!text || !text.trim()) return;
+      const urls = text.split(/[\r\n\s]+/).map(u => u.trim()).filter(u => /^https?:\/\//i.test(u));
+      if (urls.length === 0) {
+        showToast('⚠️ Không tìm thấy URL hợp lệ (bắt đầu bằng http:// hoặc https://)');
+        return;
+      }
+
+      urls.forEach(url => {
+        const id = 'url_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+        let name = url.split('/').pop().split('?')[0] || 'remote_image';
+        if (url.includes('ibb.co')) name = 'ibb_' + name;
+        uploadQueue.push({
+          id,
+          type: 'url',
+          url,
+          name,
+          size: null,
+          preview: url,
+          status: 'pending',
+          statusText: 'Chờ tải lên',
+          directUrl: ''
+        });
+      });
+
+      uploaderUrlInput.value = '';
+      renderQueue();
+      showToast(`➕ Đã thêm ${urls.length} link vào hàng chờ!`);
+    }
+
+    function removeQueueItem(id) {
+      const idx = uploadQueue.findIndex(item => item.id === id);
+      if (idx !== -1) {
+        const item = uploadQueue[idx];
+        if (item.type === 'file' && item.preview && item.preview.startsWith('blob:')) {
+          URL.revokeObjectURL(item.preview);
+        }
+        uploadQueue.splice(idx, 1);
+        renderQueue();
+      }
+    }
+
+    btnClearQueue.addEventListener('click', () => {
+      uploadQueue.forEach(item => {
+        if (item.type === 'file' && item.preview && item.preview.startsWith('blob:')) {
+          URL.revokeObjectURL(item.preview);
+        }
+      });
+      uploadQueue = [];
+      renderQueue();
+    });
+
+    // Dropzone events
+    uploaderDropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploaderDropzone.classList.add('drag');
+    });
+    uploaderDropzone.addEventListener('dragleave', () => {
+      uploaderDropzone.classList.remove('drag');
+    });
+    uploaderDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploaderDropzone.classList.remove('drag');
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        addFilesToQueue(e.dataTransfer.files);
+      }
+    });
+
+    uploaderFileInput.addEventListener('change', () => {
+      if (uploaderFileInput.files && uploaderFileInput.files.length > 0) {
+        addFilesToQueue(uploaderFileInput.files);
+        uploaderFileInput.value = '';
+      }
+    });
+
+    btnAddUrls.addEventListener('click', () => {
+      addUrlsToQueue(uploaderUrlInput.value);
+    });
+    uploaderUrlInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        addUrlsToQueue(uploaderUrlInput.value);
+      }
+    });
+
+    // Window paste handler (Ctrl+V)
+    window.addEventListener('paste', (e) => {
+      const targetTag = e.target ? e.target.tagName.toLowerCase() : '';
+      if (targetTag === 'input' || targetTag === 'textarea') {
+        if (e.target !== uploaderUrlInput && e.target !== uploaderDropzone) return;
+      }
+
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      const pastedFiles = [];
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.startsWith('image/')) {
+          const f = items[i].getAsFile();
+          if (f) pastedFiles.push(f);
+        }
+      }
+
+      if (pastedFiles.length > 0) {
+        addFilesToQueue(pastedFiles);
+        showToast(`📋 Đã dán ${pastedFiles.length} ảnh từ clipboard!`);
+        return;
+      }
+
+      const pastedText = e.clipboardData.getData('text');
+      if (pastedText && /^https?:\/\//i.test(pastedText.trim()) && e.target !== uploaderUrlInput) {
+        addUrlsToQueue(pastedText);
+      }
+    });
+
+    // Convert file/blob to WebP via HTML5 Canvas
+    async function convertToWebP(fileOrBlob, quality = 0.85) {
+      if (fileOrBlob.type === 'image/webp') return fileOrBlob;
+
+      return new Promise((resolve) => {
+        const img = new Image();
+        const objUrl = URL.createObjectURL(fileOrBlob);
+        img.onload = () => {
+          URL.revokeObjectURL(objUrl);
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob((blob) => {
+              if (!blob) return resolve(fileOrBlob);
+              const origName = (fileOrBlob.name || 'image').replace(/\.[^/.]+$/, '');
+              const webpFile = new File([blob], `${origName}.webp`, { type: 'image/webp' });
+              resolve(webpFile);
+            }, 'image/webp', quality);
+          } catch (e) {
+            resolve(fileOrBlob);
+          }
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(objUrl);
+          resolve(fileOrBlob);
+        };
+        img.src = objUrl;
+      });
+    }
+
+    // Resolve URL to File object (with CORS proxy fallback & ibb.co viewer detection)
+    async function resolveUrlToFile(url) {
+      let resolvedUrl = url.trim();
+
+      // Check if user pasted an ibb.co viewer link (e.g. https://ibb.co/27kjZyGn)
+      if (/^https?:\/\/ibb\.co\/[a-zA-Z0-9]+$/i.test(resolvedUrl)) {
+        try {
+          const metaRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(resolvedUrl)}`);
+          if (metaRes.ok) {
+            const json = await metaRes.json();
+            const html = json.contents || '';
+            const match = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i) ||
+                          html.match(/https:\/\/i\.ibb\.co\/[^\s"']+/i);
+            if (match) {
+              resolvedUrl = match[1] || match[0];
+            }
+          }
+        } catch (e) {
+          // fallback
+        }
+      }
+
+      // If already a direct ibb image link, return it directly if possible
+      try {
+        const res = await fetch(resolvedUrl);
+        if (!res.ok) throw new Error('Fetch failed ' + res.status);
+        const blob = await res.blob();
+        const name = (resolvedUrl.split('/').pop().split('?')[0] || 'image').replace(/[^a-zA-Z0-9._-]/g, '_');
+        return new File([blob], name, { type: blob.type || 'image/jpeg' });
+      } catch (err) {
+        // Fallback through proxy
+        try {
+          const proxy = `https://wsrv.nl/?url=${encodeURIComponent(resolvedUrl)}&output=webp`;
+          const res = await fetch(proxy);
+          if (!res.ok) throw new Error('Proxy failed ' + res.status);
+          const blob = await res.blob();
+          return new File([blob], 'image.webp', { type: 'image/webp' });
+        } catch (err2) {
+          const altProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(resolvedUrl)}`;
+          const res2 = await fetch(altProxy);
+          if (!res2.ok) throw new Error('Không thể tải ảnh qua CORS: ' + resolvedUrl);
+          const blob = await res2.blob();
+          return new File([blob], 'image.jpg', { type: blob.type || 'image/jpeg' });
+        }
+      }
+    }
+
+    // Upload single image to IMGBB worker endpoint
+    async function uploadSingleImageToImgBB(file) {
+      const form = new FormData();
+      form.append("file", file, file.name);
+      const res = await fetch(IMGBB_API_ENDPOINT, {
+        method: "POST",
+        body: form
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || `Lỗi server HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      if (data && data.url) {
+        return data.url; // Direct link e.g. https://i.ibb.co/...
+      } else {
+        throw new Error((data && data.error) || 'Không lấy được liên kết ảnh');
+      }
+    }
+
+    // Upload queue action
+    btnUploaderUpload.addEventListener('click', async () => {
+      const pendingItems = uploadQueue.filter(item => item.status !== 'success');
+      if (pendingItems.length === 0 || isUploading) return;
+
+      isUploading = true;
+      btnUploaderUpload.disabled = true;
+      uploaderStatus.style.display = 'block';
+
+      let successCount = 0;
+      let failCount = 0;
+
+      for (let i = 0; i < pendingItems.length; i++) {
+        const item = pendingItems[i];
+        item.status = 'processing';
+        item.statusText = '⏳ Đang xử lý...';
+        uploaderStatus.textContent = `⏳ Đang xử lý ảnh ${i + 1}/${pendingItems.length}: ${item.name}...`;
+        renderQueue();
+
+        try {
+          let fileToUpload = null;
+          if (item.type === 'url') {
+            item.statusText = '⏳ Đang tải link...';
+            renderQueue();
+            fileToUpload = await resolveUrlToFile(item.url);
+          } else {
+            fileToUpload = item.file;
+          }
+
+          // Convert to WebP
+          item.statusText = '⏳ Đang chuyển WebP...';
+          renderQueue();
+          const webpFile = await convertToWebP(fileToUpload, 0.85);
+
+          // Upload to ImgBB
+          item.statusText = '⏳ Đang tải lên ImgBB...';
+          renderQueue();
+          const directUrl = await uploadSingleImageToImgBB(webpFile);
+
+          // Success
+          item.status = 'success';
+          item.statusText = '✅ Thành công';
+          item.directUrl = directUrl;
+          successCount++;
+
+          uploadResults.unshift({
+            directUrl,
+            preview: directUrl,
+            name: item.name
+          });
+          renderResults();
+        } catch (err) {
+          item.status = 'error';
+          item.statusText = '❌ ' + (err.message || 'Lỗi');
+          failCount++;
+          console.error('Upload error for', item.name, err);
+        }
+
+        renderQueue();
+      }
+
+      isUploading = false;
+      uploaderStatus.textContent = `Hoàn tất: ✅ ${successCount} thành công` + (failCount > 0 ? `, ❌ ${failCount} lỗi.` : '.');
+      renderQueue();
+
+      if (successCount > 0) {
+        showToast(`🎉 Đã tải lên thành công ${successCount} ảnh!`);
+      }
+    });
+
+    // Copy all BBCode [IMG] links
+    btnCopyAllLinks.addEventListener('click', async () => {
+      if (uploadResults.length === 0) return;
+      const allBbCode = uploadResults.map(r => `[IMG]${r.directUrl}[/IMG]`).join('\n');
+      try {
+        await navigator.clipboard.writeText(allBbCode);
+        showToast(`📋 Đã copy ${uploadResults.length} mã [IMG]!`);
+      } catch (e) {
+        showToast('❌ Không thể copy vào clipboard');
+      }
+    });
+
+    // Helper to use an uploaded image directly in Techrum Image Builder
+    async function useUploadedImageInBuilder(imageUrl) {
+      showToast('⏳ Đang nạp ảnh vào bản vẽ...');
+      try {
+        const res = await fetch(imageUrl);
+        const blob = await res.blob();
+        const file = new File([blob], 'content_image.webp', { type: blob.type });
+        loadImage(file);
+        showToast('✅ Đã nạp ảnh vào khung bản vẽ!');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (e) {
+        // Fallback by setting src directly
+        contentImg.src = imageUrl;
+        thumb.src = imageUrl;
+        contentImg.style.display = 'block';
+        thumb.style.display = 'block';
+        hasImage = true;
+        updateButtons();
+        contentImg.onload = syncComposerHeight;
+        showToast('✅ Đã nạp ảnh vào khung bản vẽ!');
+      }
     }
 
     const toggleBtn = document.getElementById('themeToggle');
