@@ -562,6 +562,11 @@
             <input type="url" id="shortImageUrl" placeholder="https://i.ibb.co/..." />
           </div>
 
+          <div class="field" id="screenshotsField">
+            <label>Ảnh chụp màn hình (screenshots, cách nhau bằng dấu phẩy)</label>
+            <input type="text" id="screenshots" placeholder="https://..., https://..." />
+          </div>
+
           <div class="field" id="coverField">
             <label>Ảnh bìa (chỉ dùng cho bài dài)</label>
             <div class="dropzone" id="dropzone">
@@ -852,6 +857,40 @@
       document.getElementById("publishThreadForm").style.display = "none";
     }
 
+    function buildGalleryBlock(screenshotsStr) {
+      if (!screenshotsStr) return "";
+      const urls = screenshotsStr.split(",").map((u) => u.trim()).filter(Boolean).slice(0, 3);
+      if (urls.length === 0) return "";
+      return `[gallery]\n${urls.map((u) => `[img]${u}[/img]`).join("\n")}\n[/gallery]`;
+    }
+
+    function insertGalleryIntoContent(text, screenshotsStr) {
+      if (!text) return "";
+      // Xoá gallery cũ nếu có để format lại từ đầu mà không bị trùng lặp
+      let clean = text.replace(/\[gallery\][\s\S]*?\[\/gallery\]\s*/gi, "").trim();
+      const gallery = buildGalleryBlock(screenshotsStr);
+      if (!gallery) return clean;
+
+      // Chia theo đoạn văn (paragraph)
+      const paras = clean.split(/\n\s*\n/);
+      if (paras.length >= 2) {
+        const mid = Math.ceil(paras.length / 2);
+        paras.splice(mid, 0, gallery);
+        return paras.join("\n\n");
+      }
+
+      // Nếu chỉ có 1 đoạn nhưng có xuống dòng đơn
+      const lines = clean.split(/\n/);
+      if (lines.length >= 2) {
+        const mid = Math.ceil(lines.length / 2);
+        lines.splice(mid, 0, gallery);
+        return lines.join("\n");
+      }
+
+      // Fallback: đặt sau nội dung
+      return `${clean}\n\n${gallery}`;
+    }
+
     function formatShortContent(text, imgUrl) {
       if (!text) return "";
       let trimmed = text.trim();
@@ -863,19 +902,34 @@
       return `${imgTag}\n${trimmed}\n${imgTag}`;
     }
 
-    function updateShortImageContent() {
-      if (length !== "short" || (!lastRawVi && !lastRawEn)) return;
-      const shortImg = (document.getElementById("shortImageUrl")?.value || "").trim();
-      const viText = formatShortContent(lastRawVi, shortImg);
-      const enText = formatShortContent(lastRawEn, shortImg);
+    function updateFormattedContent() {
+      if (!lastRawVi && !lastRawEn) return;
+      const screenshotsVal = (document.getElementById("screenshots")?.value || "").trim();
+      let viWithGallery = insertGalleryIntoContent(lastRawVi, screenshotsVal);
+      let enWithGallery = insertGalleryIntoContent(lastRawEn, screenshotsVal);
+
+      let viText = viWithGallery;
+      let enText = enWithGallery;
+
+      if (length === "short") {
+        const shortImg = (document.getElementById("shortImageUrl")?.value || "").trim();
+        viText = formatShortContent(viWithGallery, shortImg);
+        enText = formatShortContent(enWithGallery, shortImg);
+        const threadContent = document.getElementById("threadContent");
+        const threadContentEn = document.getElementById("threadContentEn");
+        if (threadContent) threadContent.value = viText;
+        if (threadContentEn) threadContentEn.value = enText;
+      } else {
+        const postContent = document.getElementById("postContent");
+        const postContentEn = document.getElementById("postContentEn");
+        if (postContent) postContent.value = viText;
+        if (postContentEn) postContentEn.value = enText;
+      }
       showResult(viText, enText);
-      const threadContent = document.getElementById("threadContent");
-      const threadContentEn = document.getElementById("threadContentEn");
-      if (threadContent) threadContent.value = viText;
-      if (threadContentEn) threadContentEn.value = enText;
     }
 
-    document.getElementById("shortImageUrl")?.addEventListener("input", updateShortImageContent);
+    document.getElementById("shortImageUrl")?.addEventListener("input", updateFormattedContent);
+    document.getElementById("screenshots")?.addEventListener("input", updateFormattedContent);
 
     document.getElementById("appIconUrl")?.addEventListener("input", (e) => {
       const threadImageUrl = document.getElementById("threadImageUrl");
@@ -907,6 +961,10 @@
           prefillIconUrl = p.iconUrl;
           const iconInput = document.getElementById("appIconUrl");
           if (iconInput) iconInput.value = p.iconUrl;
+        }
+        if (p.screenshots) {
+          const sInput = document.getElementById("screenshots");
+          if (sInput) sInput.value = p.screenshots;
         }
         // URL Ảnh (gán đầu & cuối bài viết) để trống ban đầu
         const sImg = document.getElementById("shortImageUrl");
@@ -1019,13 +1077,17 @@
         lastRawVi = data.data || "";
         lastRawEn = data.data_en || "";
 
-        let viText = lastRawVi;
-        let enText = lastRawEn;
+        const screenshotsVal = (document.getElementById("screenshots")?.value || "").trim();
+        let viWithGallery = insertGalleryIntoContent(lastRawVi, screenshotsVal);
+        let enWithGallery = insertGalleryIntoContent(lastRawEn, screenshotsVal);
+
+        let viText = viWithGallery;
+        let enText = enWithGallery;
 
         if (length === "short") {
           const shortImg = (document.getElementById("shortImageUrl")?.value || "").trim();
-          viText = formatShortContent(lastRawVi, shortImg);
-          enText = formatShortContent(lastRawEn, shortImg);
+          viText = formatShortContent(viWithGallery, shortImg);
+          enText = formatShortContent(enWithGallery, shortImg);
         }
 
         showResult(viText, enText);
