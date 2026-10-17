@@ -871,23 +871,32 @@
       const gallery = buildGalleryBlock(screenshotsStr);
       if (!gallery) return clean;
 
-      // Chia theo đoạn văn (paragraph)
-      const paras = clean.split(/\n\s*\n/);
+      // 1. Chia theo đoạn văn (paragraph cách nhau \n\n)
+      const paras = clean.split(/\n\s*\n/).filter((p) => p.trim());
       if (paras.length >= 2) {
         const mid = Math.ceil(paras.length / 2);
         paras.splice(mid, 0, gallery);
         return paras.join("\n\n");
       }
 
-      // Nếu chỉ có 1 đoạn nhưng có xuống dòng đơn
-      const lines = clean.split(/\n/);
+      // 2. Nếu có nhiều dòng đơn (\n)
+      const lines = clean.split(/\n/).filter((l) => l.trim());
       if (lines.length >= 2) {
         const mid = Math.ceil(lines.length / 2);
         lines.splice(mid, 0, gallery);
-        return lines.join("\n");
+        return lines.join("\n\n");
       }
 
-      // Fallback: đặt sau nội dung
+      // 3. Nếu là 1 đoạn văn duy nhất (không có xuống dòng): chia theo câu (sentences)
+      const sentences = clean.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹa-z0-9"“'\[])/).filter(Boolean);
+      if (sentences.length >= 2) {
+        const mid = Math.ceil(sentences.length / 2);
+        const before = sentences.slice(0, mid).join(" ");
+        const after = sentences.slice(mid).join(" ");
+        return `${before}\n\n${gallery}\n\n${after}`;
+      }
+
+      // 4. Nếu chỉ có 1 câu duy nhất:
       return `${clean}\n\n${gallery}`;
     }
 
